@@ -171,3 +171,7 @@ dat.quad.tidy %>%
 
 # LOOKS GOOD
 
+# datasheet for my bottle codes
+dat.quad.tidy %>% 
+  write.csv("rallf_bottle-codes_2022.csv")
+
