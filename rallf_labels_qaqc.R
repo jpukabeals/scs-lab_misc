@@ -173,5 +173,8 @@ dat.quad.tidy %>%
 
 # datasheet for my bottle codes
 dat.quad.tidy %>% 
-  write.csv("rallf_bottle-codes_2022.csv")
+  relocate(`bottle code`,
+           .before=year) %>% 
+  write.csv("rallf_bottle-codes_2022.csv",
+            row.names = F)
 
