@@ -9,12 +9,15 @@ options(digits=2)
 
 # import from blue tablet -------------------------------------------------
 
-setwd("C:/Users/pukab001/Documents/fer.em50.data/")
+# setwd("C:/Users/pukab001/Documents/fer.em50.data/")
+getwd()
+setwd("~/R projects/scs-lab_misc/fert_em50_data")
+
 temp = list.files(pattern="*.txt")
 datalist = list(temp)
 library(stringr)
 for (i in 1:length(temp)) {
-  t <- read.delim(paste("~/fer.em50.data/",temp[i], sep = ""), header = T)
+  t <- read.delim(paste("~/R projects/scs-lab_misc/fert_em50_data/",temp[i], sep = ""), header = T)
   t$plot <- str_sub(temp[i],1,7)
   t$date <- str_sub(temp[i],8,15)
   datalist[[i]] <- t # add it to your list
@@ -28,12 +31,19 @@ dat.tidy <- dat.all %>%
          time=parse_time(str_sub(Measurement.Time,10,17)),
          date=dmy(date),
          plot=factor(plot)) %>%
-  mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m³.m³.VWC`),
+  # mutate(across(2:7,.fns = as.numeric)) %>% #works but need to change name
+  mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
+         vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
+         vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
          temp.20=as.numeric(Port.1.5TM.Moisture.Temp..C.Temp),
          temp.40=as.numeric(Port.2.5TM.Moisture.Temp..C.Temp),
          temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>%
+  # mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        temp.20=as.numeric(Port.1.5TM.Moisture.Temp..C.Temp),
+  #        temp.40=as.numeric(Port.2.5TM.Moisture.Temp..C.Temp),
+  #        temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>%
   select(timepoint,time,plot,vwc.20,vwc.40,vwc.60,temp.20,temp.40,temp.60)
 #NA's introduced are due to missing values when sensors malfunctioned
 
@@ -86,15 +96,26 @@ dat <- big.dat.tidy %>%
 
 
 dat %>%
+  mutate(depth=as.factor(depth),
+         depth = fct_recode(depth,
+                            "20cm" = "20",
+                            "40cm" = "40",
+                            "60cm" = "60")) -> dat
+
+dat %>% 
   ggplot(aes(x=timepoint,
              group=depth,
              color=depth)) +
   geom_line(aes(y=vwc)) +
   facet_wrap(~plot)+
-  labs(y="Volumetric water content",
-       x="")
+  labs(y="Soil volumetric water content",
+       x="") +
+  theme(legend.title = element_blank())
 
-ggsave("vwc.cap.16dec2021.png",dpi=300)
+ggsave("fert_vwc_20220325.png",dpi=300,
+       width = 6.5,
+       height = 4,
+       units = "in")
 
 dat %>%
   ggplot(aes(x=timepoint,
@@ -102,10 +123,14 @@ dat %>%
              color=depth)) +
   geom_line(aes(y=temp)) +
   facet_wrap(~plot)+
-  labs(y="Temperature (C)",
-       x="")
+  labs(y="Soil temperature (C)",
+       x="") +
+  theme(legend.title = element_blank())
 
-ggsave("temp.cap.16dec2021.png",dpi=300)
+ggsave("fert_temp_20220325.png",dpi=300,
+       width = 6.5,
+       height = 4,
+       units = "in")
 
 dat %>%
   dplyr::select(timepoint) %>%
