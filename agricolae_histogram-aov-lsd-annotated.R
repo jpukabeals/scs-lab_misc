@@ -1,3 +1,10 @@
+# demonstrating the classical analysis of a randomized complete block design
+# experiment. This analysis approach should be useful for analysis of most
+# experiments in the lab. This analysis approach will not be useful for
+# unbalanced datasets with repeated measures
+
+
+
 # practicing aov and lsd.test with agricolae
 
 data(npk)
