@@ -40,19 +40,33 @@ library(agricolae)
 # fluid oz per sq ft 
 16.6/43560*128
 # I need 0.5 fl oz per sq ft I spray
-16.6/43560*3785.41
-# I need 1.4 mL per sq ft I spray
 
 16.6/43560*128*67
 # I need 3 fl oz per plot
 
+# mL per sq ft
+16.6/43560*3785.41
+# I need 1.4 mL per sq ft I spray
+
+16.6/43560*3785.41*67
+# I need 97 mL per plot
+
+
 # PRE treatments 
 3*7
 # 21 fl oz of spray volume per PRE treatment
+97*7/1000
+# 0.68 L of spray volume per PRE treatment
 
 # POST
 3*4
 # 12 fl oz of spray volume per POST treatment
+
+97*4/1000
+# 0.4 L of spray volume per PRE treatment
+
+
+
 
 
 # hopeful treatment list --------------------------------------------------
