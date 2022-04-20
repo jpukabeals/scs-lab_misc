@@ -97,6 +97,7 @@ library(agricolae)
 # Dual (s-metolachor)
 # Warrant/Harness (acetochlor)
 # Prowl (pendamethalin)
+# **Don added Boundary herbicide
 
 ## POST
 # wolverine (fenoxaprop + bromoxynil + pyrasulfotole) or Wolverine Advance
@@ -108,15 +109,23 @@ library(agricolae)
 
 # design ------------------------------------------------------------------
 
+# 19Apr2022 adjustments....
+# added boundary as a PRE treatment for Don V. He wanted to see some damage.
+# changed axial bold to axial XL for Don V
+# I think axial bold would've been better, but Don thinks fenoxoprop is well established as safe.
+
+
+
 # reps = 3
 # split plot design
-# whole plot = PRE (4 levels)
+# whole plot = PRE (5 levels)
 # sub plot = POST (7 levels)
 
 PRE <- c("dual","prowl",
-         "warrant/harness","weedy control")
+         "acetochlor","weedy control",
+         "boundary")
 POST <- c("wolverine",
-          "axial bold",
+          "axial XL",
           "bison",
           "dicamba",
           "facet L",
@@ -130,7 +139,7 @@ agricolae::design.split(
   r=1,
   design = "crd",
   serie = 0,
-  seed = 123,
+  seed = 314,
   kinds = "Super-Duper",
   first = T,
   randomization = T
