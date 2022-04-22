@@ -49,3 +49,32 @@ design.split(
   write.csv("k8_kesha.csv",
             row.names = F)
 
+
+# design 4 reps -----------------------------------------------------------
+
+# design ------------------------------------------------------------------
+
+library(agricolae)
+library(tidyverse)
+whole_plot = c("control", "dual","prowl", "dual_2X",
+               "acetochlor", "callisto", "atrazine")
+sub_plot = c("mow", "harvest")
+
+design.split(
+  trt1 = whole_plot,
+  trt2 = sub_plot,
+  r=4,
+  design = "crd",
+  serie = 0,
+  seed = 314,
+  kinds = "Super-Duper",
+  first = T,
+  randomization = T) %>% 
+  .$book %>% 
+  mutate(plots=plots+9) %>% 
+  mutate(experimental_unit = paste(plots,"_",splots,sep = ""),
+         .before=plots) %>% 
+  write.csv("k8_kesha_3-rep.csv",
+            row.names = F)
+
+
