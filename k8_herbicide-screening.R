@@ -152,3 +152,117 @@ agricolae::design.split(
 
 
 
+# dummy data --------------------------------------------------------------
+
+PRE <- c("dual","prowl",
+         "acetochlor","weedy control",
+         "boundary")
+POST <- c("wolverine",
+          "axial XL",
+          "bison",
+          "dicamba",
+          "facet L",
+          "weedy control",
+          "weed-free control")
+
+
+agricolae::design.split(
+  trt1 = PRE,
+  trt2 = POST,
+  r=1,
+  design = "crd",
+  serie = 0,
+  seed = 314,
+  kinds = "Super-Duper",
+  first = T,
+  randomization = T
+) %>% 
+  .$book %>% 
+  mutate(experimental_unit = paste(plots,splots,sep = "0"),
+         .before=plots) %>% 
+  select(-c(plots,splots,r)) -> df 
+
+# weed scores where 10 is a lot of weeds and 0 is no weeds
+# weed scorse in may are a couple weeks after application
+weed_score_may <-
+  c(
+    # acetocholor
+    rnorm(7,2,.2),
+    # boundary
+    rnorm(7,4,.5),
+    # dual
+    rnorm(7,1,.1),
+    # prowl
+    rnorm(7,1.5,.7),
+    # weedy control
+    rnorm(7,9,.1)
+  )
+
+# weed ground cover will be difficult to distinguish IWG vs weeds 
+# will focus only on interrow area
+weed_ground.cover_may <-
+  c(
+    # acetocholor
+    rnorm(7,5,1),
+    # boundary
+    rnorm(7,15,3),
+    # dual
+    rnorm(7,2,.5),
+    # prowl
+    rnorm(7,12,2),
+    # weedy control
+    rnorm(7,80,8)
+  )
+
+# weed counts on a meter square basis
+weed_counts_may <-
+  c(
+    # acetocholor
+    rnorm(7,2,1),
+    # boundary
+    rnorm(7,7,3),
+    # dual
+    rnorm(7,3,.5),
+    # prowl
+    rnorm(7,5,2),
+    # weedy control
+    rnorm(7,20,8)
+  )
+
+df %>% 
+  arrange(PRE,POST) %>% 
+  mutate(weed_score_may=weed_score_may,
+         weed_ground.cover_may = weed_ground.cover_may,
+         weed_counts_may = weed_counts_may) -> df_wide
+
+
+# aov() -------------------------------------------------------------------
+
+aov(weed_score_may~PRE,
+    df_wide) %>% 
+  summary()
+  # LSD.test(trt = "PRE") %>% 
+  # print()
+
+aov(weed_ground.cover_may~PRE,
+    df_wide) %>% 
+  summary()
+
+aov(weed_counts_may~PRE,
+    df_wide) %>% 
+  summary()
+
+
+# figures -----------------------------------------------------------------
+
+df_wide %>% 
+  mutate(PRE = fct_reorder(PRE, weed_score_may)) %>%
+  ggplot(aes(PRE,weed_score_may)) +
+  geom_point(alpha=.1) +
+  stat_summary(fun.data = mean_cl_boot)
+
+
+  
+
+
+
