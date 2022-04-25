@@ -108,8 +108,24 @@ rnorm(4, 450, 80) %>%  #alfalfa-intercrop
 
 df %>% 
   arrange(legacy_cropping_system, crop) %>% 
-  mutate(yield_yr1 = yield_yr1) %>% 
+  mutate(yield_yr1 = yield_yr1) -> df1
+
+df1 %>% 
   ggplot(aes(crop,yield_yr1,
              # col=legacy_cropping_system
              )) +
   stat_summary()
+
+
+# anova -------------------------------------------------------------------
+
+shapiro.test(df1$yield_yr1)
+bartlett.test(df1$yield_yr1,
+              g=df1$crop)
+
+aov(yield_yr1~crop,
+    data = df1) %>% 
+  # summary()
+  LSD.test(.,
+           trt = "crop") %>% 
+  print()
