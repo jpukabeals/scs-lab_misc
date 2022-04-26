@@ -142,7 +142,7 @@ df %>%
          yield_2025 = yield_2025) -> df_wide
 
 
-df1 %>% 
+df_wide %>% 
   pivot_longer(
     cols = c(yield_2024,yield_2025),
     names_to = "yield_year",
@@ -151,19 +151,6 @@ df1 %>%
   mutate(year = fct_recode(yield_year,
                            "2024" = "yield_2024",
                            "2025" = "yield_2025")) -> df_long
-
-df_long %>% 
-  ggplot(aes(crop,yield,
-             col=year,
-             fill=year)) +
-  stat_summary(geom = "errorbar",
-               position = position_dodge(.5),
-               width = .3,
-               col = 1) +
-  stat_summary(geom = "bar",
-               position = position_dodge(.5),
-               width = .5,
-               col=1) 
 
 
 # aov() with df_wide separate by year -------------------------------------------------------------------
@@ -356,3 +343,4 @@ aov(
   scale_y_continuous(limits = c(0,500)) +
   labs(y="Kernza yield (kg ha)",
        x="Cropping system prior to establishment")
+
