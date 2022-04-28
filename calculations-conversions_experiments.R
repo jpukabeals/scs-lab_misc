@@ -1,8 +1,18 @@
+# How do we convert between units?
+
+# One option is simply googling conversions. Use the conversions in a google
+# sheet equation or in R for logging the changes.
+
+# Another option is using measurements::conv_unit(). Very simple and robust way
+# within R that leaves a log of conversions
+
+# Another option is using units package. units::set_unit. This is really nice
+# within a dataframe that will be used for analysis. It will attach a unit class
+# to the variables
 
 
-# FGI water quality -------------------------------------------------------
+# calculating fertilizer rates for experiment by googlings conversion -----------------------------
 
-## old school
 # plot is 500 ft by 100 ft
 500*100
 
@@ -31,7 +41,7 @@
 # we want 3.3 bags per plot
 
 
-## new school
+# calculating fertilizer rates for experiment using measurements::conv_unit -------------------------------------------------------
 library(measurements)
 
 
@@ -48,91 +58,25 @@ conv_unit(60/.46,"kg","lbs")
 287*conv_unit(500*100,"ft2","hectare")
 # 133 lbs urea per plot
 
+# note that measurements does not change the class or name of the vector
 
-# units package -----------------------------------------------------------
+# units package with npk dataset to convert between rates -----------------------------------------------------------
 
-install.packages("units")
+# install.packages("units")
 library(units)
 
-x = 1:3
-class(x)
-units(x) <- as_units("m/s")
-class(x)
-y = 2:5
-a <- set_units(1:3, m/s) #easily used with mutate
-a
-units(a)
-class(a)
-
-units(a) <- make_units(km/h) #convert the unit
-
-yield <- seq(from=1,
-             to=20,
-             by=0.5)
-
-rnorm(100,50,10) -> dummy.yield
-dummy.yield <- set_units(dummy.yield,g/m2)
-units(dummy.yield)
-units(dummy.yield) <- make_units(kg/hectare)
-units(dummy.yield)
-
-
-
-# convert to a mixed_units object:
-a <- set_units(1:3, m/s) #easily used with mutate
-units(a) = c("m/s", "km/h", "km/s")
-a
-# The easiest way to assign units to a numeric vector is like this:
-x <- y <- 1:4
-units(x) <- "m/s"  # meters / second
-
-library(tidyverse)
-y %>% 
-  set_units(m/s) %>% 
-  ggplot(aes(y)) +
-  geom_histogram()
-
-
-
-
-data("npk")
+data(npk)
 npk %>% 
-  # glimpse()
-  mutate(yield_units = as_units(yield,"kg/ha")) %>% 
-  # glimpse()
-  # str()
-  # mutate(yield_units = yield_units/1000) %>% 
-  # dplyr::select(yield_units)
-  ggplot(aes(yield_units)) +
-  stat_bin()
+  mutate(yield = set_units(yield,"kg/ha"), #the original value
+         yield.Mg = set_units(yield,"Mg/ha",
+                              force_single_symbol = T
+                              )) -> npk.data
 
+# let's say yield data was grams per 0.5 meter square
 
-
-
-
-
-# measurements pakcage ----------------------------------------------------
-
-install.packages("measurements")
-library(measurements)
-
-# rate is 60 kg N per hectare, what is rate per plot?
-# plot dims = 500ft*100ft
-conv_unit(500*100,"ft2","hectare")
-# plot is 0.464 hectare
-60*conv_unit(500*100,"ft2","hectare")
-# apply 27.9 kg N per plot
-# how many pounds of N per plot
-conv_unit(60,"kg","lbs")
-# 132.28 lbs per plot
-
-
-
-
-
-
-
-
-
-conv_unit(132.3,"lbs","kg")
-conv_unit(.46,"hectare","acre")
+npk %>% 
+  mutate(yield=yield*2, #grams per square meter
+         yield = set_units(yield,g/m2), #tell it the units
+         yield.kgha = set_units(yield,kg/ha), #now it recognizes units and can convert to anything
+         yield.tona = set_units(yield,tons/acre)
+         )
