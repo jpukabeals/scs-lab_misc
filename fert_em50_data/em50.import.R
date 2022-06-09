@@ -6,12 +6,13 @@
 
 # import from blue tablet -------------------------------------------------
 
-setwd("C:/Users/pukab001/Documents/fer.em50.data/")
+# setwd("C:/Users/pukab001/Documents/fer.em50.data/")
+setwd("C:\\Users\\pukab001\\Documents\\R projects\\scs-lab_misc\\fert_em50_data\\")
 temp = list.files(pattern="*.txt")
 datalist = list(temp)
 library(stringr)
 for (i in 1:length(temp)) {
-  t <- read.delim(paste("~/fer.em50.data/",temp[i], sep = ""), header = T)
+  t <- read.delim(paste("~/R projects\\scs-lab_misc\\fert_em50_data\\",temp[i], sep = ""), header = T)
   t$plot <- str_sub(temp[i],1,7)
   t$date <- str_sub(temp[i],8,15)
   datalist[[i]] <- t # add it to your list
@@ -20,18 +21,29 @@ dat.all = do.call(rbind, datalist)
 
 library(lubridate)
 library(tidyverse)
+
+
+# sometimes port names uses m3 and other times m?
 dat.tidy <- dat.all %>%
   mutate(timepoint=parse_date_time(Measurement.Time, orders = '%m/%d/%y %I:%M %p'),
          time=parse_time(str_sub(Measurement.Time,10,17)),
          date=dmy(date),
-         plot=factor(plot)) %>%
-  mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m³.m³.VWC`),
+         plot=factor(plot)) %>% 
+  # glimpse()
+  mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
+         vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
+         vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.mÂ³.mÂ³.VWC`),
          temp.20=as.numeric(Port.1.5TM.Moisture.Temp..C.Temp),
          temp.40=as.numeric(Port.2.5TM.Moisture.Temp..C.Temp),
-         temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>%
+         temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>% 
   select(timepoint,time,plot,vwc.20,vwc.40,vwc.60,temp.20,temp.40,temp.60)
+  # mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m?.m?.VWC`),
+  #        temp.20=as.numeric(Port.1.5TM.Moisture.Temp..C.Temp),
+  #        temp.40=as.numeric(Port.2.5TM.Moisture.Temp..C.Temp),
+  #        temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>%
+  # select(timepoint,time,plot,vwc.20,vwc.40,vwc.60,temp.20,temp.40,temp.60)
 #NA's introduced are due to missing values when sensors malfunctioned
 
 dat.tidy.vwc <- dat.tidy %>%
