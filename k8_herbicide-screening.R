@@ -236,6 +236,66 @@ df %>%
          weed_counts_may = weed_counts_may) -> df_wide
 
 
+# real data ---------------------------------------------------------------
+
+library(googlesheets4)
+url <- "https://docs.google.com/spreadsheets/d/1OhZ2Onva0yYqOb9LaS7dYVupmTNv4EJx-jcKqUueQ7w/edit#gid=123579174"
+
+read_sheet(url,
+           sheet=4,
+           gs4_deauth()) -> dat
+
+
+dat %>% 
+  # glimpse()
+  # distinct(date)
+  # str()
+  # filter(date!="2021-05-19")
+  # filter(date==as.POSIXct("2021-06-13",
+  #                         format = "%Y-%m-%d"))
+  slice(36:140) -> dat_june
+
+theme_set(theme_bw())
+dat_june %>% 
+  # glimpse()
+  mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
+  ggplot(aes(POST,iwg_injury,
+             col=person,
+             shape=person)) +
+  # geom_point() +
+  # geom_boxplot()
+  stat_summary() +
+  scale_color_brewer(type="qual",
+                     palette = 2) +
+  labs(y="IWG injury\n (0=no injury | 10=plant death)",
+       x="") +
+  coord_flip() +
+  theme(legend.title = element_blank())
+
+ggsave("tofu_prelim-results.png",
+       dpi=400)
+
+dat_june %>% 
+  # glimpse()
+  mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
+  ggplot(aes(POST,iwg_injury,
+             fill=person)) +
+  stat_summary(geom = "bar",
+               position = position_dodge(.6),
+               col=1,
+               width=.6) +
+  stat_summary(geom = "errorbar",
+               position = position_dodge(.6),
+               col=1,
+               width=.6) +
+  scale_fill_brewer(type="qual",
+                     palette = 2) +
+  labs(y="IWG injury\n (0=no injury | 10=plant death)",
+       x="") +
+  coord_flip() +
+  theme(legend.title = element_blank())
+
+
 # aov() -------------------------------------------------------------------
 
 aov(weed_score_may~PRE,
