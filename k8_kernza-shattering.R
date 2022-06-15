@@ -29,9 +29,9 @@
 
 library(agricolae)
 library(tidyverse)
-whole_plot = c("control", "dual","prowl", "dual_2X",
-               "acetochlor", "callisto", "atrazine")
-sub_plot = c("mow", "harvest")
+sub_plot = c("control", "dual","prowl", "dual_2X",
+               "acetochlor", "callisto", "atrazine","boundary")
+whole_plot = c("mow", "harvest","overseed")
 
 design.split(
   trt1 = whole_plot,
@@ -50,18 +50,18 @@ design.split(
             row.names = F)
 
 
-# design 4 reps -----------------------------------------------------------
+# design 3 reps -----------------------------------------------------------
 
 library(agricolae)
 library(tidyverse)
-whole_plot = c("control", "dual","prowl", "dual_2X",
-               "acetochlor", "callisto", "atrazine")
-sub_plot = c("mow", "harvest")
+sub_plot = c("control", "dual","prowl", "dual_2X",
+             "acetochlor", "callisto", "atrazine","boundary")
+whole_plot = c("mow", "harvest","overseed")
 
 design.split(
   trt1 = whole_plot,
   trt2 = sub_plot,
-  r=4,
+  r=3,
   design = "crd",
   serie = 0,
   seed = 314,

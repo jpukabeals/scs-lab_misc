@@ -264,7 +264,7 @@ dat_june %>%
              shape=person)) +
   # geom_point() +
   # geom_boxplot()
-  stat_summary() +
+  stat_summary(position = position_dodge(.4)) +
   scale_color_brewer(type="qual",
                      palette = 2) +
   labs(y="IWG injury\n (0=no injury | 10=plant death)",
@@ -272,7 +272,7 @@ dat_june %>%
   coord_flip() +
   theme(legend.title = element_blank())
 
-ggsave("tofu_prelim-results.png",
+ggsave("tofu_POST_prelim-results.png",
        dpi=400)
 
 dat_june %>% 
@@ -294,6 +294,35 @@ dat_june %>%
        x="") +
   coord_flip() +
   theme(legend.title = element_blank())
+ggsave("tofu_prelim-results-bar.png",
+       dpi=400)
+
+
+
+# real data spring --------------------------------------------------------
+
+dat %>% 
+  # glimpse()
+  # distinct(date)
+  # str()
+  # filter(date!="2021-05-19")
+  # filter(date==as.POSIXct("2021-06-13",
+  #                         format = "%Y-%m-%d"))
+  slice(1:35) -> dat_april
+
+
+dat_april %>% 
+  # glimpse()
+  # distinct(date)
+  ggplot(aes(PRE,iwg_injury)) +
+  stat_summary() +
+  coord_flip() +
+  labs(y="IWG injury\n (0=no injury | 10=plant death)",
+       x="") 
+ggsave("tofu_PRE_prelim-results.png",
+       dpi=400)
+
+  
 
 
 # aov() -------------------------------------------------------------------
