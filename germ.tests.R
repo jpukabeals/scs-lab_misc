@@ -43,7 +43,7 @@ k8_germ.test %>%
   mutate(perc = sum/172*100)
 
 
-k8_germ.test %>% 
-  ggplot(aes(timepoint,
-             germ)) +
-  geom_point()
+
+
+
+
