@@ -42,3 +42,5 @@ ggsave("truax-8ft_calibration_iwg.png",
        width = 4.5,
        height = 4,
        dpi=300)
+
+(12-70)/-15.54
