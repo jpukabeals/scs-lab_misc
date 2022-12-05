@@ -12,16 +12,21 @@ options(digits=2)
 # setwd("C:/Users/pukab001/Documents/fer.em50.data/")
 getwd()
 setwd("~/R projects/scs-lab_misc/fert_em50_data")
+path <- "C:/Users/pukab001/Documents/R projects/scs-lab_misc/fert_em50_data/"
 
 temp = list.files(pattern="*.txt")
 datalist = list(temp)
 library(stringr)
+
 for (i in 1:length(temp)) {
-  t <- read.delim(paste("~/R projects/scs-lab_misc/fert_em50_data/",temp[i], sep = ""), header = T)
+  t <- read.delim(paste(path,temp[i], sep = ""), header = T,
+                  fileEncoding = "latin1")
   t$plot <- str_sub(temp[i],1,7)
   t$date <- str_sub(temp[i],8,15)
   datalist[[i]] <- t # add it to your list
 }
+# error multibyte string 2, solved by adding fileEncoding arg
+
 dat.all = do.call(rbind, datalist)
 
 library(lubridate)
@@ -31,10 +36,15 @@ dat.tidy <- dat.all %>%
          time=parse_time(str_sub(Measurement.Time,10,17)),
          date=dmy(date),
          plot=factor(plot)) %>%
+    # colnames()
   # mutate(across(2:7,.fns = as.numeric)) %>% #works but need to change name
-  mutate(vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m³.m³.VWC`),
-         vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m³.m³.VWC`),
+  mutate(
+    # vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m³.m³.VWC`),
+    # vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m³.m³.VWC`),
+    # vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m³.m³.VWC`),
+    vwc.20=as.numeric(`Port.1.5TM.Moisture.Temp.m..m..VWC`),
+    vwc.40=as.numeric(`Port.2.5TM.Moisture.Temp.m..m..VWC`),
+    vwc.60=as.numeric(`Port.3.5TM.Moisture.Temp.m..m..VWC`),
          temp.20=as.numeric(Port.1.5TM.Moisture.Temp..C.Temp),
          temp.40=as.numeric(Port.2.5TM.Moisture.Temp..C.Temp),
          temp.60=as.numeric(Port.3.5TM.Moisture.Temp..C.Temp)) %>%
@@ -82,6 +92,10 @@ big.dat.tidy <- big.dat %>%
 big.dat.tidy <- big.dat.tidy %>%
   mutate(date=parse_date(str_sub(big.dat.tidy$timepoint,1,10)))
 
+big.dat.tidy %>% 
+  relocate(vwc,.after = temp) %>% 
+  write.csv("fert_temp-vwc_2Dec2022.csv")
+
 
 # visualize ---------------------------------------------------------------
 
@@ -100,9 +114,9 @@ dat %>%
          depth = fct_recode(depth,
                             "20cm" = "20",
                             "40cm" = "40",
-                            "60cm" = "60")) -> dat
+                            "60cm" = "60")) -> dat1
 
-dat %>% 
+dat1 %>% 
   ggplot(aes(x=timepoint,
              group=depth,
              color=depth)) +
@@ -110,9 +124,12 @@ dat %>%
   facet_wrap(~plot)+
   labs(y="Soil volumetric water content",
        x="") +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank(),
+        axis.text.x = element_text(angle=45,
+                                   vjust=.5
+                                   ))
 
-ggsave("fert_vwc_20220325.png",dpi=300,
+ggsave("fert_vwc_20221202.png",dpi=300,
        width = 6.5,
        height = 4,
        units = "in")
@@ -125,16 +142,22 @@ dat %>%
   facet_wrap(~plot)+
   labs(y="Soil temperature (C)",
        x="") +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank(),
+        axis.text.x = element_text(angle=45,
+                                   vjust=.5
+        ))
 
-ggsave("fert_temp_20220325.png",dpi=300,
+
+ggsave("fert_temp_20221202.png",dpi=300,
        width = 6.5,
        height = 4,
        units = "in")
 
 dat %>%
-  dplyr::select(timepoint) %>%
-  arrange(timepoint) %>%
+  # dplyr::select(timepoint) %>%
+  arrange(
+    # desc(
+      timepoint) %>%
   head()
 
 
