@@ -100,6 +100,9 @@ dat_kernza %>%
 # plot_yield/18*43560 = grams per acre by rowfoot method?
 
 
+# There is likely an error in this conversion causing yield estimation methods
+# to be different, trying to find it. Think it has to do with hectare conversion
+
 
 str_split(
   dat_kernza$trt_name,
@@ -118,7 +121,7 @@ str_split(
   # View()
   mutate(
     yield_g_quadrat = Threshed_grain_no_bag.g.,
-    yield_g_hectare = yield_g_quadrat/conv_unit(36*36*2,"inch2","acre"),
+    yield_g_hectare = yield_g_quadrat/conv_unit(36*36*2,"inch2","hectare"),
     yield_kg_hectare = yield_g_hectare*conv_unit(1,"g","kg"),
     yield_lb_acre = yield_kg_hectare*conv_unit(1,"kg","lbs")/conv_unit(1,"hectare","acre"),
     yield_g_acre_rowft = yield_g_quadrat/18*43560,
@@ -134,7 +137,8 @@ str_split(
   arrange(yield_area) %>% 
   mutate(yield_area = round(yield_area,0),
          yield_rowft = round(yield_rowft,0)) %>% 
-  write.csv("clipboard")
+  # write.csv("clipboard")
+  print()
 
 # how does the rowft conversion produce a 2.5x yield estimate? 
 
