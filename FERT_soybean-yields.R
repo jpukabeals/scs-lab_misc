@@ -7,8 +7,6 @@ library(tidyverse)
 
 # soybeans ----------------------------------------------------------------
 
-
-
 # 30 inch spacing
 conv_unit(30,"inch","cm")
 
@@ -26,12 +24,12 @@ conv_unit(76.2*2*300,"cm2","hectare")
 
 # https://docs.google.com/spreadsheets/d/1CEjByLdcfwR75t9rhGyG9KGahzjVLcRMQ5fiWQbjJTg/edit#gid=0
 
-read.delim("clipboard",header=F) -> dat
-read.delim("clipboard",header=F) -> names_plot
+read.delim("clipboard",header=F) -> soybeans
+read.delim("clipboard",header=F) -> soybeans_plot
 
 tibble(
-  plot = names_plot$V1,
-  yield_quadrat = dat$V1
+  plot = soybeans_plot$V1,
+  yield_quadrat = soybeans$V1
 ) -> dat2
 
 
@@ -45,10 +43,12 @@ dat2 %>%
          yield_lbs_ac = yield_kg_ha*conv_unit(1,"kg","lbs")/
            conv_unit(1,"hectare","acre"),
          yield_bu_ac = yield_lbs_ac/60) %>% 
+  # dplyr::select(plot,yield_kg_ha) %>% 
+  # print()
   summarise(mean = mean(yield_bu_ac),
+            kgha = mean(yield_kg_ha),
             max = max(yield_bu_ac),
             min = min(yield_bu_ac))
-
 
 
 read.delim("clipboard",header=F) -> corn
@@ -69,7 +69,10 @@ dat3 %>%
          yield_lbs_ac = yield_kg_ha*conv_unit(1,"kg","lbs")/
            conv_unit(1,"hectare","acre"),
          yield_bu_ac = yield_lbs_ac/56) %>% 
+  # dplyr::select(plot,yield_kg_ha) %>% 
+  # print()
   summarise(mean = mean(yield_bu_ac),
+            kgha = mean(yield_kg_ha),
             max = max(yield_bu_ac),
             min = min(yield_bu_ac))
 
@@ -131,7 +134,15 @@ str_split(
   ) %>% 
   # View()
   # group_by(rate) %>%
-  group_by(value) %>% 
+  # colnames
+  # distinct(trt_name)
+  # filter(trt_name == "80N_spring" |
+  #          # trt_name == "80N_spring_noP" |
+  #          # trt_name == "80N_spring_noPK" |
+  #          trt_name == "0N_spring") %>% 
+  # dplyr::select(plot_code,trt_name,yield_kg_hectare_rowft) %>% 
+  # print(n=50)
+  # group_by(value) %>% 
   summarise(yield_area = mean(yield_kg_hectare),
             yield_rowft = mean(yield_kg_hectare_rowft)) %>% 
   arrange(yield_area) %>% 
