@@ -1,4 +1,5 @@
 library(agricolae)
+library(tidyverse)
 
 
 # plot dimensions calcs ---------------------------------------------------
@@ -340,15 +341,6 @@ aov(weed_ground.cover_may~PRE,
 aov(weed_counts_may~PRE,
     df_wide) %>% 
   summary()
-
-
-# figures -----------------------------------------------------------------
-
-df_wide %>% 
-  mutate(PRE = fct_reorder(PRE, weed_score_may)) %>%
-  ggplot(aes(PRE,weed_score_may)) +
-  geom_point(alpha=.1) +
-  stat_summary(fun.data = mean_cl_boot)
 
 
   

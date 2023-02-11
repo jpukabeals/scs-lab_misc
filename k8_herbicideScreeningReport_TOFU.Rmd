@@ -1,0 +1,150 @@
+---
+title: '"TOFU" herbicide screening report'
+subtitle: 'preliminary results from K8 in 2022'
+# date: Data collected summer of 2022
+author: Jesse Puka-Beals
+output:
+  pdf_document
+header-includes:
+   - \usepackage{booktabs}
+editor_options: 
+  chunk_output_type: console
+
+---
+
+```{r, echo=F, message=F}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      # include = F, 
+                      warning = F)
+
+# echo = display code
+# message = display code message
+# include = include chunk outputs in doc output
+
+source("k8_herbicide-screening.R")
+
+theme_set(theme_bw())
+
+```
+
+
+# Introduction
+
+IWG was planted in fall of 2021. 
+In spring of 2022, PRE herbicides were applied and then IWG injury was scored ~10 days after application. 
+In summer of 2022, POST herbicide treatments were applied and IWG injury was scored again ~10 days after application. 
+
+IWG injury was scored on a scale of 0-10, where 10 was severe damage. Scoring was done blind by Jesse in spring, and by Jesse Cole and Lara in summer. 
+
+The weed abundance was also visually scored. The site for this preliminary study was chosen because high weed pressure was expected, however there was very low weed pressure throughout the entire field. Ultimately, the weed scores were meant to indicate relative differences in weeds among plots and if any sort of injury was visible. Due to the low weed pressure, the primary utility of this data is the iwg injury data. 
+
+Herbicides were applied at maximum rates and the summer applications were about 1-2 weeks later than ideal and IWG plants were already quite large and some seedheads were starting to emerge. The POST treatments were a worst case scenario and if no injury was observed in this study, it's very unlikely any injury will be observed. 
+
+\newpage
+# Plot plan
+
+```{r}
+knitr::include_graphics("tofu_k8_herbicide-screening - Copy of plot-plan.pdf")
+```
+
+\newpage
+# Datasets
+
+```{r}
+dat_april %>% 
+  glimpse()
+
+dat_june %>% 
+  glimpse()
+
+```
+
+\newpage
+# Spring data
+
+```{r}
+dat_april %>% 
+  # glimpse()
+  # distinct(date)
+  ggplot(aes(PRE,iwg_injury)) +
+  stat_summary() +
+  coord_flip() +
+  labs(y="IWG injury\n (0=no injury | 10=plant death)",
+       x="", 
+       title = "IWG injury scores after spring PRE applications") 
+
+```
+
+```{r}
+dat_april %>% 
+  group_by(PRE) %>% 
+  # glimpse()
+  summarise(
+    # date = date,
+    injury = mean(iwg_injury),
+    weed = mean(weed_vis_score),
+    n=n()
+  ) %>% 
+  knitr::kable(
+    # format = "simple",
+    caption = "IWG injury scores collected by Jesse on 19May2022"
+               )
+```
+
+\newpage
+# Summer data
+
+```{r}
+dat_june %>% 
+  # glimpse()
+  mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
+  ggplot(aes(POST,iwg_injury,
+             col=person,
+             shape=person)) +
+  # geom_point() +
+  # geom_boxplot()
+  stat_summary(position = position_dodge(.4)) +
+  scale_color_brewer(type="qual",
+                     palette = 2) +
+  labs(y="IWG injury\n (0=no injury | 10=plant death)",
+       x="", 
+       title = "IWG injury scores after summer POST applications") +
+  coord_flip() 
+
+```
+
+```{r}
+dat_june %>% 
+  # glimpse()
+  group_by(POST) %>%
+  summarise(
+    # date = date,
+    injury = round(mean(iwg_injury),1),
+    weed = round(mean(weed_vis_score),1),
+    n=n()
+  ) %>% 
+  knitr::kable(
+    # format = "simple",
+    caption = "IWG injury scores collected by Jesse on 13Jun2022"
+               )
+```
+\newpage
+
+# Findings
+
+IWG was very resiliant to maximum rates of unlabelled herbicides applied at times when crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though samples have not yet been threshed. 
+
+With the exception of acetochlor, the PRE herbicides did not cause any observable damage to the IWG plant. Months after application, IWG plants that recieved an aceotochlor application were stunted. 
+
+ALL POST herbicides caused observable damage to the IWG plant. Of these herbicides, Axial XL caused the least damage. Axial XL (Pinoxaden) is a grass herbicide, which is very exciting as we currently do not have any grass herbicides available. Wolverine is an herbicide commonly used by the wheat lab, here we observed damage though this may be due to the high rate and the late timing. The higer rates of injury of dicamba and bison and facet may be simply due to timing, as these growth regulators were applied to IWG after seedheads had begun to emerge. 
+
+The low injury observed in the PREs (prowl, dual and boundary) and the low injury in Axial XL even at a high rate and late timing is useful information if grass weeds pose a problem in future experiments. Pinoxaden controls foxtails and oat, but not brome.
+
+# Recommendations
+
+Threshing samples and getting grain yields will help determine if IWG injury tranlsated to differences in grain yield and will help determine the interaction between the PRE and POST applications to determine the worst performing programs. 
+
+Currently, the only option for the control of grass weeds is through PREs. Further trials looking at other grass herbicides and that look at different timings of the herbicides in this study would provide more information. 
+
+Ultimately, IWG is a very competitive plant that often doesn't warrant an herbicide application. The most injurious weeds to yield are likely winter annuals, which can be controlled with 2,4-D. Weed control, especially in patchy or underfertilized stands can be helpful for east of harvest, as large lambsquarter weeds can clog headers and add unwanted moisture to the grain tank. Again, 2,4-D is a good tool for the control of these summer annual escape weeds. The primary reason to do further research into IWG tolerance to grass herbicides is for the single scenario we observed in Nali where downy brome choked out the IWG and alfalfa. Downy Brome couldn't been controlled through the application of a PRE after IWG emergence, but having a POST grass herbicide for Downy Brome would have been useful in this situation. Future research should look at other grass herbicides that could control downy brome and measure their impacts on *establishing* wheatgrass stands. 
