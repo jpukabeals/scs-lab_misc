@@ -129,8 +129,8 @@ dat_june %>%
     caption = "IWG injury scores collected by Jesse on 13Jun2022"
                )
 ```
-\newpage
 
+\newpage
 # Findings
 
 IWG was very resiliant to maximum rates of unlabelled herbicides applied at times when crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though samples have not yet been threshed. 
