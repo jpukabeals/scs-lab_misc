@@ -38,10 +38,15 @@ In summer of 2022, POST herbicide treatments were applied and IWG injury was sco
 IWG injury was scored on a scale of 0-10, where 10 was severe damage. Scoring was done blind by Jesse in spring, and by Jesse Cole and Lara in summer. 
 
 The weed abundance was also visually scored. The site for this preliminary study was chosen because high weed pressure was expected, however there was very low weed pressure throughout the entire field during the study. 
-The weed scores were meant to indicate relative differences in weeds among plots and if any sort of weed injury was visible. Due to the low weed pressure, the primary utility of the tofu data set is the IWG injury data. 
+The weed scores were meant to indicate relative differences in weeds among plots and if any sort of weed injury was visible.
+Due to low weed pressure, the weed-free plot treatment was not maintained and was managed identically to the weedy plots. There still were very few weeds ( <1 plant per square meter)
+Due to the low weed pressure, the primary utility of the tofu data set is the IWG injury data. 
+
 
 Herbicides were applied at maximum rates and the summer applications were about 1-2 weeks later than ideal and IWG plants were already quite large and some seedheads were starting to emerge. 
 The POST treatments were a worst case scenario and if no injury was observed in this study, it's very unlikely any injury will be observed. 
+
+
 
 \newpage
 # Plot plan
@@ -54,10 +59,13 @@ knitr::include_graphics("tofu_k8_herbicide-screening - Copy of plot-plan.pdf")
 # Datasets
 
 ```{r}
-dat_april %>% 
+dat_april %>%
+  glimpse()
+# 
+dat_june %>%
   glimpse()
 
-dat_june %>% 
+dat_yield %>% 
   glimpse()
 
 ```
@@ -133,21 +141,60 @@ dat_june %>%
 ```
 
 \newpage
+# Yield data
+
+```{r}
+dat_yield %>% 
+  group_by(PRE) %>% 
+  summarise(yield = mean(yield_kgha),
+            SD = sd(yield_kgha),
+            n=n()) %>% 
+  left_join(dum1) %>% 
+  arrange(desc(yield)) %>% 
+  mutate(`Yield (kg ha)` = paste(round(yield,0),
+                        group,
+                        sep = " ")) %>% 
+  dplyr::select(PRE,`Yield (kg ha)`,n) %>% 
+  knitr::kable(
+    caption = "IWG yields did not differ among different PRE applications"
+  )
+```
+
+
+```{r}
+dat_yield %>% 
+  group_by(POST) %>% 
+  summarise(yield = mean(yield_kgha),
+            SD = sd(yield_kgha),
+            n=n()) %>% 
+  left_join(dum2) %>% 
+  arrange(desc(yield)) %>% 
+  mutate(`Yield (kg ha)` = paste(round(yield,0),
+                                 group,
+                                 sep = " ")) %>% 
+  dplyr::select(POST,`Yield (kg ha)`,n) %>% 
+  knitr::kable(
+    caption = "IWG yields that share the same letter do not differ among POST applications"
+  )
+
+```
+
+\newpage
 # Findings
 
-IWG was very resiliant to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though samples have not yet been threshed. 
+IWG was  resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.  
 
-With the exception of acetochlor, the PRE herbicides did not cause any observable damage to the IWG plant. Months after application, IWG plants that received an aceotochlor application were stunted. 
+With the exception of acetochlor, the PRE herbicides did not cause any observable damage to the IWG plant and yields did not differ among control and plots that received different PREs. Months after application, IWG plants that received an aceotochlor application were stunted. 
 
-ALL POST herbicides caused observable damage to the IWG plant. Of these herbicides, Axial XL caused the least damage. Axial XL (Pinoxaden) is a grass herbicide, which is exciting as we currently do not have any grass herbicides available. 
+ALL POST herbicides caused observable damage to the IWG plant. Of these herbicides, Axial XL caused the least visible damage and yields did not differ between axial and plots that recieved no herbicides. Axial XL (Pinoxaden) is a grass herbicide, which is exciting as we currently do not have any grass herbicides available. 
 
-Wolverine is an herbicide commonly used by the wheat breeding lab on wheatgrass. Here we observed crop injury though this may be due to the high rate and the late timing. The higher rates of injury observed in plots where dicamba and bison and facet were applied may be simply due to timing, as these growth regulators were applied to IWG after seedheads had begun to emerge. 
+Wolverine is an herbicide commonly used by the wheat breeding lab on wheatgrass. Here we observed visible crop injury though this may be due to the high rate and the late timing, but no yield impact. The higher rates of injury observed in plots where dicamba and bison and facet were applied may be simply due to timing, as these growth regulators were applied to IWG after seedheads had begun to emerge. IWG sprayed with dicamba yielded the lowest (336 kg ha vs. `r (775+704+680+657+607+512)/6` kg ha average of other plots)
 
 The low injury observed in the PREs (prowl, dual and boundary) and the low injury in Axial XL even at a high rate and late timing is useful information if grass weeds pose a problem in future experiments. Pinoxaden controls foxtails and oat, but not brome.
 
-# Recommendations
+The lack of yield penalty observed in wolverine and facet and all PREs is exciting. 
 
-Threshing samples and getting grain yields will help determine if IWG injury translated to differences in grain yield and will help determine the interaction between the PRE and POST applications to determine the worst performing programs. 
+# Recommendations
 
 Currently, the only option for the control of grass weeds is through PREs. Further trials looking at other grass herbicides and that look at different timings of the herbicides in this study would provide more information. 
 

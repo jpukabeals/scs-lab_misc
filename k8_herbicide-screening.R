@@ -326,6 +326,114 @@ ggsave("tofu_PRE_prelim-results.png",
   
 
 
+
+# real data yield ---------------------------------------------------------
+
+read_sheet(
+  url,
+  sheet = 5,
+  gs4_deauth()) -> dat1
+
+
+# quadrats were 24" x 24"
+
+library(measurements)
+
+conv_unit(24*24,
+          "inch2",
+          "hectare")
+
+dat1 %>% 
+  # glimpse()
+  mutate(yield_kgha = `threshed grain no bag(g)`/1000/conv_unit(24*24,
+                                                           "inch2",
+                                                           "hectare")) %>% 
+  dplyr::select(experimental_unit,
+                PRE,
+                POST,
+                yield_kgha) -> dat_yield
+  
+
+dat_yield %>% 
+  group_by(PRE,POST) %>% 
+  summarise(m=mean(yield_kgha),
+            n=n()) %>% 
+  arrange(desc(m))
+
+
+# combined ----------------------------------------------------------------
+
+dat %>% 
+  left_join(dat_yield) -> dat_all
+
+
+# correlation plot
+library(corrplot)
+
+# dat_all %>%
+#   filter(person == "jesse") %>% 
+#   dplyr::select(iwg_injury,yield_kgha) %>% 
+#   cor(method = "pearson") %>% 
+#   # print
+#   corrplot()
+
+# person coefficient of -.2 or -20%. As injury increases, yield does decrease.
+# 20% is on the border between a weak and moderate relationship
+
+# this is what we expect. 
+
+# anovas
+
+library(multcomp)
+library(emmeans)
+library(stringr)
+
+# PRE
+
+dat_yield %>% 
+  lm(yield_kgha~PRE,.) %>%
+  # anova()
+  emmeans::emmeans(~PRE) %>% 
+  cld(Letters=letters,
+      reverse=T) %>% 
+  mutate(group = str_trim(.group)) %>% 
+  dplyr::select(PRE,group) -> dum1
+
+dat_yield %>% 
+  group_by(PRE) %>% 
+  summarise(yield = mean(yield_kgha),
+            SD = sd(yield_kgha)) %>% 
+  left_join(dum1) %>% 
+  arrange(desc(yield)) %>% 
+  mutate(`Yield (kg ha)` = paste(round(yield,0),
+                        group,
+                        sep = " ")) %>% 
+  dplyr::select(PRE,`Yield (kg ha)`) %>% 
+  knitr::kable()
+
+dat_yield %>% 
+  lm(yield_kgha~POST,.) %>%
+  # anova()
+  emmeans::emmeans(~POST) %>% 
+  cld(Letters=letters,
+      reverse=T) %>% 
+  mutate(group = str_trim(.group)) %>% 
+  dplyr::select(POST,group) -> dum2
+
+dat_yield %>% 
+  group_by(POST) %>% 
+  summarise(yield = mean(yield_kgha),
+            SD = sd(yield_kgha)) %>% 
+  left_join(dum2) %>% 
+  arrange(desc(yield)) %>% 
+  mutate(`Yield (kg ha)` = paste(round(yield,0),
+                                 group,
+                                 sep = " ")) %>% 
+  dplyr::select(POST,`Yield (kg ha)`) %>% 
+  knitr::kable()
+
+
+
 # aov() -------------------------------------------------------------------
 
 aov(weed_score_may~PRE,
