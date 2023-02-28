@@ -42,29 +42,13 @@ We wanted to practice doing an herbicide screening study
 
 # Wheatgrass weed control
 
-## establishing wheatgrass
-
-Weed control in wheatgrass is most important during establishment. When we apply herbicides, we apply them to all plots so if any injury is occurring, it is happening across all plots. 
-
-For a couple years, s-metolachlor has been applied in early spring (April) for weed control with no expected or observed injury. 
-
-We have applied 2,4-D in the fall after wheatgrass is ~4" tall and not observed obvious injury. 
-
-## wheatgrass sensitivity to residual herbicides
-
-wheatgrass is a small grass seed. 
-
-There is concern that 2,4-D and s-metolachlor can impact an emerging wheatgrass seed.
-
-We only use glyphosate as a burndown prior to planting wheatgrass so there is not plant-back interval if we need to replant. 
-
-When terminating a wheatgrass stand, glyphosate alone is effective, but it's very important the plant is actively growing. One time we harvested kernza in August and then the plant went dormant after harvest for a month due to the drought. We could not kill the stand until it actively started regrowing. 
-
-## Labels
-
 As of 28Feb2023, 2,4-D is the only labelled herbicide in kernza and must be applied after tillering (4-8 inches tall) and before boot stage. This typically gives a 2 week window of 14May - 1June to control some broadleaf weeds in the spring. 
 
 Some herbicides labelled for "Grasses grown for seed" have been applied to kernza without obvious injury. Herbicides for perennial ryegrass, tall fescue, turf and other perennial grasses grown for seed are unlikely to cause injury. We tend to use products from the Winfield company; sometimes these generic products are not labelled for grasses grown for seed, but the original trade name product is labelled. For example, Dual Magnum herbicide is labelled for grasses grown for seed, but charger max herbicide is not labelled for grasses grown for seed even though both products contain the same active ingredient (s-metolachlor). This is true of Prowl as well. 
+
+## What we already know
+
+The 2017 herbicide screen at Estling Farms and Magnusson Farms found the following; full rate applications of Dual Boundary and Prowl resulted in slight delay of maturity for wheatgrass. Wolverine, Facet L and Axial XL had no effect on the crop. 
 
 \newpage
 ```{r herbicides labeled for grasses grown for seed}
@@ -123,16 +107,6 @@ tibble(
   )
 
 ```
-
-## what we already know
-
-The 2017 herbicide screen at Estling Farms and Magnusson Farms found the following...
-
-Full rate applications of Dual Boundary and Prowl resulted in slight delay of maturity for wheatgrass. 
-
-Full rate applications of Wolverine, Facet L and Axial XL had no effect on the crop. 
-
-## the trial and expected findings
 
 ```{r herbicides used in this trial}
 
@@ -197,6 +171,14 @@ tibble(
 
 ```
 
+
+
+\newpage
+# The trial
+
+
+## Expected findings
+
 We expected Dual, Prowl, Facet L, dicamba and Bison to show no injury when applied because they were labelled for grass grown for seed. 
 
 We also tested herbicides that we thought could cause injury. 
@@ -217,13 +199,14 @@ We got busy with other experiments and the timing of our POST treatments was ver
 ![POST herbicides were applied on 8Jun2022. The seedhead was about 25% emerged on most plants, zadocks stage of 52](8Jun.JPG)
 
 
-
-# Introduction
+\newpage
+## Method details
 
 IWG was planted in fall of 2021. 
-In spring of 2022, PRE herbicides were applied and then IWG injury was scored ~10 days after application. 
-In summer of 2022, POST herbicide treatments were applied and IWG injury was scored again ~10 days after application. 
 
+In spring of 2022, PRE herbicides were applied and then IWG injury was scored ~10 days after application. 
+
+In summer of 2022, POST herbicide treatments were applied and IWG injury was scored again ~10 days after application. 
 IWG injury was scored on a scale of 0-10, where 10 was severe damage. Scoring was done blind by Jesse in spring, and by Jesse Cole and Lara in summer. 
 
 The weed abundance was also visually scored. The site for this preliminary study was chosen because high weed pressure was expected, however there was very low weed pressure throughout the entire field during the study. 
@@ -231,21 +214,20 @@ The weed scores were meant to indicate relative differences in weeds among plots
 Due to low weed pressure, the weed-free plot treatment was not maintained and was managed identically to the weedy plots. There still were very few weeds ( <1 plant per square meter)
 Due to the low weed pressure, the primary utility of the tofu data set is the IWG injury data. 
 
-
 Herbicides were applied at maximum rates and the summer applications were about 1-2 weeks later than ideal and IWG plants were already quite large and some seedheads were starting to emerge. 
 The POST treatments were a worst case scenario and if no injury was observed in this study, it's very unlikely any injury will be observed. 
 
 
 
 \newpage
-# Plot plan
+## Plot plan
 
 ```{r}
 knitr::include_graphics("tofu_k8_herbicide-screening - Copy of plot-plan.pdf")
 ```
 
 \newpage
-# Datasets
+## Datasets
 
 ```{r}
 dat_april %>%
@@ -285,6 +267,7 @@ dat_april %>%
     weed = mean(weed_vis_score),
     n=n()
   ) %>% 
+  arrange(injury) %>% 
   knitr::kable(
     # format = "simple",
     caption = "IWG injury scores collected by Jesse on 19May2022"
@@ -323,6 +306,7 @@ dat_june %>%
     weed = round(mean(weed_vis_score, na.rm=T),1),
     n=n()
   ) %>% 
+  arrange(injury) %>% 
   knitr::kable(
     # format = "simple",
     caption = "IWG injury scores collected by Jesse on 13Jun2022"
@@ -371,24 +355,34 @@ dat_yield %>%
 \newpage
 # Findings
 
-IWG was  resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.  
+There are currently no labelled options for grass control in wheatgrass.  This trial supported previous findings from 2017 that Dual, Prowl and Boundary can be applied PRE to control grasses. Furthermore, Axial XL and Wolverine can be applied POST to control grasses even at a very late wheatgrass growth stage (Zadocks 52).
 
-With the exception of acetochlor, the PRE herbicides did not cause any observable damage to the IWG plant and yields did not differ among control and plots that received different PREs. Months after application, IWG plants that received an aceotochlor application were stunted. 
+With the exception of acetochlor, the PRE herbicides did not cause any observable damage to the wheatgrass plant and yields did not differ from control. Months after application, IWG plants that received an aceotochlor application were stunted. No delays in maturity were observed in the plots receiving high rates of Dual Boundary and Prowl.
 
-ALL POST herbicides caused observable damage to the IWG plant. Of these herbicides, Axial XL caused the least visible damage and yields did not differ between axial and plots that recieved no herbicides. Axial XL (Pinoxaden) is a grass herbicide, which is exciting as we currently do not have any grass herbicides available. 
+ALL POST herbicides caused observable damage to the IWG plant. Of these herbicides, Axial XL caused the least visible damage and yields did not differ between Axial XL and plots that received no herbicides. Plots receiving Bison and dicamba both had the greatest visual injury and the lowest yields. 
 
-Wolverine is an herbicide commonly used by the wheat breeding lab on wheatgrass. Here we observed visible crop injury though this may be due to the high rate and the late timing, but no yield impact. The higher rates of injury observed in plots where dicamba and bison and facet were applied may be simply due to timing, as these growth regulators were applied to IWG after seedheads had begun to emerge. IWG sprayed with dicamba yielded the lowest (336 kg ha vs. `r (775+704+680+657+607+512)/6` kg ha average of other plots)
-
-The low injury observed in the PREs (prowl, dual and boundary) and the low injury in Axial XL even at a high rate and late timing is useful information if grass weeds pose a problem in future experiments. Pinoxaden controls foxtails and oat, but not brome.
-
-The lack of yield penalty observed in wolverine and facet and all PREs is exciting. 
+Wheatgrass was resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.  
 
 # Recommendations
 
-Currently, the only option for the control of grass weeds is through PREs. Further trials looking at other grass herbicides and that look at different timings of the herbicides in this study would provide more information. 
+Continuing to trial other herbicides labelled for grass seed production (Table 1) will provide valuable information.
 
-IWG is a very competitive plant that often doesn't warrant an herbicide application. The most injurious weeds to yield are likely winter annuals, which can be controlled with 2,4-D applied in the fall or early spring. Weed control, especially in patchy or underfertilized IWG stands can be helpful for ease of harvest, as large lambsquarter weeds can clog combine headers and add unwanted moisture to the grain tank. Again, 2,4-D is a good tool for the control of these summer annual escape weeds. 
+IWG is a very competitive plant that often doesn't warrant an herbicide application. The most injurious weeds to yield are likely winter annuals, which can be controlled with 2,4-D applied in the fall or early spring. Weed control, especially in patchy or underfertilized IWG stands can be helpful for ease of harvest, as large weeds can clog combine headers and add unwanted moisture to the grain tank. The extent to which fall 2,4-D applications impact wheatgrass development is still unknown.  
 
-The primary reason to do further research into IWG tolerance to grass herbicides is for the  scenario we observed in the NALI experiment where downy brome choked out the IWG and alfalfa. In this scenario, we did not know there was a history of Downy Brome at this site and our primary control method would have been a PRE we would've had to have applied after IWG emergence. If we had a POST grass herbicide for Downy Brome that was safe on IWG, it would've been able to save the study. Future research should look at other grass herbicides that could control downy brome and measure the effects of PRE and grass POST herbicides on *establishing* wheatgrass stands. 
+The primary reason to do further research into IWG tolerance to grass herbicides is for the  scenario we observed in the NALI experiment where downy brome choked out the IWG and alfalfa. In this scenario, we did not know there was a history of Downy Brome at this site and our primary control method would have been a PRE we would've had to have applied after wheatgrass emergence. If we had a POST grass herbicide for Downy Brome that was safe on wheatgrass, it would've been able to save the study. Future research should look at other grass herbicides that could control downy brome and measure the effects of PRE and grass POST herbicides on establishing wheatgrass stands. Candidate herbicides would be Zidua, Verdict and dicamba.
+
+## Future projects
+
+*Fall applied 24D on establishing wheatgrass stands*
+We apply different rates of 2,4-D at different timings starting about 21 days after planting. Measure tillering, plant height, maturity, biomass, yield. 
+
+*Downy brome control in wheatgrass*
+In Nali 1.0, if we abandon the site for 2.0. We apply Zidua, Verdict and dicamba at full rates. Measure weed injury, crop injury.
+
+*Wheatgrass plant back interval*
+Apply 2-4D to fields at full rates as a burndown, then plant kernza at different intervals after herbicide application (1 day, 10 day, 20 day). Measure plant counts, seedling vigor. Add in PRE treatments as well. 
+
+*TOFU follow-up*
+Generate more data from POST treatments by using correct timing. Espeically interested in wheatgrass response to dicamba since dicamba may also have suppression on down brome. 
 
 
