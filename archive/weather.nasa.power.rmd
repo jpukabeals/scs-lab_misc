@@ -1,0 +1,114 @@
+---
+title: "weather import"
+author: "Jesse Puka-Beals"
+date: '`r format(Sys.Date(), "%m %d %Y")`'
+output: html_document
+---
+
+```{r install packages, include=FALSE, cache=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, dplyr)
+
+```
+
+```{r}
+dat <- read.csv("~/R data/weather.nasa.csv", skip=12) #skip first 12 lines which explain the column headers
+
+dat1 <- dat %>%
+  mutate(year=YEAR,
+         precip.mm=PRECTOT,
+         tmax.c=T2M_MAX,
+         tmin.c=T2M_MIN) %>%
+  select(year,DOY,precip.mm,tmax.c,tmin.c) %>%
+  mutate(tmean=(tmax.c+tmin.c)/2) 
+
+```
+
+now we need to mutate new columns to add GDD
+
+Then we need to create a rule where the data is grouped within year starting at DOY=1
+for each DOY, we need a cum.sum for precip.mm
+for each DOY after the mean temp has been higher than 0 for 5 consecutive days, we need a cum.sum, restarting with the next year
+
+
+```{r GDD}
+
+dat2 <- dat1 %>%
+  mutate(GDD=(tmax.c+tmin.c)/2-0)
+head(dat2)
+
+# add if, then statement where if GDD<=0, =0
+
+```
+
+> x[x<0] <- 5; x   # modify elements less than 0
+
+> x
+[1] -3 -2 -1  0  1  2
+> x[2] <- 0; x        # modify 2nd element
+[1] -3  0 -1  0  1  2
+> x[x<0] <- 5; x   # modify elements less than 0
+[1] 5 0 5 0 1 2
+> x <- x[1:4]; x      # truncate x to first 4 elements
+[1] 5 0 5 0
+
+```{r}
+x <- dat2$GDD 
+x[x<0] <- 0
+dat2$GDD <- x
+head(dat2)
+```
+
+
+
+```{r}
+dat2[7]
+dat2$GDD
+
+dat2[7<0]
+
+dat2[7<0] <- 0
+
+dat2$GDD[1<0] <- 0
+
+dat2
+```
+
+
+if (test_expression) {
+statement
+}
+
+```{r}
+if (dat2$GDD<0) {
+dat2$GDD=0
+}
+
+dat2$GDD
+```
+if (test_expression) {
+statement1
+} else {
+statement2
+}
+
+```{r}
+if (dat2$GDD<0) {
+dat2$GDD=0
+} else {
+dat2$GDD=dat2$GDD
+}
+```
+if ( test_expression1) {
+statement1
+} else if ( test_expression2) {
+statement2
+} else if ( test_expression3) {
+statement3
+} else {
+statement4
+}
+
+
