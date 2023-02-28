@@ -1,6 +1,7 @@
 library(agricolae)
 library(tidyverse)
 
+setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc\\tofu")
 
 # plot dimensions calcs ---------------------------------------------------
 
@@ -181,7 +182,7 @@ agricolae::design.split(
   .$book %>% 
   mutate(experimental_unit = paste(plots,splots,sep = "0"),
          .before=plots) %>% 
-  select(-c(plots,splots,r)) -> df 
+  dplyr::select(-c(plots,splots,r)) -> df 
 
 # weed scores where 10 is a lot of weeds and 0 is no weeds
 # weed scorse in may are a couple weeks after application
@@ -451,7 +452,9 @@ aov(weed_counts_may~PRE,
   summary()
 
 
+
   
+setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc")
 
 
 

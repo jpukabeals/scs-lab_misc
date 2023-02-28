@@ -21,8 +21,10 @@ knitr::opts_chunk$set(echo = F,
 # message = display code message
 # include = include chunk outputs in doc output
 
-source("k8_herbicide-screening.R")
 
+setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc\\tofu")
+
+source("k8_herbicide-screening.R")
 theme_set(theme_bw())
 
 ```
@@ -30,9 +32,9 @@ theme_set(theme_bw())
 
 # Objective
 
-We wanted to spray wheatgrass with herbicides commonly used on the st paul campus. Some products we expected injury (acetochlor), other products we expected no injury (s-metolachlor, prowl, wolverine) but wanted to do side by side comparisons with unsprayed wheatgrass plots to get some data. 
+We wanted to spray wheatgrass with herbicides commonly used on the st paul campus. Some products we expected injury (acetochlor), other products we expected no injury (s-metolachlor) but wanted to do side by side comparisons with unsprayed wheatgrass plots to get some data. 
 
-Our hope was to find a common corn/soy/small grain herbicide that could be used in wheatgrass without obvious injury and provide additional weed control options in unexpected research situations. 
+Our hope was to find a corn/soy/small grain herbicide that could be used in wheatgrass without obvious injury and provide additional weed control options in unexpected research situations. 
 
 We wanted to use products not previously tested in northern MN 
 
@@ -42,12 +44,11 @@ We wanted to practice doing an herbicide screening study
 
 ## Labels
 
-As of 28Feb2023, 2,4-D is the only labelled herbicide in kernza and must be applied after tillering (4-8 inches tall) and before boot stage. This typically gives a 3 week window of 14May - 7June to control some broadleaf weeds in the spring. 
+As of 28Feb2023, 2,4-D is the only labelled herbicide in kernza and must be applied after tillering (4-8 inches tall) and before boot stage. This typically gives a 2 week window of 14May - 1June to control some broadleaf weeds in the spring. 
 
 Some herbicides labelled for "Grasses grown for seed" have been applied to kernza without obvious injury. Herbicides for perennial ryegrass, tall fescue, turf and other perennial grasses grown for seed are unlikely to cause injury. We tend to use products from the Winfield company; sometimes these generic products are not labelled for grasses grown for seed, but the original trade name product is labelled. For example, Dual Magnum herbicide is labelled for grasses grown for seed, but charger max herbicide is not labelled for grasses grown for seed even though both products contain the same active ingredient (s-metolachlor). This is true of Prowl as well. 
 
-
-```{r}
+```{r herbicides labeled for grasses grown for seed}
 scan(
 text="dual
 prowl
@@ -96,8 +97,10 @@ tibble(
   ) %>% 
   mutate_all(str_to_title) %>% 
   knitr::kable(
-    caption = "Herbicides labelled for grasses grown for seed production
-"
+    caption = "Herbicides labelled for grasses grown for seed production"
+    # format = "latex",
+    # booktabs = TRUE,
+    # longtable = FALSE
   )
 
 ```
@@ -381,3 +384,5 @@ Currently, the only option for the control of grass weeds is through PREs. Furth
 IWG is a very competitive plant that often doesn't warrant an herbicide application. The most injurious weeds to yield are likely winter annuals, which can be controlled with 2,4-D applied in the fall or early spring. Weed control, especially in patchy or underfertilized IWG stands can be helpful for ease of harvest, as large lambsquarter weeds can clog combine headers and add unwanted moisture to the grain tank. Again, 2,4-D is a good tool for the control of these summer annual escape weeds. 
 
 The primary reason to do further research into IWG tolerance to grass herbicides is for the  scenario we observed in the NALI experiment where downy brome choked out the IWG and alfalfa. In this scenario, we did not know there was a history of Downy Brome at this site and our primary control method would have been a PRE we would've had to have applied after IWG emergence. If we had a POST grass herbicide for Downy Brome that was safe on IWG, it would've been able to save the study. Future research should look at other grass herbicides that could control downy brome and measure the effects of PRE and grass POST herbicides on *establishing* wheatgrass stands. 
+
+
