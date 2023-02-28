@@ -42,12 +42,31 @@ We wanted to practice doing an herbicide screening study
 
 # Wheatgrass weed control
 
+## establishing wheatgrass
+
+Weed control in wheatgrass is most important during establishment. When we apply herbicides, we apply them to all plots so if any injury is occurring, it is happening across all plots. 
+
+For a couple years, s-metolachlor has been applied in early spring (April) for weed control with no expected or observed injury. 
+
+We have applied 2,4-D in the fall after wheatgrass is ~4" tall and not observed obvious injury. 
+
+## wheatgrass sensitivity to residual herbicides
+
+wheatgrass is a small grass seed. 
+
+There is concern that 2,4-D and s-metolachlor can impact an emerging wheatgrass seed.
+
+We only use glyphosate as a burndown prior to planting wheatgrass so there is not plant-back interval if we need to replant. 
+
+When terminating a wheatgrass stand, glyphosate alone is effective, but it's very important the plant is actively growing. One time we harvested kernza in August and then the plant went dormant after harvest for a month due to the drought. We could not kill the stand until it actively started regrowing. 
+
 ## Labels
 
 As of 28Feb2023, 2,4-D is the only labelled herbicide in kernza and must be applied after tillering (4-8 inches tall) and before boot stage. This typically gives a 2 week window of 14May - 1June to control some broadleaf weeds in the spring. 
 
 Some herbicides labelled for "Grasses grown for seed" have been applied to kernza without obvious injury. Herbicides for perennial ryegrass, tall fescue, turf and other perennial grasses grown for seed are unlikely to cause injury. We tend to use products from the Winfield company; sometimes these generic products are not labelled for grasses grown for seed, but the original trade name product is labelled. For example, Dual Magnum herbicide is labelled for grasses grown for seed, but charger max herbicide is not labelled for grasses grown for seed even though both products contain the same active ingredient (s-metolachlor). This is true of Prowl as well. 
 
+\newpage
 ```{r herbicides labeled for grasses grown for seed}
 scan(
 text="dual
@@ -105,10 +124,17 @@ tibble(
 
 ```
 
+## what we already know
 
-We tested Dual, Prowl dicamba and Bison with an assumption of no injury because they were labelled for grasses grown for seed production. 
+The 2017 herbicide screen at Estling Farms and Magnusson Farms found the following...
 
-```{r}
+Full rate applications of Dual Boundary and Prowl resulted in slight delay of maturity for wheatgrass. 
+
+Full rate applications of Wolverine, Facet L and Axial XL had no effect on the crop. 
+
+## the trial and expected findings
+
+```{r herbicides used in this trial}
 
 scan(
 text = "pre
@@ -171,44 +197,24 @@ tibble(
 
 ```
 
-We expected Dual, Prowl, Facet L, dicamba and Bison to show no injury when applied because they were labelled for grass grown for seed. However, the timing of all POST applications occurred off label because we were busy with other experiments and this was not a priority. 
+We expected Dual, Prowl, Facet L, dicamba and Bison to show no injury when applied because they were labelled for grass grown for seed. 
 
-POST treatment stage 52, 25% of inflorescence visible
-
-
-We thought the remaining products could cause injury. 
+We also tested herbicides that we thought could cause injury. 
 
 Acetochlor is a PRE and POST product for corn. We thought acetochlor may cause injury because it is labelled for POST control of volunteer wheat and barnyadgrass. 
 
-Boundary is a PRE product for soybean. We thought Boundary would likely not cause damage because it is composed of two products that are seperately labelled for grasses grown for seed, s-metolachlor and metribuzin
+Boundary is a PRE product for soybean. We thought Boundary would likely not cause damage because it is composed of two products that are seperately labelled for grasses grown for seed, s-metolachlor and metribuzin. It also showed no injury in 2017 trial. 
 
-Axial XL is a POST product for wheat and barley. We thought Axial XL may cause injury since it is labelled for POSt control of grass weeds like barnyardgrass. 
+Axial XL is a POST product for wheat and barley. We thought Axial XL may cause injury since it is labelled for POSt control of grass weeds, however it showed no crop injury in 2017. 
 
-Wolverine is a POST product for wheat wheat and barley. We thought Wolverine may cause injury since it is labelled for POST control of grasses like wild oat, but were told this product has been used without injury on wheatgrass for multiple years. 
+Wolverine is a POST product for wheat wheat and barley. We thought Wolverine may cause injury since it is labelled for POST control of grasses like wild oat, but were told this product has been used without injury on wheatgrass for multiple years. No injury noted in 2017 trial. 
 
+We got busy with other experiments and the timing of our POST treatments was very late. Many of our POST labels recommend apply after tilering, which would be right at stem elongation (Zadocks 30). We were hoping to apply our POST treatments late as this would increase the liklihood of injury and more closely resemble a research scenario where a timing is late, but we wanted to apply around boot stage (Zadocks 40). These applications would still be on label, but more risky. However, we were so busy that we applied even late than we wanted too (such is research) and were already at seedhead emergence (Zadocks 52). At this point, we no longer expected to not observe wheatgrass injury even in the products labelled for grasses grown for seed. We expected to observe injury in all our POST treatments, especially in the group 4's (Bison, dicamba, Facet L)
 
+\newpage
+![PRE herbicides were applied on 19Apr2022. Plant tillering had occured in fall and these were given a zadocks stage of 25. More tillering may have occured afterwards but it was not measured.](19Apr.JPG)
 
-## what we already know
-
-summarise finding of Donn v and IR4
-
-## establishing wheatgrass
-
-Weed control in wheatgrass is most important during establishment. When we apply herbicides, we apply them to all plots so if any injury is occurring, it is happening across all plots. 
-
-For a couple years, s-metolachlor has been applied in early spring (April) for weed control with no expected or observed injury. 
-
-We have applied 2,4-D in the fall after wheatgrass is ~4" tall and not observed obvious injury. 
-
-## wheatgrass sensitivity to residual herbicides
-
-wheatgrass is a small grass seed. 
-
-There is concern that 2,4-D and s-metolachlor can impact an emerging wheatgrass seed.
-
-We only use glyphosate as a burndown prior to planting wheatgrass so there is not plant-back interval if we need to replant. 
-
-When terminating a wheatgrass stand, glyphosate alone is effective, but it's very important the plant is actively growing. One time we harvested kernza in August and then the plant went dormant after harvest for a month due to the drought. We could not kill the stand until it actively started regrowing. 
+![POST herbicides were applied on 8Jun2022. The seedhead was about 25% emerged on most plants, zadocks stage of 52](8Jun.JPG)
 
 
 
