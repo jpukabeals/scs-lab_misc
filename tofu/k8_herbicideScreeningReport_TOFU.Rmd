@@ -1,5 +1,5 @@
 ---
-title: '"TOFU" herbicide screening report'
+title: 'wheatgrass herbicide screening report - "TOFU"'
 subtitle: 'preliminary results from K8 in 2022'
 # date: Data collected summer of 2022
 author: Jesse Puka-Beals
@@ -9,7 +9,6 @@ header-includes:
    - \usepackage{booktabs}
 editor_options: 
   chunk_output_type: console
-
 ---
 
 ```{r, echo=F, message=F}
@@ -27,6 +26,187 @@ source("k8_herbicide-screening.R")
 theme_set(theme_bw())
 
 ```
+
+
+# Objective
+
+We wanted to spray wheatgrass with herbicides commonly used on the st paul campus. Some products we expected injury (acetochlor), other products we expected no injury (s-metolachlor, prowl, wolverine) but wanted to do side by side comparisons with unsprayed wheatgrass plots to get some data. 
+
+Our hope was to find a common corn/soy/small grain herbicide that could be used in wheatgrass without obvious injury and provide additional weed control options in unexpected research situations. 
+
+We wanted to use products not previously tested in northern MN 
+
+We wanted to practice doing an herbicide screening study
+
+# Wheatgrass weed control
+
+## Labels
+
+As of 28Feb2023, 2,4-D is the only labelled herbicide in kernza and must be applied after tillering (4-8 inches tall) and before boot stage. This typically gives a 3 week window of 14May - 7June to control some broadleaf weeds in the spring. 
+
+Some herbicides labelled for "Grasses grown for seed" have been applied to kernza without obvious injury. Herbicides for perennial ryegrass, tall fescue, turf and other perennial grasses grown for seed are unlikely to cause injury. We tend to use products from the Winfield company; sometimes these generic products are not labelled for grasses grown for seed, but the original trade name product is labelled. For example, Dual Magnum herbicide is labelled for grasses grown for seed, but charger max herbicide is not labelled for grasses grown for seed even though both products contain the same active ingredient (s-metolachlor). This is true of Prowl as well. 
+
+
+```{r}
+scan(
+text="dual
+prowl
+stingr
+tacoma
+moxy
+bison
+zidua 
+sharpen
+dimetric_liquid
+banvel
+facet_l",
+what = ""
+) %>% 
+  recode(
+    "dimetric_liquid" = "dimetric liquid",
+    "facet_l" = "facet l" 
+  )  -> tradeNames
+
+scan(
+text = "s-metolachlor
+pendimethalin
+clopyralid
+fenoxaprop
+bromoxynil
+mcpa_bromoxynil
+pyroxasulfone
+saflufenacil
+metribuzin
+dicamba
+quinclorac", 
+what=""
+) %>% 
+  recode(
+    "mcpa_bromoxynil" = "bromoxynil mcpa"
+  )-> activeIngrendients
+
+tibble(
+  tradeNames,
+  activeIngrendients
+) %>% 
+  arrange(tradeNames) %>% 
+  rename(
+    "Trade Names" = tradeNames,
+    "Active Ingredients" = activeIngrendients
+  ) %>% 
+  mutate_all(str_to_title) %>% 
+  knitr::kable(
+    caption = "Herbicides labelled for grasses grown for seed production
+"
+  )
+
+```
+
+
+We tested Dual, Prowl dicamba and Bison with an assumption of no injury because they were labelled for grasses grown for seed production. 
+
+```{r}
+
+scan(
+text = "pre
+pre
+pre
+pre
+post
+post
+post
+post
+post",
+what=""
+) -> timing
+
+scan(
+  text="acetochlor
+boundary
+dual
+prowl
+dicamba
+bison
+wolverine
+facet_l
+axial_xl",
+  what=""
+) -> name
+
+scan(
+  text = "acetochlor
+s-metolachlor_metribuzin
+s-metolachlor
+pendimethalin
+dicamba
+bromoxynil_mcpa
+bromoxynil_pyrasulfotole_fenoxaprop
+quinclorac
+pinoxaden",
+what = ""
+) -> active
+
+tibble(
+  timing,name,active
+) %>% 
+  mutate_all(
+    ~str_replace_all(.x,"_", " ")
+  ) %>% 
+  arrange(desc(timing),
+          name) %>% 
+  mutate_all(
+    str_to_title
+  ) %>% 
+  dplyr::select(-timing) %>% 
+  rename(
+    "Treatment Name" = "name",
+    "Active Ingredient" = "active"
+  ) %>% 
+  knitr::kable(
+    caption = "Herbicides used in this trial"
+  )
+
+```
+
+We expected Dual, Prowl, Facet L, dicamba and Bison to show no injury when applied because they were labelled for grass grown for seed. However, the timing of all POST applications occurred off label because we were busy with other experiments and this was not a priority. 
+
+POST treatment stage 52, 25% of inflorescence visible
+
+
+We thought the remaining products could cause injury. 
+
+Acetochlor is a PRE and POST product for corn. We thought acetochlor may cause injury because it is labelled for POST control of volunteer wheat and barnyadgrass. 
+
+Boundary is a PRE product for soybean. We thought Boundary would likely not cause damage because it is composed of two products that are seperately labelled for grasses grown for seed, s-metolachlor and metribuzin
+
+Axial XL is a POST product for wheat and barley. We thought Axial XL may cause injury since it is labelled for POSt control of grass weeds like barnyardgrass. 
+
+Wolverine is a POST product for wheat wheat and barley. We thought Wolverine may cause injury since it is labelled for POST control of grasses like wild oat, but were told this product has been used without injury on wheatgrass for multiple years. 
+
+
+
+## what we already know
+
+summarise finding of Donn v and IR4
+
+## establishing wheatgrass
+
+Weed control in wheatgrass is most important during establishment. When we apply herbicides, we apply them to all plots so if any injury is occurring, it is happening across all plots. 
+
+For a couple years, s-metolachlor has been applied in early spring (April) for weed control with no expected or observed injury. 
+
+We have applied 2,4-D in the fall after wheatgrass is ~4" tall and not observed obvious injury. 
+
+## wheatgrass sensitivity to residual herbicides
+
+wheatgrass is a small grass seed. 
+
+There is concern that 2,4-D and s-metolachlor can impact an emerging wheatgrass seed.
+
+We only use glyphosate as a burndown prior to planting wheatgrass so there is not plant-back interval if we need to replant. 
+
+When terminating a wheatgrass stand, glyphosate alone is effective, but it's very important the plant is actively growing. One time we harvested kernza in August and then the plant went dormant after harvest for a month due to the drought. We could not kill the stand until it actively started regrowing. 
+
 
 
 # Introduction
