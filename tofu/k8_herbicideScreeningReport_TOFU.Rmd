@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, echo=F, message=F}
+```{r, echo=F, message=F, cache=T}
 knitr::opts_chunk$set(echo = F,
                       message = F,
                       # include = F, 
@@ -192,7 +192,7 @@ Wolverine is a POST product for wheat and barley. We thought Wolverine may cause
 We got busy with other experiments and the timing of our POST treatments was very late. Many of our POST labels recommend apply after tillering, which would be right at stem elongation (Zadocks 30). We were hoping to apply our POST treatments late as this would increase the liklihood of injury and more closely resemble a research scenario where a timing is late, but we wanted to apply around boot stage (Zadocks 40). These applications would still be on label, but more risky. However, we were so busy that we applied even later than we wanted too (such is research) and were already at seedhead emergence (Zadocks 52). At this point, we expected to observe wheatgrass injury even in the products labelled for grasses grown for seed. We expected to observe injury in all our POST treatments, especially in the group 4's (Bison, dicamba, Facet L)
 
 \newpage
-![PRE herbicides were applied on 19Apr2022. Plant tillering had occured in fall and these were given a Zadocks stage of 25. More tillering may have occured afterwards but it was not measured.](19Apr.JPG)
+![PRE herbicides were applied on 19Apr2022. Plant tillering had occured in fall and these were given a Zadocks stage of 25. More tillering may have occured afterwards but it was not measured. Kernza is planted on 12" row spacing but there is a skip every 5th row, plots are centered on this skipped row.](19Apr.JPG)
 
 ![POST herbicides were applied on 8Jun2022. The seedhead was about 25% emerged on most plants, Zadocks stage of 52](8Jun.JPG)
 
@@ -346,6 +346,55 @@ dat_yield %>%
   )
 
 ```
+
+\newpage
+# Shattering data
+
+```{r}
+
+dat_shattering %>% 
+  group_by(POST) %>% 
+  summarise(shattering = mean(shattering_vis),
+            SD = sd(shattering_vis),
+            n=n()) %>% 
+  left_join(dum3) %>% 
+  arrange(desc(shattering)) %>% 
+  mutate(shattering = paste(round(shattering,0),
+                        group,
+                        sep = " ")) %>% 
+  dplyr::rename(Shattering = shattering) %>% 
+  dplyr::select(POST,Shattering,n) %>% 
+  knitr::kable(
+    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023. Count data was also collected, but not presented. An alpha level of 0.1 was used"
+  )
+```
+
+```{r}
+dat_shattering %>% 
+  lm(shattering_vis~PRE + POST,.) %>% 
+  anova() %>% 
+  mutate(
+    across(2:5,
+           ~round(.x,digits = 3))
+  ) %>% 
+  knitr::kable()
+```
+
+![Plot 101, Visual score = 5](photos_plots/Slide1.png)
+
+
+
+![Plot 102, Visual score = 7](photos_plots/Slide2.png)
+
+![Plot 103, Visual score = 8](photos_plots/Slide3.png)
+
+![Plot 104, Visual score = 6](photos_plots/Slide4.png)
+
+![Plot 102, Visual score = 2](photos_plots/Slide5.png)
+
+![Plot 106, Visual score = 5](photos_plots/Slide6.png)
+
+![Plot 107, Visual score = 9](photos_plots/Slide7.png)
 
 \newpage
 # Findings

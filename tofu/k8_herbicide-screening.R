@@ -381,7 +381,6 @@ dat2 %>%
 
 # combined ----------------------------------------------------------------
 
-# THERE IS AN ISSUE WITH PSEUDOREPLICATION HERE DUE TO JOINING OF DATASETS
 
 dat %>% 
   bind_rows(dat_yield) %>% 
@@ -456,6 +455,39 @@ dat_yield %>%
   dplyr::select(POST,`Yield (kg ha)`) %>% 
   knitr::kable()
 
+# shattering
+
+dat_shattering %>% 
+  lm(shattering_vis~PRE+POST,.) %>% 
+  # anova()
+  emmeans(~POST, level = .9) %>% 
+  cld(alpha = 0.1,
+      Letters =letters,
+      reverse=T) %>% 
+  mutate(group = str_trim(.group)) %>% 
+  dplyr::select(POST,group) -> dum3
+
+# shattering --------------------------------------------------------------
+
+dat_shattering %>% 
+  dplyr::select(
+    shattering_vis,shattering_countm2
+  ) %>% 
+  cor() 
+
+dat_shattering %>% 
+  filter(shattering_vis<10) %>% 
+  ggplot(aes(shattering_vis,
+             shattering_countm2)) +
+  geom_point() +
+  geom_smooth(
+    span = 1.5,
+    se=F
+  )
+
+dat_shattering %>% 
+  ggplot(aes(shattering_vis)) +
+  stat_bin()
 
 
 # aov() -------------------------------------------------------------------
@@ -473,6 +505,7 @@ aov(weed_ground.cover_may~PRE,
 aov(weed_counts_may~PRE,
     df_wide) %>% 
   summary()
+
 
 
 
