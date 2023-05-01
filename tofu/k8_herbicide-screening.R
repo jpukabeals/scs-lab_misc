@@ -362,10 +362,31 @@ dat_yield %>%
   arrange(desc(m))
 
 
+# real data spring following year -----------------------------------------
+
+# this is data collected in spring of 2023 after I noticed differences in
+# germinating shattered IWG
+
+read_sheet(
+  url,
+  sheet = 6,
+  gs4_deauth()) -> dat2
+
+dat2 %>% 
+  # glimpse()
+  mutate(shattering_count = shattering_count/conv_unit(1.625*1.625,
+                                                                "inch2",
+                                                                "m2")) -> dat_shattering 
+
 # combined ----------------------------------------------------------------
 
+# THERE IS AN ISSUE WITH PSEUDOREPLICATION HERE DUE TO JOINING OF DATASETS
+
 dat %>% 
-  left_join(dat_yield) -> dat_all
+  left_join(dat_yield) %>% 
+  left_join(dat_shattering)-> dat_all
+
+View(dat_all)
 
 
 # correlation plot
@@ -411,6 +432,8 @@ dat_yield %>%
                         sep = " ")) %>% 
   dplyr::select(PRE,`Yield (kg ha)`) %>% 
   knitr::kable()
+
+#  POST 
 
 dat_yield %>% 
   lm(yield_kgha~POST,.) %>%
