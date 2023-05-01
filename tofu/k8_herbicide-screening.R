@@ -249,15 +249,13 @@ read_sheet(url,
 
 
 dat %>% 
-  # glimpse()
-  # distinct(date)
-  # str()
   # filter(date!="2021-05-19")
   # filter(date==as.POSIXct("2021-06-13",
   #                         format = "%Y-%m-%d"))
   slice(36:140) -> dat_june
 
 theme_set(theme_bw())
+
 dat_june %>% 
   # glimpse()
   mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
@@ -274,8 +272,8 @@ dat_june %>%
   coord_flip() +
   theme(legend.title = element_blank())
 
-ggsave("tofu_POST_prelim-results.png",
-       dpi=400)
+# ggsave("tofu_POST_prelim-results.png",
+#        dpi=400)
 
 dat_june %>% 
   # glimpse()
@@ -296,8 +294,9 @@ dat_june %>%
        x="") +
   coord_flip() +
   theme(legend.title = element_blank())
-ggsave("tofu_prelim-results-bar.png",
-       dpi=400)
+
+# ggsave("tofu_prelim-results-bar.png",
+#        dpi=400)
 
 
 
@@ -321,8 +320,8 @@ dat_april %>%
   coord_flip() +
   labs(y="IWG injury\n (0=no injury | 10=plant death)",
        x="") 
-ggsave("tofu_PRE_prelim-results.png",
-       dpi=400)
+# ggsave("tofu_PRE_prelim-results.png",
+#        dpi=400)
 
   
 
@@ -350,6 +349,7 @@ dat1 %>%
                                                            "inch2",
                                                            "hectare")) %>% 
   dplyr::select(experimental_unit,
+                date,
                 PRE,
                 POST,
                 yield_kgha) -> dat_yield
@@ -374,19 +374,19 @@ read_sheet(
 
 dat2 %>% 
   # glimpse()
-  mutate(shattering_count = shattering_count/conv_unit(1.625*1.625,
+  mutate(shattering_countm2 = shattering_count/conv_unit(1.625*1.625,
                                                                 "inch2",
-                                                                "m2")) -> dat_shattering 
+                                                                "m2")) %>% 
+  dplyr::select(-shattering_count)-> dat_shattering 
 
 # combined ----------------------------------------------------------------
 
 # THERE IS AN ISSUE WITH PSEUDOREPLICATION HERE DUE TO JOINING OF DATASETS
 
 dat %>% 
-  left_join(dat_yield) %>% 
-  left_join(dat_shattering)-> dat_all
+  bind_rows(dat_yield) %>% 
+  bind_rows(dat_shattering)-> dat_all
 
-View(dat_all)
 
 
 # correlation plot
