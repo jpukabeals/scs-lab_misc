@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, echo=F, message=F, cache=T}
+```{r, echo=F, message=F}
 knitr::opts_chunk$set(echo = F,
                       message = F,
                       # include = F, 
@@ -23,10 +23,8 @@ knitr::opts_chunk$set(echo = F,
 
 
 setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc\\tofu")
-
 source("k8_herbicide-screening.R")
 theme_set(theme_bw())
-
 ```
 
 
@@ -50,6 +48,7 @@ The 2017 herbicide screen at Estling Farms and Magnusson Farms found the followi
 
 \newpage
 ```{r herbicides labeled for grasses grown for seed}
+
 scan(
 text="dual
 prowl
@@ -237,6 +236,10 @@ dat_june %>%
 dat_yield %>% 
   glimpse()
 
+dat_shattering %>% 
+  mutate(shattering_countm2 = round(shattering_countm2)) %>% 
+  glimpse()
+
 ```
 
 \newpage
@@ -313,6 +316,20 @@ dat_june %>%
 
 ```{r}
 dat_yield %>% 
+  lm(yield_kgha~PRE + POST,.) %>% 
+  anova() %>% 
+  mutate(
+    across(2:5,
+           ~round(.x,digits = 3))
+  ) %>% 
+  knitr::kable(
+    caption = "ANOVA results for wheatgrass yields. An alpha level of 0.05 was used"
+  )
+```
+
+
+```{r}
+dat_yield %>% 
   group_by(PRE) %>% 
   summarise(yield = mean(yield_kgha),
             SD = sd(yield_kgha),
@@ -324,7 +341,7 @@ dat_yield %>%
                         sep = " ")) %>% 
   dplyr::select(PRE,`Yield (kg ha)`,n) %>% 
   knitr::kable(
-    caption = "Wheatgrass yields did not differ among different PRE applications"
+    caption = "Wheatgrass yields did not differ among different PRE applications after adjusted for multiple comparisons"
   )
 ```
 
@@ -351,6 +368,37 @@ dat_yield %>%
 # Shattering data
 
 ```{r}
+dat_shattering %>% 
+  lm(shattering_vis~PRE + POST,.) %>% 
+  anova() %>% 
+  mutate(
+    across(2:5,
+           ~round(.x,digits = 3))
+  ) %>% 
+  knitr::kable(
+    caption = "ANOVA results for wheatgrass shattering visual scores. Count data was also collected and positively correlated with visual score data (r=.51), but I think visual score data was better at capturing shattering. An alpha level of 0.1 was used. "
+  )
+```
+
+```{r}
+
+dat_shattering %>% 
+  group_by(PRE) %>% 
+  summarise(shattering = mean(shattering_vis),
+            SD = sd(shattering_vis),
+            n=n()) %>% 
+  arrange(desc(shattering)) %>% 
+  mutate(
+    across(
+      2:3,
+      ~round(.x, digits = 1)
+    )
+  ) %>% 
+  mutate(shattering = round(shattering)) %>% 
+  knitr::kable(
+    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023.  "
+  )
+
 
 dat_shattering %>% 
   group_by(POST) %>% 
@@ -362,27 +410,14 @@ dat_shattering %>%
   mutate(shattering = paste(round(shattering,0),
                         group,
                         sep = " ")) %>% 
-  dplyr::rename(Shattering = shattering) %>% 
-  dplyr::select(POST,Shattering,n) %>% 
+  dplyr::select(POST,shattering,n) %>% 
   knitr::kable(
-    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023. Count data was also collected, but not presented. An alpha level of 0.1 was used"
+    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023.  "
   )
-```
 
-```{r}
-dat_shattering %>% 
-  lm(shattering_vis~PRE + POST,.) %>% 
-  anova() %>% 
-  mutate(
-    across(2:5,
-           ~round(.x,digits = 3))
-  ) %>% 
-  knitr::kable()
 ```
 
 ![Plot 101, Visual score = 5](photos_plots/Slide1.png)
-
-
 
 ![Plot 102, Visual score = 7](photos_plots/Slide2.png)
 
@@ -405,8 +440,11 @@ With the exception of acetochlor, the PRE herbicides did not cause any observabl
 
 All POST herbicides caused observable damage to the wheatgrass plant. Of these herbicides, Axial XL caused the least visible damage and yields did not differ between Axial XL and plots that received no herbicides. Plots receiving Bison and dicamba both had the greatest visual injury and the lowest yields. 
 
-Wheatgrass was resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.  
+Wheatgrass was resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.
 
+Shattering was lower where facet L was applied as a POST. This was an unexpected finding and may signal that facet L made the seeds infertile or that it provides residual control of wheatgrass seeds. Shattering also tended to be lower where Prowl was applied as a PRE, but this was not statistically significant.
+
+\newpage
 # Recommendations
 
 Continuing to trial other herbicides labelled for grass seed production (Table 1) will provide valuable information.
@@ -430,4 +468,3 @@ Generate more data from POST treatments by using correct timing. Espeically inte
 
 *Nrate X crop tolerance*
 Weed control, especially in patchy or underfertilized wheatgrass stands can be helpful for ease of harvest, as large weeds can clog combine headers and add unwanted moisture to the grain tank. 
-
