@@ -1,0 +1,211 @@
+"experimental_unit","PRE","POST","date","weed_vis_score","iwg_injury","person","yield_kgha","shattering_vis","shattering_countm2"
+101,"acetochlor","weed-free control",2022-05-19,0,4,"jesse",NA,NA,NA
+102,"acetochlor","weedy control",2022-05-19,0,4,"jesse",NA,NA,NA
+103,"acetochlor","dicamba",2022-05-19,0,4,"jesse",NA,NA,NA
+104,"acetochlor","bison",2022-05-19,0,4,"jesse",NA,NA,NA
+105,"acetochlor","wolverine",2022-05-19,0,4,"jesse",NA,NA,NA
+106,"acetochlor","facet L",2022-05-19,0,4,"jesse",NA,NA,NA
+107,"acetochlor","axial XL",2022-05-19,0,4,"jesse",NA,NA,NA
+201,"prowl","axial XL",2022-05-19,0,0,"jesse",NA,NA,NA
+202,"prowl","weed-free control",2022-05-19,0,0,"jesse",NA,NA,NA
+203,"prowl","wolverine",2022-05-19,0,0,"jesse",NA,NA,NA
+204,"prowl","weedy control",2022-05-19,0,0,"jesse",NA,NA,NA
+205,"prowl","facet L",2022-05-19,0,0,"jesse",NA,NA,NA
+206,"prowl","bison",2022-05-19,0,0,"jesse",NA,NA,NA
+207,"prowl","dicamba",2022-05-19,0,0,"jesse",NA,NA,NA
+301,"dual","wolverine",2022-05-19,0,0,"jesse",NA,NA,NA
+302,"dual","facet L",2022-05-19,0,0,"jesse",NA,NA,NA
+303,"dual","bison",2022-05-19,0,0,"jesse",NA,NA,NA
+304,"dual","weedy control",2022-05-19,0,0,"jesse",NA,NA,NA
+305,"dual","dicamba",2022-05-19,0,0,"jesse",NA,NA,NA
+306,"dual","weed-free control",2022-05-19,0,0,"jesse",NA,NA,NA
+307,"dual","axial XL",2022-05-19,0,0,"jesse",NA,NA,NA
+401,"weedy control","dicamba",2022-05-19,0,0,"jesse",NA,NA,NA
+402,"weedy control","weedy control",2022-05-19,0,0,"jesse",NA,NA,NA
+403,"weedy control","bison",2022-05-19,0,0,"jesse",NA,NA,NA
+404,"weedy control","facet L",2022-05-19,0,0,"jesse",NA,NA,NA
+405,"weedy control","axial XL",2022-05-19,0,0,"jesse",NA,NA,NA
+406,"weedy control","weed-free control",2022-05-19,0,0,"jesse",NA,NA,NA
+407,"weedy control","wolverine",2022-05-19,0,0,"jesse",NA,NA,NA
+501,"boundary","bison",2022-05-19,0,0,"jesse",NA,NA,NA
+502,"boundary","axial XL",2022-05-19,0,0,"jesse",NA,NA,NA
+503,"boundary","weedy control",2022-05-19,0,0,"jesse",NA,NA,NA
+504,"boundary","dicamba",2022-05-19,0,0,"jesse",NA,NA,NA
+505,"boundary","weed-free control",2022-05-19,0,0,"jesse",NA,NA,NA
+506,"boundary","wolverine",2022-05-19,0,0,"jesse",NA,NA,NA
+507,"boundary","facet L",2022-05-19,0,0,"jesse",NA,NA,NA
+101,"acetochlor","weed-free control",2022-06-13,2,0,"jesse",NA,NA,NA
+102,"acetochlor","weedy control",2022-06-13,1,0,"jesse",NA,NA,NA
+103,"acetochlor","dicamba",2022-06-13,3,0,"jesse",NA,NA,NA
+104,"acetochlor","bison",2022-06-13,1,3,"jesse",NA,NA,NA
+105,"acetochlor","wolverine",2022-06-13,1,2,"jesse",NA,NA,NA
+106,"acetochlor","facet L",2022-06-13,1,7,"jesse",NA,NA,NA
+107,"acetochlor","axial XL",2022-06-13,1,1,"jesse",NA,NA,NA
+201,"prowl","axial XL",2022-06-13,0,1,"jesse",NA,NA,NA
+202,"prowl","weed-free control",2022-06-13,0,0,"jesse",NA,NA,NA
+203,"prowl","wolverine",2022-06-13,0,1,"jesse",NA,NA,NA
+204,"prowl","weedy control",2022-06-13,0,0,"jesse",NA,NA,NA
+205,"prowl","facet L",2022-06-13,0,0,"jesse",NA,NA,NA
+206,"prowl","bison",2022-06-13,0,5,"jesse",NA,NA,NA
+207,"prowl","dicamba",2022-06-13,0,3,"jesse",NA,NA,NA
+301,"dual","wolverine",2022-06-13,0,3,"jesse",NA,NA,NA
+302,"dual","facet L",2022-06-13,1,2,"jesse",NA,NA,NA
+303,"dual","bison",2022-06-13,1,3,"jesse",NA,NA,NA
+304,"dual","weedy control",2022-06-13,0,0,"jesse",NA,NA,NA
+305,"dual","dicamba",2022-06-13,0,5,"jesse",NA,NA,NA
+306,"dual","weed-free control",2022-06-13,0,0,"jesse",NA,NA,NA
+307,"dual","axial XL",2022-06-13,0,1,"jesse",NA,NA,NA
+401,"weedy control","dicamba",2022-06-13,0,3,"jesse",NA,NA,NA
+402,"weedy control","weedy control",2022-06-13,2,0,"jesse",NA,NA,NA
+403,"weedy control","bison",2022-06-13,0,4,"jesse",NA,NA,NA
+404,"weedy control","facet L",2022-06-13,0,0,"jesse",NA,NA,NA
+405,"weedy control","axial XL",2022-06-13,0,1,"jesse",NA,NA,NA
+406,"weedy control","weed-free control",2022-06-13,3,0,"jesse",NA,NA,NA
+407,"weedy control","wolverine",2022-06-13,0,1,"jesse",NA,NA,NA
+501,"boundary","bison",2022-06-13,1,4,"jesse",NA,NA,NA
+502,"boundary","axial XL",2022-06-13,0,0,"jesse",NA,NA,NA
+503,"boundary","weedy control",2022-06-13,0,0,"jesse",NA,NA,NA
+504,"boundary","dicamba",2022-06-13,0,3,"jesse",NA,NA,NA
+505,"boundary","weed-free control",2022-06-13,0,0,"jesse",NA,NA,NA
+506,"boundary","wolverine",2022-06-13,0,1,"jesse",NA,NA,NA
+507,"boundary","facet L",2022-06-13,0,1,"jesse",NA,NA,NA
+101,"acetochlor","weed-free control",2022-06-13,NA,2,"cole",NA,NA,NA
+102,"acetochlor","weedy control",2022-06-13,NA,1,"cole",NA,NA,NA
+103,"acetochlor","dicamba",2022-06-13,NA,1,"cole",NA,NA,NA
+104,"acetochlor","bison",2022-06-13,NA,3,"cole",NA,NA,NA
+105,"acetochlor","wolverine",2022-06-13,NA,1,"cole",NA,NA,NA
+106,"acetochlor","facet L",2022-06-13,NA,1,"cole",NA,NA,NA
+107,"acetochlor","axial XL",2022-06-13,NA,1,"cole",NA,NA,NA
+201,"prowl","axial XL",2022-06-13,NA,1,"cole",NA,NA,NA
+202,"prowl","weed-free control",2022-06-13,NA,1,"cole",NA,NA,NA
+203,"prowl","wolverine",2022-06-13,NA,2,"cole",NA,NA,NA
+204,"prowl","weedy control",2022-06-13,NA,0,"cole",NA,NA,NA
+205,"prowl","facet L",2022-06-13,NA,1,"cole",NA,NA,NA
+206,"prowl","bison",2022-06-13,NA,3,"cole",NA,NA,NA
+207,"prowl","dicamba",2022-06-13,NA,2,"cole",NA,NA,NA
+301,"dual","wolverine",2022-06-13,NA,1,"cole",NA,NA,NA
+302,"dual","facet L",2022-06-13,NA,0,"cole",NA,NA,NA
+303,"dual","bison",2022-06-13,NA,2,"cole",NA,NA,NA
+304,"dual","weedy control",2022-06-13,NA,0,"cole",NA,NA,NA
+305,"dual","dicamba",2022-06-13,NA,3,"cole",NA,NA,NA
+306,"dual","weed-free control",2022-06-13,NA,0,"cole",NA,NA,NA
+307,"dual","axial XL",2022-06-13,NA,1,"cole",NA,NA,NA
+401,"weedy control","dicamba",2022-06-13,NA,1,"cole",NA,NA,NA
+402,"weedy control","weedy control",2022-06-13,NA,0,"cole",NA,NA,NA
+403,"weedy control","bison",2022-06-13,NA,2,"cole",NA,NA,NA
+404,"weedy control","facet L",2022-06-13,NA,0,"cole",NA,NA,NA
+405,"weedy control","axial XL",2022-06-13,NA,1,"cole",NA,NA,NA
+406,"weedy control","weed-free control",2022-06-13,NA,1,"cole",NA,NA,NA
+407,"weedy control","wolverine",2022-06-13,NA,1,"cole",NA,NA,NA
+501,"boundary","bison",2022-06-13,NA,2,"cole",NA,NA,NA
+502,"boundary","axial XL",2022-06-13,NA,1,"cole",NA,NA,NA
+503,"boundary","weedy control",2022-06-13,NA,1,"cole",NA,NA,NA
+504,"boundary","dicamba",2022-06-13,NA,3,"cole",NA,NA,NA
+505,"boundary","weed-free control",2022-06-13,NA,1,"cole",NA,NA,NA
+506,"boundary","wolverine",2022-06-13,NA,1,"cole",NA,NA,NA
+507,"boundary","facet L",2022-06-13,NA,1,"cole",NA,NA,NA
+101,"acetochlor","weed-free control",2022-06-13,NA,3,"lara",NA,NA,NA
+102,"acetochlor","weedy control",2022-06-13,NA,2,"lara",NA,NA,NA
+103,"acetochlor","dicamba",2022-06-13,NA,2,"lara",NA,NA,NA
+104,"acetochlor","bison",2022-06-13,NA,5,"lara",NA,NA,NA
+105,"acetochlor","wolverine",2022-06-13,NA,1,"lara",NA,NA,NA
+106,"acetochlor","facet L",2022-06-13,NA,0,"lara",NA,NA,NA
+107,"acetochlor","axial XL",2022-06-13,NA,2,"lara",NA,NA,NA
+201,"prowl","axial XL",2022-06-13,NA,0,"lara",NA,NA,NA
+202,"prowl","weed-free control",2022-06-13,NA,1,"lara",NA,NA,NA
+203,"prowl","wolverine",2022-06-13,NA,1,"lara",NA,NA,NA
+204,"prowl","weedy control",2022-06-13,NA,0,"lara",NA,NA,NA
+205,"prowl","facet L",2022-06-13,NA,1,"lara",NA,NA,NA
+206,"prowl","bison",2022-06-13,NA,3,"lara",NA,NA,NA
+207,"prowl","dicamba",2022-06-13,NA,3,"lara",NA,NA,NA
+301,"dual","wolverine",2022-06-13,NA,3,"lara",NA,NA,NA
+302,"dual","facet L",2022-06-13,NA,1,"lara",NA,NA,NA
+303,"dual","bison",2022-06-13,NA,4,"lara",NA,NA,NA
+304,"dual","weedy control",2022-06-13,NA,1,"lara",NA,NA,NA
+305,"dual","dicamba",2022-06-13,NA,7,"lara",NA,NA,NA
+306,"dual","weed-free control",2022-06-13,NA,0,"lara",NA,NA,NA
+307,"dual","axial XL",2022-06-13,NA,1,"lara",NA,NA,NA
+401,"weedy control","dicamba",2022-06-13,NA,3,"lara",NA,NA,NA
+402,"weedy control","weedy control",2022-06-13,NA,1,"lara",NA,NA,NA
+403,"weedy control","bison",2022-06-13,NA,4,"lara",NA,NA,NA
+404,"weedy control","facet L",2022-06-13,NA,1,"lara",NA,NA,NA
+405,"weedy control","axial XL",2022-06-13,NA,2,"lara",NA,NA,NA
+406,"weedy control","weed-free control",2022-06-13,NA,1,"lara",NA,NA,NA
+407,"weedy control","wolverine",2022-06-13,NA,0,"lara",NA,NA,NA
+501,"boundary","bison",2022-06-13,NA,5,"lara",NA,NA,NA
+502,"boundary","axial XL",2022-06-13,NA,3,"lara",NA,NA,NA
+503,"boundary","weedy control",2022-06-13,NA,1,"lara",NA,NA,NA
+504,"boundary","dicamba",2022-06-13,NA,6,"lara",NA,NA,NA
+505,"boundary","weed-free control",2022-06-13,NA,1,"lara",NA,NA,NA
+506,"boundary","wolverine",2022-06-13,NA,1,"lara",NA,NA,NA
+507,"boundary","facet L",2022-06-13,NA,1,"lara",NA,NA,NA
+101,"acetochlor","weed-free control",2022-07-27,NA,NA,NA,680.81733385689,NA,NA
+102,"acetochlor","weedy control",2022-07-27,NA,NA,NA,672.744401044358,NA,NA
+103,"acetochlor","dicamba",2022-07-27,NA,NA,NA,497.830856772825,NA,NA
+104,"acetochlor","bison",2022-07-27,NA,NA,NA,600.088005731567,NA,NA
+105,"acetochlor","wolverine",2022-07-27,NA,NA,NA,853.039900524246,NA,NA
+106,"acetochlor","facet L",2022-07-27,NA,NA,NA,575.86920729397,NA,NA
+107,"acetochlor","axial XL",2022-07-27,NA,NA,NA,341.754155730534,NA,NA
+201,"prowl","axial XL",2022-07-27,NA,NA,NA,522.049655210422,NA,NA
+202,"prowl","weed-free control",2022-07-27,NA,NA,NA,686.199289065245,NA,NA
+203,"prowl","wolverine",2022-07-27,NA,NA,NA,530.122588022954,NA,NA
+204,"prowl","weedy control",2022-07-27,NA,NA,NA,834.203057295004,NA,NA
+205,"prowl","facet L",2022-07-27,NA,NA,NA,643.143647398406,NA,NA
+206,"prowl","bison",2022-07-27,NA,NA,NA,282.55264843863,NA,NA
+207,"prowl","dicamba",2022-07-27,NA,NA,NA,156.076701042291,NA,NA
+301,"dual","wolverine",2022-07-27,NA,NA,NA,941.842161462101,NA,NA
+302,"dual","facet L",2022-07-27,NA,NA,NA,530.122588022954,NA,NA
+303,"dual","bison",2022-07-27,NA,NA,NA,551.650408856373,NA,NA
+304,"dual","weedy control",2022-07-27,NA,NA,NA,500.521834377002,NA,NA
+305,"dual","dicamba",2022-07-27,NA,NA,NA,314.844379688759,NA,NA
+306,"dual","weed-free control",2022-07-27,NA,NA,NA,562.414319273083,NA,NA
+307,"dual","axial XL",2022-07-27,NA,NA,NA,441.320327085099,NA,NA
+401,"weedy control","dicamba",2022-07-27,NA,NA,NA,368.663931772308,NA,NA
+402,"weedy control","weedy control",2022-07-27,NA,NA,NA,718.491020315374,NA,NA
+403,"weedy control","bison",2022-07-27,NA,NA,NA,497.830856772825,NA,NA
+404,"weedy control","facet L",2022-07-27,NA,NA,NA,764.23763958639,NA,NA
+405,"weedy control","axial XL",2022-07-27,NA,NA,NA,826.130124482471,NA,NA
+406,"weedy control","weed-free control",2022-07-27,NA,NA,NA,470.92108073105,NA,NA
+407,"weedy control","wolverine",2022-07-27,NA,NA,NA,519.358677606244,NA,NA
+501,"boundary","bison",2022-07-27,NA,NA,NA,629.688759377519,NA,NA
+502,"boundary","axial XL",2022-07-27,NA,NA,NA,904.168475003617,NA,NA
+503,"boundary","weedy control",2022-07-27,NA,NA,NA,793.838393232342,NA,NA
+504,"boundary","dicamba",2022-07-27,NA,NA,NA,341.754155730534,NA,NA
+505,"boundary","weed-free control",2022-07-27,NA,NA,NA,885.331631774375,NA,NA
+506,"boundary","wolverine",2022-07-27,NA,NA,NA,1030.64442239996,NA,NA
+507,"boundary","facet L",2022-07-27,NA,NA,NA,885.331631774375,NA,NA
+101,"acetochlor","weed-free control",2023-04-12,NA,NA,NA,NA,5,2347.93368995022
+102,"acetochlor","weedy control",2023-04-12,NA,NA,NA,NA,7,1760.95026746267
+103,"acetochlor","dicamba",2023-04-12,NA,NA,NA,NA,8,2347.93368995022
+104,"acetochlor","bison",2023-04-12,NA,NA,NA,NA,6,2934.91711243778
+105,"acetochlor","wolverine",2023-04-12,NA,NA,NA,NA,2,586.983422487555
+106,"acetochlor","facet L",2023-04-12,NA,NA,NA,NA,5,586.983422487555
+107,"acetochlor","axial XL",2023-04-12,NA,NA,NA,NA,9,1760.95026746267
+201,"prowl","axial XL",2023-04-12,NA,NA,NA,NA,6,1173.96684497511
+202,"prowl","weed-free control",2023-04-12,NA,NA,NA,NA,3,0
+203,"prowl","wolverine",2023-04-12,NA,NA,NA,NA,5,586.983422487555
+204,"prowl","weedy control",2023-04-12,NA,NA,NA,NA,5,1173.96684497511
+205,"prowl","facet L",2023-04-12,NA,NA,NA,NA,0,0
+206,"prowl","bison",2023-04-12,NA,NA,NA,NA,8,2347.93368995022
+207,"prowl","dicamba",2023-04-12,NA,NA,NA,NA,9,1760.95026746267
+301,"dual","wolverine",2023-04-12,NA,NA,NA,NA,6,2934.91711243778
+302,"dual","facet L",2023-04-12,NA,NA,NA,NA,4,1173.96684497511
+303,"dual","bison",2023-04-12,NA,NA,NA,NA,6,1760.95026746267
+304,"dual","weedy control",2023-04-12,NA,NA,NA,NA,6,1173.96684497511
+305,"dual","dicamba",2023-04-12,NA,NA,NA,NA,8,1760.95026746267
+306,"dual","weed-free control",2023-04-12,NA,NA,NA,NA,9,1173.96684497511
+307,"dual","axial XL",2023-04-12,NA,NA,NA,NA,9,2347.93368995022
+401,"weedy control","dicamba",2023-04-12,NA,NA,NA,NA,5,1173.96684497511
+402,"weedy control","weedy control",2023-04-12,NA,NA,NA,NA,9,1173.96684497511
+403,"weedy control","bison",2023-04-12,NA,NA,NA,NA,8,1760.95026746267
+404,"weedy control","facet L",2023-04-12,NA,NA,NA,NA,4,0
+405,"weedy control","axial XL",2023-04-12,NA,NA,NA,NA,9,1760.95026746267
+406,"weedy control","weed-free control",2023-04-12,NA,NA,NA,NA,10,586.983422487555
+407,"weedy control","wolverine",2023-04-12,NA,NA,NA,NA,9,1760.95026746267
+501,"boundary","bison",2023-04-12,NA,NA,NA,NA,6,1173.96684497511
+502,"boundary","axial XL",2023-04-12,NA,NA,NA,NA,7,1173.96684497511
+503,"boundary","weedy control",2023-04-12,NA,NA,NA,NA,7,1760.95026746267
+504,"boundary","dicamba",2023-04-12,NA,NA,NA,NA,8,1760.95026746267
+505,"boundary","weed-free control",2023-04-12,NA,NA,NA,NA,8,1760.95026746267
+506,"boundary","wolverine",2023-04-12,NA,NA,NA,NA,9,1760.95026746267
+507,"boundary","facet L",2023-04-12,NA,NA,NA,NA,6,1760.95026746267
