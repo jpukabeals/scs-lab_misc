@@ -23,20 +23,15 @@ knitr::opts_chunk$set(echo = F,
 
 
 setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc\\tofu")
-
 source("k8_herbicide-screening.R")
 theme_set(theme_bw())
-
 ```
-
 
 # Objective
 
 We wanted to spray wheatgrass with herbicides commonly used on the st paul campus. Some products we expected injury (acetochlor), other products we expected no injury (s-metolachlor) but wanted to do side by side comparisons with unsprayed wheatgrass plots to get some data. 
 
 Our hope was to find a corn/soy/small grain herbicide that could be used in wheatgrass without obvious injury and provide additional weed control options in unexpected research situations. 
-
-We wanted to practice doing an herbicide screening study
 
 # Wheatgrass weed control
 
@@ -50,6 +45,7 @@ The 2017 herbicide screen at Estling Farms and Magnusson Farms found the followi
 
 \newpage
 ```{r herbicides labeled for grasses grown for seed}
+
 scan(
 text="dual
 prowl
@@ -185,14 +181,14 @@ Acetochlor is a PRE and POST product for corn. We thought acetochlor may cause i
 
 Boundary is a PRE product for soybean. We thought Boundary would likely not cause damage because it is composed of two products that are seperately labelled for grasses grown for seed, s-metolachlor and metribuzin. It also showed no injury in 2017 trial. 
 
-Axial XL is a POST product for wheat and barley. We thought Axial XL may cause injury since it is labelled for POSt control of grass weeds, however it showed no crop injury in 2017. 
+Axial XL is a POST product for wheat and barley. We thought Axial XL may cause injury since it is labelled for POST control of grass weeds, however it showed no crop injury in 2017. 
 
 Wolverine is a POST product for wheat and barley. We thought Wolverine may cause injury since it is labelled for POST control of grasses like wild oat, but were told this product has been used without injury on wheatgrass for multiple years. No injury noted in 2017 trial. 
 
 We got busy with other experiments and the timing of our POST treatments was very late. Many of our POST labels recommend apply after tillering, which would be right at stem elongation (Zadocks 30). We were hoping to apply our POST treatments late as this would increase the liklihood of injury and more closely resemble a research scenario where a timing is late, but we wanted to apply around boot stage (Zadocks 40). These applications would still be on label, but more risky. However, we were so busy that we applied even later than we wanted too (such is research) and were already at seedhead emergence (Zadocks 52). At this point, we expected to observe wheatgrass injury even in the products labelled for grasses grown for seed. We expected to observe injury in all our POST treatments, especially in the group 4's (Bison, dicamba, Facet L)
 
 \newpage
-![PRE herbicides were applied on 19Apr2022. Plant tillering had occured in fall and these were given a Zadocks stage of 25. More tillering may have occured afterwards but it was not measured.](19Apr.JPG)
+![PRE herbicides were applied on 19Apr2022. Plant tillering had occured in fall and these were given a Zadocks stage of 25. More tillering may have occured afterwards but it was not measured. Kernza is planted on 12" row spacing but there is a skip every 5th row, plots are centered on this skipped row.](19Apr.JPG)
 
 ![POST herbicides were applied on 8Jun2022. The seedhead was about 25% emerged on most plants, Zadocks stage of 52](8Jun.JPG)
 
@@ -209,11 +205,20 @@ Wheatgrass injury was scored on a scale of 0-10, where 10 was severe damage. Sco
 
 The weed abundance was also visually scored. The site for this trial was chosen because high weed pressure was expected, however there was very low weed pressure throughout the entire field during the study. 
 The weed scores were meant to indicate relative differences in weeds among plots and if any sort of weed injury was visible.
-Due to low weed pressure, the weed-free plot treatment was not maintained and was managed identically to the weedy plots. There still were very few weeds ( <1 plant per square meter)
+Due to low weed pressure, the weed-free plot treatment was not maintained and was managed identically to the weedy plots. There still were very few weeds ( <1 plant per square meter).
 Due to the low weed pressure, the primary utility of the dataset is the wheatgrass injury data. 
 
 Herbicides were applied at maximum rates and the summer applications were about 1-2 weeks later than ideal and wheatgrass plants were already quite large and some seedheads were starting to emerge. 
-The timing of the POST treatments were a worst case scenario and if no injury was observed in this study, it's very unlikely any injury will be observed. 
+The timing of the POST treatments were a worst case scenario and if no injury was observed in this study, it's very unlikely any injury will be observed.
+
+In the following spring of 2023, there was a clear pattern of shattering in the field where some plots had many wheatgrass seedlings emerging and others had no wheatgrass seedlings. Shattering scores were recorded blind by Jesse to capture this unexpected pattern. 
+
+## Limitations
+
+This was a pilot study without sufficient replication to test interactions between PRE and POST treatments. 
+
+There is only 1 site-year of data, n=210. 
+
 
 
 
@@ -221,7 +226,7 @@ The timing of the POST treatments were a worst case scenario and if no injury wa
 ## Plot plan
 
 ```{r}
-knitr::include_graphics("tofu_k8_herbicide-screening - Copy of plot-plan.pdf")
+knitr::include_graphics("tofu_plot-plan.pdf")
 ```
 
 \newpage
@@ -229,12 +234,16 @@ knitr::include_graphics("tofu_k8_herbicide-screening - Copy of plot-plan.pdf")
 
 ```{r}
 dat_april %>%
-  glimpse()
+  glimpse() 
 # 
 dat_june %>%
   glimpse()
 
 dat_yield %>% 
+  glimpse()
+
+dat_shattering %>% 
+  mutate(shattering_countm2 = round(shattering_countm2)) %>% 
   glimpse()
 
 ```
@@ -313,6 +322,20 @@ dat_june %>%
 
 ```{r}
 dat_yield %>% 
+  lm(yield_kgha~PRE + POST,.) %>% 
+  anova() %>% 
+  mutate(
+    across(2:5,
+           ~round(.x,digits = 3))
+  ) %>% 
+  knitr::kable(
+    caption = "ANOVA results for wheatgrass yields. An alpha level of 0.05 was used"
+  )
+```
+
+
+```{r}
+dat_yield %>% 
   group_by(PRE) %>% 
   summarise(yield = mean(yield_kgha),
             SD = sd(yield_kgha),
@@ -324,7 +347,7 @@ dat_yield %>%
                         sep = " ")) %>% 
   dplyr::select(PRE,`Yield (kg ha)`,n) %>% 
   knitr::kable(
-    caption = "Wheatgrass yields did not differ among different PRE applications"
+    caption = "Wheatgrass yields did not differ among different PRE applications after adjusted for multiple comparisons"
   )
 ```
 
@@ -348,6 +371,73 @@ dat_yield %>%
 ```
 
 \newpage
+# Shattering data
+
+```{r}
+dat_shattering %>% 
+  lm(shattering_vis~PRE + POST,.) %>% 
+  anova() %>% 
+  mutate(
+    across(2:5,
+           ~round(.x,digits = 3))
+  ) %>% 
+  knitr::kable(
+    caption = "ANOVA results for wheatgrass shattering visual scores. Count data was also collected and positively correlated with visual score data (r=.51), but I think visual score data was better at capturing shattering. An alpha level of 0.1 was used. "
+  )
+```
+
+```{r}
+
+dat_shattering %>% 
+  group_by(PRE) %>% 
+  summarise(shattering = mean(shattering_vis),
+            SD = sd(shattering_vis),
+            n=n()) %>% 
+  arrange(desc(shattering)) %>% 
+  mutate(
+    across(
+      2:3,
+      ~round(.x, digits = 1)
+    )
+  ) %>% 
+  mutate(shattering = round(shattering)) %>% 
+  knitr::kable(
+    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023.  "
+  )
+
+
+dat_shattering %>% 
+  group_by(POST) %>% 
+  summarise(shattering = mean(shattering_vis),
+            SD = sd(shattering_vis),
+            n=n()) %>% 
+  left_join(dum3) %>% 
+  arrange(desc(shattering)) %>% 
+  mutate(shattering = paste(round(shattering,0),
+                        group,
+                        sep = " ")) %>% 
+  dplyr::select(POST,shattering,n) %>% 
+  knitr::kable(
+    caption = "Wheatgrass shattering scores where 0 is no shattering and 10 is a lot of shattering. Data collected in April 2023.  "
+  )
+
+```
+
+![Plot 101, Visual score = 5, 24Apr2023](photos_plots/Slide1.png)
+
+![Plot 102, Visual score = 7, 24Apr2023](photos_plots/Slide2.png)
+
+![Plot 103, Visual score = 8, 24Apr2023](photos_plots/Slide3.png)
+
+![Plot 104, Visual score = 6, 24Apr2023](photos_plots/Slide4.png)
+
+![Plot 102, Visual score = 2, 24Apr2023](photos_plots/Slide5.png)
+
+![Plot 106, Visual score = 5, 24Apr2023](photos_plots/Slide6.png)
+
+![Plot 107, Visual score = 9, 24Apr2023](photos_plots/Slide7.png)
+
+\newpage
 # Findings
 
 There are currently no labelled herbicides for grass control in wheatgrass.  This trial supported previous findings from 2017 that Dual, Prowl and Boundary can be applied PRE to control grasses. Furthermore, Axial XL and Wolverine can be applied POST to control grasses even at a very late wheatgrass growth stage (Zadocks 52).
@@ -356,14 +446,18 @@ With the exception of acetochlor, the PRE herbicides did not cause any observabl
 
 All POST herbicides caused observable damage to the wheatgrass plant. Of these herbicides, Axial XL caused the least visible damage and yields did not differ between Axial XL and plots that received no herbicides. Plots receiving Bison and dicamba both had the greatest visual injury and the lowest yields. 
 
-Wheatgrass was resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.  
+Wheatgrass was resilient to maximum rates of unlabelled herbicides applied at times when the risk of crop injury was high. All plants produced grain and there were no obvious differences in grain yield in the field, though differences in grain yield were detected after threshing.
 
+Shattering was lower where facet L was applied as a POST. This was an unexpected finding and may signal that facet L made the seeds infertile or that it provides residual control of wheatgrass seeds. Shattering also tended to be lower where Prowl was applied as a PRE, but this was not statistically significant.
+
+\newpage
 # Recommendations
 
 Continuing to trial other herbicides labelled for grass seed production (Table 1) will provide valuable information.
 
-The most injurious weeds to wheatgrass yield are likely winter annuals, which can be controlled with 2,4-D applied in the fall or early spring. The extent to which fall 2,4-D applications impact wheatgrass development is still unknown.  
-The primary reason to do further research into wheatgrass tolerance to grass herbicides is for the  scenario we observed in the NALI experiment in 2022 where downy brome choked out the wheatgrass and alfalfa. In this scenario, we did not know there was a history of Downy Brome at this site. If we had a POST grass herbicide for Downy Brome that was safe on wheatgrass, it would've been able to save the study. Future research should look at other grass herbicides that could control downy brome and measure the effects of PRE and grass POST herbicides on establishing wheatgrass stands. Candidate herbicides would be Zidua, Verdict and dicamba.
+The most injurious weeds to wheatgrass yield are likely winter annuals, which can be controlled with 2,4-D applied in the fall or early spring. The extent to which fall 2,4-D applications impact wheatgrass development is still unknown.
+
+The primary reason to do further research into wheatgrass tolerance to grass herbicides is for the  scenario we observed in the NALI experiment in 2022 where downy brome choked out the wheatgrass and alfalfa. In this scenario, we did not know there was a history of Downy Brome at this site. If we had a POST grass herbicide for Downy Brome that was safe on wheatgrass and alfalfa, it would've been able to save the study. Future research should look at other grass herbicides that could control downy brome and measure the effects of PRE and grass POST herbicides on establishing wheatgrass stands. Candidate herbicides would be Zidua, Verdict and dicamba.
 
 ## Future projects
 
@@ -381,4 +475,3 @@ Generate more data from POST treatments by using correct timing. Espeically inte
 
 *Nrate X crop tolerance*
 Weed control, especially in patchy or underfertilized wheatgrass stands can be helpful for ease of harvest, as large weeds can clog combine headers and add unwanted moisture to the grain tank. 
-

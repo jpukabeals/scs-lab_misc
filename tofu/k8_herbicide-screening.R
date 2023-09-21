@@ -3,6 +3,11 @@ library(tidyverse)
 
 setwd("C:/Users/pukab001/Documents/R projects/scs-lab_misc\\tofu")
 
+
+
+
+
+
 # plot dimensions calcs ---------------------------------------------------
 
 # Herbicide IR4 experiment plot dimensions were 12' wide by 15' long. 
@@ -156,216 +161,181 @@ agricolae::design.split(
 
 # dummy data --------------------------------------------------------------
 
-PRE <- c("dual","prowl",
-         "acetochlor","weedy control",
-         "boundary")
-POST <- c("wolverine",
-          "axial XL",
-          "bison",
-          "dicamba",
-          "facet L",
-          "weedy control",
-          "weed-free control")
+# PRE <- c("dual","prowl",
+#          "acetochlor","weedy control",
+#          "boundary")
+# POST <- c("wolverine",
+#           "axial XL",
+#           "bison",
+#           "dicamba",
+#           "facet L",
+#           "weedy control",
+#           "weed-free control")
 
 
-agricolae::design.split(
-  trt1 = PRE,
-  trt2 = POST,
-  r=1,
-  design = "crd",
-  serie = 0,
-  seed = 314,
-  kinds = "Super-Duper",
-  first = T,
-  randomization = T
-) %>% 
-  .$book %>% 
-  mutate(experimental_unit = paste(plots,splots,sep = "0"),
-         .before=plots) %>% 
-  dplyr::select(-c(plots,splots,r)) -> df 
+# agricolae::design.split(
+#   trt1 = PRE,
+#   trt2 = POST,
+#   r=1,
+#   design = "crd",
+#   serie = 0,
+#   seed = 314,
+#   kinds = "Super-Duper",
+#   first = T,
+#   randomization = T
+# ) %>% 
+#   .$book %>% 
+#   mutate(experimental_unit = paste(plots,splots,sep = "0"),
+#          .before=plots) %>% 
+#   dplyr::select(-c(plots,splots,r)) -> df 
 
 # weed scores where 10 is a lot of weeds and 0 is no weeds
 # weed scorse in may are a couple weeks after application
-weed_score_may <-
-  c(
-    # acetocholor
-    rnorm(7,2,.2),
-    # boundary
-    rnorm(7,4,.5),
-    # dual
-    rnorm(7,1,.1),
-    # prowl
-    rnorm(7,1.5,.7),
-    # weedy control
-    rnorm(7,9,.1)
-  )
+# weed_score_may <-
+#   c(
+#     # acetocholor
+#     rnorm(7,2,.2),
+#     # boundary
+#     rnorm(7,4,.5),
+#     # dual
+#     rnorm(7,1,.1),
+#     # prowl
+#     rnorm(7,1.5,.7),
+#     # weedy control
+#     rnorm(7,9,.1)
+#   )
 
 # weed ground cover will be difficult to distinguish IWG vs weeds 
 # will focus only on interrow area
-weed_ground.cover_may <-
-  c(
-    # acetocholor
-    rnorm(7,5,1),
-    # boundary
-    rnorm(7,15,3),
-    # dual
-    rnorm(7,2,.5),
-    # prowl
-    rnorm(7,12,2),
-    # weedy control
-    rnorm(7,80,8)
-  )
+# weed_ground.cover_may <-
+#   c(
+#     # acetocholor
+#     rnorm(7,5,1),
+#     # boundary
+#     rnorm(7,15,3),
+#     # dual
+#     rnorm(7,2,.5),
+#     # prowl
+#     rnorm(7,12,2),
+#     # weedy control
+#     rnorm(7,80,8)
+#   )
 
 # weed counts on a meter square basis
-weed_counts_may <-
-  c(
-    # acetocholor
-    rnorm(7,2,1),
-    # boundary
-    rnorm(7,7,3),
-    # dual
-    rnorm(7,3,.5),
-    # prowl
-    rnorm(7,5,2),
-    # weedy control
-    rnorm(7,20,8)
-  )
+# weed_counts_may <-
+#   c(
+#     # acetocholor
+#     rnorm(7,2,1),
+#     # boundary
+#     rnorm(7,7,3),
+#     # dual
+#     rnorm(7,3,.5),
+#     # prowl
+#     rnorm(7,5,2),
+#     # weedy control
+#     rnorm(7,20,8)
+#   )
 
-df %>% 
-  arrange(PRE,POST) %>% 
-  mutate(weed_score_may=weed_score_may,
-         weed_ground.cover_may = weed_ground.cover_may,
-         weed_counts_may = weed_counts_may) -> df_wide
+# df %>% 
+#   arrange(PRE,POST) %>% 
+#   mutate(weed_score_may=weed_score_may,
+#          weed_ground.cover_may = weed_ground.cover_may,
+#          weed_counts_may = weed_counts_may) -> df_wide
 
 
 # real data ---------------------------------------------------------------
 
-library(googlesheets4)
-url <- "https://docs.google.com/spreadsheets/d/1OhZ2Onva0yYqOb9LaS7dYVupmTNv4EJx-jcKqUueQ7w/edit#gid=123579174"
 
-read_sheet(url,
-           sheet=4,
-           gs4_deauth()) -> dat
+read.csv("tofu_data-all.csv") -> dat_all
 
+dat_all %>%
+  filter(date==unique(dat_all$date)[1]) %>% 
+  dplyr::select(-c(yield_kgha,shattering_vis,shattering_countm2)) -> dat_april
 
-dat %>% 
-  # glimpse()
-  # distinct(date)
-  # str()
-  # filter(date!="2021-05-19")
-  # filter(date==as.POSIXct("2021-06-13",
-  #                         format = "%Y-%m-%d"))
-  slice(36:140) -> dat_june
+dat_all %>%
+  filter(date==unique(dat_all$date)[2]) %>% 
+  dplyr::select(-c(yield_kgha,shattering_vis,shattering_countm2)) ->  dat_june
 
-theme_set(theme_bw())
-dat_june %>% 
-  # glimpse()
-  mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
-  ggplot(aes(POST,iwg_injury,
-             col=person,
-             shape=person)) +
-  # geom_point() +
-  # geom_boxplot()
-  stat_summary(position = position_dodge(.4)) +
-  scale_color_brewer(type="qual",
-                     palette = 2) +
-  labs(y="IWG injury\n (0=no injury | 10=plant death)",
-       x="") +
-  coord_flip() +
-  theme(legend.title = element_blank())
+dat_all %>%
+  filter(date==unique(dat_all$date)[3]) %>% 
+  dplyr::select(-c(weed_vis_score,iwg_injury,person, shattering_vis,shattering_countm2))-> dat_yield
 
-ggsave("tofu_POST_prelim-results.png",
-       dpi=400)
+dat_all %>%
+  filter(date==unique(dat_all$date)[4]) %>% 
+  dplyr::select(-c(weed_vis_score,iwg_injury,person, yield_kgha)) %>% 
+  mutate(shattering_countm2 = round(shattering_countm2)) -> dat_shattering
 
-dat_june %>% 
-  # glimpse()
-  mutate(POST=fct_reorder(POST,iwg_injury)) %>% 
-  ggplot(aes(POST,iwg_injury,
-             fill=person)) +
-  stat_summary(geom = "bar",
-               position = position_dodge(.6),
-               col=1,
-               width=.6) +
-  stat_summary(geom = "errorbar",
-               position = position_dodge(.6),
-               col=1,
-               width=.6) +
-  scale_fill_brewer(type="qual",
-                     palette = 2) +
-  labs(y="IWG injury\n (0=no injury | 10=plant death)",
-       x="") +
-  coord_flip() +
-  theme(legend.title = element_blank())
-ggsave("tofu_prelim-results-bar.png",
-       dpi=400)
+# library(googlesheets4)
+# url <- "https://docs.google.com/spreadsheets/d/1OhZ2Onva0yYqOb9LaS7dYVupmTNv4EJx-jcKqUueQ7w/edit#gid=123579174"
 
-
-
+# read_sheet(url,
+#            sheet=4,
+#            gs4_deauth()) -> dat
+# 
+# 
+# dat %>% 
+#   slice(36:140) -> dat_june
 # real data spring --------------------------------------------------------
 
-dat %>% 
-  # glimpse()
-  # distinct(date)
-  # str()
-  # filter(date!="2021-05-19")
-  # filter(date==as.POSIXct("2021-06-13",
-  #                         format = "%Y-%m-%d"))
-  slice(1:35) -> dat_april
-
-
-dat_april %>% 
-  # glimpse()
-  # distinct(date)
-  ggplot(aes(PRE,iwg_injury)) +
-  stat_summary() +
-  coord_flip() +
-  labs(y="IWG injury\n (0=no injury | 10=plant death)",
-       x="") 
-ggsave("tofu_PRE_prelim-results.png",
-       dpi=400)
-
-  
-
-
+# dat %>% 
+#   slice(1:35) -> dat_april
 
 # real data yield ---------------------------------------------------------
 
-read_sheet(
-  url,
-  sheet = 5,
-  gs4_deauth()) -> dat1
+# read_sheet(
+#   url,
+#   sheet = 5,
+#   gs4_deauth()) -> dat1
 
 
 # quadrats were 24" x 24"
 
 library(measurements)
 
-conv_unit(24*24,
-          "inch2",
-          "hectare")
-
-dat1 %>% 
-  # glimpse()
-  mutate(yield_kgha = `threshed grain no bag(g)`/1000/conv_unit(24*24,
-                                                           "inch2",
-                                                           "hectare")) %>% 
-  dplyr::select(experimental_unit,
-                PRE,
-                POST,
-                yield_kgha) -> dat_yield
+# conv_unit(24*24,
+#           "inch2",
+#           "hectare")
+# 
+# dat1 %>% 
+#   # glimpse()
+#   mutate(yield_kgha = `threshed grain no bag(g)`/1000/conv_unit(24*24,
+#                                                            "inch2",
+#                                                            "hectare")) %>% 
+#   dplyr::select(experimental_unit,
+#                 date,
+#                 PRE,
+#                 POST,
+#                 yield_kgha) -> dat_yield
   
+# real data spring following year -----------------------------------------
 
-dat_yield %>% 
-  group_by(PRE,POST) %>% 
-  summarise(m=mean(yield_kgha),
-            n=n()) %>% 
-  arrange(desc(m))
+# this is data collected in spring of 2023 after I noticed differences in
+# germinating shattered IWG
 
+# read_sheet(
+#   url,
+#   sheet = 6,
+#   gs4_deauth()) -> dat2
+# 
+# dat2 %>% 
+#   # glimpse()
+#   mutate(shattering_countm2 = shattering_count/conv_unit(1.625*1.625,
+#                                                                 "inch2",
+#                                                                 "m2")) %>% 
+#   dplyr::select(-shattering_count)-> dat_shattering 
 
 # combined ----------------------------------------------------------------
 
-dat %>% 
-  left_join(dat_yield) -> dat_all
+
+# dat %>% 
+#   bind_rows(dat_yield) %>% 
+#   bind_rows(dat_shattering)-> dat_all
+
+# write.csv(
+#   dat_all,
+#   "tofu_data-all.csv",
+#   row.names = F
+# )
 
 
 # correlation plot
@@ -412,6 +382,8 @@ dat_yield %>%
   dplyr::select(PRE,`Yield (kg ha)`) %>% 
   knitr::kable()
 
+#  POST 
+
 dat_yield %>% 
   lm(yield_kgha~POST,.) %>%
   # anova()
@@ -433,23 +405,57 @@ dat_yield %>%
   dplyr::select(POST,`Yield (kg ha)`) %>% 
   knitr::kable()
 
+# shattering
+
+dat_shattering %>% 
+  lm(shattering_vis~PRE+POST,.) %>% 
+  # anova()
+  emmeans(~POST, level = .9) %>% 
+  cld(alpha = 0.1,
+      Letters =letters,
+      reverse=T) %>% 
+  mutate(group = str_trim(.group)) %>% 
+  dplyr::select(POST,group) -> dum3
+
+# shattering --------------------------------------------------------------
+
+dat_shattering %>% 
+  dplyr::select(
+    shattering_vis,shattering_countm2
+  ) %>% 
+  cor() 
+
+dat_shattering %>% 
+  filter(shattering_vis<10) %>% 
+  ggplot(aes(shattering_vis,
+             shattering_countm2)) +
+  geom_point() +
+  geom_smooth(
+    span = 1.5,
+    se=F
+  )
+
+dat_shattering %>% 
+  ggplot(aes(shattering_vis)) +
+  stat_bin()
 
 
 # aov() -------------------------------------------------------------------
 
-aov(weed_score_may~PRE,
-    df_wide) %>% 
-  summary()
-  # LSD.test(trt = "PRE") %>% 
-  # print()
+# aov(weed_score_may~PRE,
+#     df_wide) %>% 
+#   summary()
+#   # LSD.test(trt = "PRE") %>% 
+#   # print()
+# 
+# aov(weed_ground.cover_may~PRE,
+#     df_wide) %>% 
+#   summary()
+# 
+# aov(weed_counts_may~PRE,
+#     df_wide) %>% 
+#   summary()
 
-aov(weed_ground.cover_may~PRE,
-    df_wide) %>% 
-  summary()
-
-aov(weed_counts_may~PRE,
-    df_wide) %>% 
-  summary()
 
 
 
