@@ -1,0 +1,19 @@
+Year,Experiment,Location,Sample timing,Field,Point,Trt,Wet_IWG_seedheads_in_bag(g),seedhead_bag_tare(g),Wet_seedheads_no_bag(g),Dry_seedheads_in_bag(g),Dry_seedheads_no_bag),Threshed_grain_no_bag(g),Wet_IWG_straw_in_bag(g),straw_bag_tare(g),Wet_straw_no_bag(g),Dry_straw_in_bag(g),Dry_straw_no_bag(g)
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,1,Inside,152.2,58.8,93.4,133.5,74.7,,379.4,182.9,196.5,298.5,115.6
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,2,Inside,212.6,58.8,153.8,175.8,117,,420.8,178.3,242.5,310.5,132.2
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,3,Inside,177.4,58.8,118.6,151.3,92.5,,518,181.7,336.3,365.5,183.8
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,4,Outside,223.4,58.8,164.6,177.5,118.7,,447,179.1,267.9,328.9,149.8
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,5,Outside,202.8,58.8,144,164.3,105.5,,496,179.5,316.5,361.5,182
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,West,6,Outside,236.2,58.8,177.4,193.8,135,,524.2,180.2,344,394.2,214
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,1,Inside,300.6,58.8,241.8,232,173.2,,706.4,181.8,524.6,461.9,280.1
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,2,Inside,161,58.8,102.2,137.5,78.7,,629.6,181.4,448.2,390,208.6
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,3,Inside,196.8,58.8,138,159,100.2,,569.6,181,388.6,372.5,191.5
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,4,Outside,181.8,58.8,123,146.6,87.8,,566.8,172.4,394.4,355.7,183.3
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,5,Outside,248.8,58.8,190,196,137.2,,621,177.8,443.2,388.5,210.7
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,Middle,6,Outside,260.6,58.8,201.8,198.6,139.8,,704,171.4,532.6,416.3,244.9
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,1,Inside,181.2,58.8,122.4,147.5,88.7,,449.4,172.8,276.6,314.5,141.7
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,2,Inside,158.6,58.8,99.8,129.3,70.5,,417.4,172.4,245,294.4,122
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,3,Inside,151,58.8,92.2,128.7,69.9,,509.2,164.8,344.4,337.2,172.4
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,4,Outside,159.2,58.8,100.4,133.2,74.4,,354.8,170.1,184.7,275.9,105.8
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,5,Outside,199.8,58.8,141,152.6,93.8,,528.4,171.7,356.7,345.5,173.8
+2023,On Farm Grazing,White Barn Acres,Summer Baseline,East,6,Outside,186.8,58.8,128,144.8,86,,479.4,171.1,308.3,303.3,132.2
