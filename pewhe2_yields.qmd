@@ -43,7 +43,7 @@ Summer harvest (12Jul2023) occurred after winter wheat checks reached maturity a
 |                 |                        |
 |                 | (grams per 1000 seeds) |
 +=================+========================+
-| winter wheat    | 30 -50                 |
+| winter wheat    | 30 - 50                |
 +-----------------+------------------------+
 | perennial wheat | 25 - 50                |
 +-----------------+------------------------+
