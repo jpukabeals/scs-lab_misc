@@ -23,6 +23,8 @@ Perennial wheat yield data is acceptable, averaging 2166 kg ha.
 
 Winter wheat yield data is not acceptable due to bird damage and should be discarded.
 
+Thousand kernal weight data for both perennial wheat and winter wheat is not acceptable, ranging from 5 - 19 grams per 1000 seeds when we expect 25 - 50.
+
 # Conversions
 
 Quadrat dimensions were 20" x 20" for estimating yield. However, row spacing was 12", meaning a 20" x 20" quadrat only measured a single row for a length of 20". As a result, when computing yield on an area basis, use 12" x 20" as the area basis for yield.
@@ -94,7 +96,7 @@ dat2 %>%
   geom_point()
 ```
 
-## Are thousand kernal weight valuables reasonable? No, they are low. 
+## Are thousand kernal weight valuables reasonable? No, they are low.
 
 Thousand kernal weight (TKW) values range from 5 to 19. We expect 25 to 50. This may indicate that the 12Jul harvest was too early, however if this was the case we'd expect the TKW for winter wheat to be in the expected range since it was fully ripe when harvested.
 

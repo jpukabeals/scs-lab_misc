@@ -96,3 +96,16 @@ dat4 %>%
 left_join(
   dat3,dat5
 ) -> dat6
+
+# exporting values for OPW template
+# https://docs.google.com/spreadsheets/d/1dXRa7VXRr6vpIUfvln3M3bdsS99shI6f/edit#gid=2099684862
+
+dat6 %>% 
+  filter(variety.code!="winter_wheat") %>% 
+  arrange(plot_id) %>% 
+  select(plot_id,TKW_g) %>% 
+  write.csv(
+    "tkw.csv",
+    row.names = F
+  )
+
