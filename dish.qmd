@@ -1,0 +1,29 @@
+---
+title: "DISH update"
+author: "Jesse Puka-Beals"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+opts:
+  code:
+    echo: false
+editor_options: 
+  chunk_output_type: console
+bibliography: dish.bib
+---
+
+DISH = Debalin Isisdor Herbicide Trial. Trial tests kernza response to certain herbicides
+
+[DISH drive folder](https://drive.google.com/drive/folders/1o-Uxzj_jdKeDWl_txSn17louCpe-P9ZO)
+
+[DISH master with data and plot map](https://docs.google.com/spreadsheets/d/1HtKeSv93GQMWm8yx5QJRuqrUkAzYI577hPCDMTsKLhU/edit#gid=1999649668)
+
+```{r, warning=F, message=F, echo=F}
+source("dish_yield.R")
+```
+
+## Forage yield
+
+We expect spring forage yields around 2.4 Mg Ha [@Hunter2020a]
+
+# References
