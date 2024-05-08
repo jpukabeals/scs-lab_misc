@@ -1,0 +1,20 @@
+trt_code,herbicide,rate,treatment
+1,control,0,control_0
+2,finesse,0.5,finesse_0.5
+3,finesse,1,finesse_1
+4,finesse,2,finesse_2
+5,prowl,0.5,prowl_0.5
+6,prowl,1,prowl_1
+7,prowl,2,prowl_2
+8,dual,0.5,dual_0.5
+9,dual,1,dual_1
+10,dual,2,dual_2
+11,axial xl,0.5,axial xl_0.5
+12,axial xl,1,axial xl_1
+13,axial xl,2,axial xl_2
+14,outrider,0.5,outrider_0.5
+15,outrider,1,outrider_1
+16,outrider,2,outrider_2
+17,everest,0.5,everest_0.5
+18,everest,1,everest_1
+19,everest,2,everest_2
