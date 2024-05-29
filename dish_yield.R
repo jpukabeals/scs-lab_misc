@@ -9,11 +9,11 @@
 
 # treatment codes ---------------------------------------------------------
 
-read.csv("DISH master - plot matrix.csv") -> plt
+read.csv("DISH master - plot matrix (1).csv") -> plt
 read.csv("DISH master - treatment_codes.csv") -> trt_codes
 
 
-# Forage data May 2024 ----------------------------------------------------
+# Forage data fall cut May 2024 ----------------------------------------------------
 
 # Just fall sprayed plots
 
@@ -76,3 +76,81 @@ dat5 %>%
 # Data was innacurately recorded for outliers. Reweighing. New data download and restarting script. 
 
 
+
+# Spring forage May 2024 --------------------------------------------------
+
+
+library(tidyverse)
+
+read.csv("DISH master - yield (2).csv") -> dat6
+
+# select useful columns
+dat6 %>% 
+  select(experiment, timing, plot, 
+         forage_quadrat_dry_grams_no_bag) -> dat7
+
+# convert to grams per square meter
+library(measurements)
+dat7 %>% 
+  # filter(timing == "spring") %>% 
+  mutate(dmyield_g_m2 = forage_quadrat_dry_grams_no_bag/.152258,
+         dmyield_Mg_ha = conv_multiunit(dmyield_g_m2, 
+                                        from = "g / m2",
+                                        to = "Mg / hectare")) -> dat8
+
+# add in treatments
+
+plt %>% 
+  select(-c(herbicide,rate,treatment,date)) %>% 
+  left_join(trt_codes) %>% 
+  left_join(dat8)  -> dat9
+
+# export
+dat9 %>% 
+  write.csv("dish_forageYieldFallSpray_28May2024")
+
+dat9 %>% 
+  mutate(harvest_date = if_else(timing=="fall", "05-06-2024", "05-23-2024")) %>% 
+  mutate(harvest_date = as.POSIXct(harvest_date,
+                                   format = "%m-%d-%Y")) %>% 
+  relocate(harvest_date, .before = experiment)-> dat10
+
+# QAQC
+
+dat9 %>% 
+  # glimpse()
+  filter(timing=="spring") %>% 
+  ggplot(aes(dmyield_Mg_ha)) +
+  geom_boxplot()
+
+dat9 %>% 
+  filter(timing=="spring") %>% 
+  filter(dmyield_Mg_ha>4)
+# bags were discarded
+
+# looking at it all
+
+dat9 %>% 
+  ggplot(aes(dmyield_Mg_ha)) +
+  geom_boxplot() 
+
+
+
+# water content -----------------------------------------------------------
+
+# fall
+dat %>% 
+  filter(timing=="fall") %>% 
+  # mutate(water_content = (forage_quadrat_wet_grams_with_bag - forage_quadrat_dry_grams_with_bag) / (forage_quadrat_dry_grams_with_bag + (forage_quadrat_wet_grams_with_bag - forage_quadrat_dry_grams_with_bag)) * 100)
+  mutate(water_content = (forage_quadrat_wet_grams_with_bag - 
+                            forage_quadrat_dry_grams_with_bag) /  
+           forage_quadrat_wet_grams_with_bag * 100) -> dat_fall_water
+  
+dat6 %>% 
+  filter(timing=="spring") %>% 
+  mutate(water_content = (forage_quadrat_wet_grams_no_bag - 
+                            forage_quadrat_dry_grams_no_bag) /  
+           forage_quadrat_wet_grams_no_bag * 100) -> dat_spring_water
+
+bind_rows(dat_fall_water,dat_spring_water) %>% 
+  select(1:8,water_content) -> dat_water

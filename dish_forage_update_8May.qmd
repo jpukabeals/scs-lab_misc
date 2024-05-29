@@ -15,17 +15,17 @@ bibliography: dish.bib
 
 # Summary
 
-Forage yields for fall sprayed were much lower than anticipated. Plots were harvested at a typical time (6May) and nodes had been observed a couple days prior in nearby fields. Once nodes are above 3 inches it is too late. This harvest can be considered at a typical time of year and maybe a little bit early for node height. 
+Forage yields for fall sprayed were much lower than anticipated. Plots were harvested at a typical time (6May) and nodes had been observed a couple days prior in nearby fields. Once nodes are above 3 inches it is too late. This harvest can be considered at a typical time of year and maybe a little bit early for node height.
 
-We expected a forage yield of 2.4 Mg ha and observed 0.6 Mg ha. 
+We expected a forage yield of 2.4 Mg ha and observed 0.6 Mg ha.
 
-Data was double checked for accuracy. 
+Data was double checked for accuracy.
 
-Water content of forage yield was 40%, which is typical. 
+Water content of forage yield was 40%, which is typical.
 
-No obvious plausible treatment differences were observed among forage yield observations, unless there is a mechanism for axial and dual improving forage yield through weed control that is also observed in weed control ratings. 
+No obvious plausible treatment differences were observed among forage yield observations, unless there is a mechanism for axial and dual improving forage yield through weed control that is also observed in weed control ratings.
 
-For spring sprayed plots, we expect much higher yields. 
+For spring sprayed plots, we expect much higher yields.
 
 # Key information
 
@@ -67,7 +67,9 @@ dat5 %>%
 ```
 
 \newpage
+
 ## water content
+
 ```{r}
 dat %>% 
   filter(timing=="fall") %>% 
@@ -100,6 +102,5 @@ dat5 %>%
        x = "herbicide rate. control is 0, 2 is a 2X rate")
 
 ```
-
 
 # References
