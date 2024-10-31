@@ -1,0 +1,33 @@
+date,plot,vigor,canopy,variety,plot,sample,flowering,canopy_weed,weed,height,leaf_count
+7/23/2024,1,high,87.11,koto,1,yes,1,0,3,47,14
+7/23/2024,1,low,45.48,koto,1,yes,1,0,3,29,8
+7/23/2024,2,high,82.78,glgf land race,2,yes,1,0,3,49,15
+7/23/2024,2,low,53.1,glgf land race,2,yes,1,0,3,33,9
+7/23/2024,3,high,70.73,devyatka,3,yes,3,0,2,48,8
+7/23/2024,3,low,68.12,devyatka,3,yes,3,0,2,36,10
+7/23/2024,4,high,95.05,manor,4,yes,2,0,0,47,15
+7/23/2024,4,low,40.67,manor,4,yes,2,0,2,28,7
+7/23/2024,5,high,92,devyatka,5,yes,3,0,0,52,13
+7/23/2024,5,low,45.22,devyatka,5,yes,3,0,2,32,7
+7/23/2024,6,high,88.97,koto,6,yes,1,0,1,40,20
+7/23/2024,6,low,70.86,koto,6,yes,0,0,2,24,8
+7/23/2024,7,high,88,manor,7,yes,2,0,2,43,10
+7/23/2024,7,low,76.43,manor,7,no,,,,29,8
+7/23/2024,8,high,94.87,glgf land race,8,yes,1,0,1,49,16
+7/23/2024,8,low,65.14,glgf land race,8,yes,,,,23,6
+7/23/2024,9,high,93.06,glgf land race,9,yes,1,0,2,54,20
+7/23/2024,9,low,92.39,glgf land race,9,yes,1,0,4,35,7
+7/23/2024,10,high,89.63,devyatka,10,yes,2,0,1,46,16
+7/23/2024,10,low,62.26,devyatka,10,yes,3,0,3,32,12
+7/23/2024,11,high,96.57,manor,11,yes,1,0,1,46,15
+7/23/2024,11,low,71.09,manor,11,yes,2,0,3,40,13
+7/23/2024,12,high,93.71,koto,12,yes,0,1,2,37,12
+7/23/2024,12,low,75.7,koto,12,yes,0,0,4,24,7
+7/23/2024,13,high,95.37,glgf land race,13,yes,1,0,1,58,15
+7/23/2024,13,low,91.17,glgf land race,13,yes,1,0,3,31,12
+7/23/2024,14,high,94.24,koto,14,yes,1,0,1,42,34
+7/23/2024,14,low,78.46,koto,14,yes,1,0,3,23,6
+7/23/2024,15,high,86.09,devyatka,15,yes,3,0,2,55,12
+7/23/2024,15,low,90,devyatka,15,no,,,,42,13
+7/23/2024,16,high,92.98,manor,16,yes,1,0,1,61,15
+7/23/2024,16,low,90.98,manor,16,no,,,,47,15

@@ -1,0 +1,314 @@
+---
+title: "Short corn"
+subtitle: "update"
+author: "Jesse Bealsburg"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Notes
+
+DKC is the check variety that is not a short stature corn hybrid.
+
+Moisture content and test weight determined using a Perten 5200
+
+\newpage
+
+# Growth monitoring
+
+### Figures
+
+```{r}
+library(tidyverse)
+read.csv("Cor Datasheet - data (9).csv") -> dat
+
+dat %>% 
+  # select(-stage) %>% 
+  rename(plant_height = plant.height..cm.,
+         leaf_count = leaf.count,
+         stem_circumference = stem.circumference..cm.,
+         light = light.penetration,
+         node_number = node.number,
+         node_tassel_distance = distance.between.node.and.tassel..cm.) %>% 
+  mutate(plot = factor(plot),
+         date = as.POSIXct(date,
+                           format = "%m/%d/%Y"))-> dat
+```
+
+```{r}
+dat %>% 
+  ggplot(aes(date,plant_height,
+             col=name)) +
+  stat_summary(geom = "line") +
+  stat_summary() +
+  labs(y="plant height (cm)")
+```
+
+-   Person collecting data on 6Aug and 14Aug likely misinterpreted protocol for measuring plant heights
+
+\newpage
+
+```{r}
+dat %>% 
+  ggplot(aes(date,leaf_count,
+             col=name,
+             shape = name)) +
+  stat_summary(geom = "line",
+               linetype = 2) +
+  stat_summary()
+```
+
+-   red dots (DKC56-65Rib) in august are right behind the blue and are therefore hidden/hard to see
+
+\newpage
+
+```{r}
+dat %>% 
+  ggplot(aes(date,stem_circumference,
+             col=name)) +
+  stat_summary(geom = "line") +
+  stat_summary()
+```
+
+-   
+
+\newpage
+
+```{r}
+dat %>% 
+  ggplot(aes(date,node_number,
+             col=name)) +
+  stat_summary(geom = "line") +
+  stat_summary()
+```
+
+-   
+
+\newpage
+
+```{r, include=F}
+
+dat %>% 
+  ggplot(aes(date,node_tassel_distance,
+             col=name)) +
+  stat_summary(geom = "line") +
+  stat_summary() +
+  labs(y="distance from 5th node to base of tassel (cm)")
+```
+
+-   
+
+\newpage
+
+```{r}
+dat %>% 
+  select(date,plot, name,stage) %>% 
+  filter(stage != "") %>% 
+  mutate(stagenum = str_sub(stage,2)) %>% 
+  ggplot(aes(date,stagenum,
+             col=name,
+             group = name)) +
+  stat_summary(geom = "line") +
+  stat_summary(position = position_dodge(.4)) +
+  labs(y="Reproductive R stage\n (i.e. R1 vs R2 vs R3)",
+       x="") 
+  ## need to work on this graph, need better seperation
+
+dat %>% 
+  select(date,plot, name,stage) %>% 
+  filter(stage != "") %>% 
+  mutate(stagenum = str_sub(stage,2)) %>% 
+  ggplot(aes(date,stagenum,
+             col=name)) +
+  stat_summary(geom="pointrange",position = position_dodge(.4)) +
+  labs(y="Reproductive R stage\n (i.e. R1 vs R2 vs R3)",
+       x="") +
+  facet_wrap(~date)
+```
+
+\newpage
+
+# Harvest
+
+## Yield
+
+```{r}
+
+# grain is from 2 meters at 30" row spacing
+# conv_unit(30,"inch","m")
+# 2*.762 is square meters, 1.524 square meters
+
+# test weight is 56 lbs per bushel
+library(measurements)
+dat %>% 
+  filter(collection=="harvest") %>% 
+  select(date,plot,type,name,population,grain_dry_g,rowlength_totalcobcount) %>% 
+  mutate(grain_extrap = grain_dry_g/5*rowlength_totalcobcount,
+    yield_kgha = conv_multiunit(grain_extrap/1.524,
+                                from = "g / m2",
+                                to = "kg / hectare"),
+         yield_buacre = conv_multiunit(yield_kgha,
+                                       from = "kg / hectare",
+                                       to = "lbs / acre")/56) -> dat2
+
+dat2 %>% 
+  ggplot(aes(yield_buacre)) + 
+  geom_boxplot()
+
+dat2 %>% 
+  ggplot(aes(type,yield_buacre)) + 
+  geom_boxplot()
+
+dat2 %>% 
+  ggplot(aes(type,yield_buacre,
+             fill = name)) + 
+  geom_boxplot() +
+  labs(x="",
+       y= "grain yield \n(bushels / acre)") +
+  theme(legend.title = element_blank())
+
+dat2 %>% 
+  ggplot(aes(type,yield_kgha,
+             fill = name)) + 
+  geom_boxplot() +
+  labs(x="",
+       y= "grain yield \n(kilograms / hectare)") +
+  theme(legend.title = element_blank())
+
+
+
+dat2 %>% 
+  summarise(n=n(),
+            mean = mean(yield_kgha),
+            sd = sd(yield_kgha),
+            cv = sd/mean*100,
+            max = max(yield_kgha),
+            min = min(yield_kgha)) %>% 
+  mutate(across(.cols = 2:6,round)) %>% 
+  knitr::kable(caption = "predicted grain yield in kg ha")
+
+dat2 %>% 
+  summarise(n=n(),
+            mean = mean(yield_buacre),
+            sd = sd(yield_buacre),
+            cv = sd/mean*100,
+            max = max(yield_buacre),
+            min = min(yield_buacre)) %>% 
+  mutate(across(.cols = 2:6,round)) %>% 
+  knitr::kable(caption = "predicted grain yield in bushels per acre at a test weight of 56 lbs per bushel which was determined at harvest")
+```
+
+\newpage
+
+## Moisture content and test weight
+
+```{r moisture content}
+dat %>% 
+  filter(collection=="harvest") %>% 
+  select(#type,name,population,
+         plot,
+         grain_moisturePercent_afterdryer,
+         grain_moisturePercent_atharvest,
+         grain_moisturePercent_afterdryerandaspiration,
+         ) %>% 
+  pivot_longer(
+    cols = c(grain_moisturePercent_atharvest,grain_moisturePercent_afterdryer,
+             grain_moisturePercent_afterdryerandaspiration)
+  ) %>% 
+  mutate(timing = str_sub(name,start=23),
+         data = str_sub(name, 7,15)) -> dat3
+
+dat3 %>% 
+  select(-name) %>% 
+  left_join(dat2) %>%
+  mutate(timing = factor(timing,levels = c("atharvest", "afterdryer", "afterdryerandaspiration" ))) %>% 
+  ggplot(aes(timing,value,fill=plot,
+             color = plot, 
+             group = plot)) +
+  geom_point() +
+  geom_line() +
+  labs(y="Moisture Content (%)",
+       x="")
+
+```
+
+-   moisture content decreased in dryer to below 10%. After it's below 10% the machine prediction is less accurate
+
+\newpage
+
+```{r}
+dat3 %>% 
+  select(-name) %>% 
+  left_join(dat2) %>%
+  mutate(timing = factor(timing,levels = c("atharvest", "afterdryer", "afterdryerandaspiration" ))) %>% 
+  ggplot(aes(timing,value,fill=name,
+             color = name, 
+             group = name)) +
+  stat_summary() +
+  stat_summary(geom = "line") +
+  labs(y="Moisture Content (%)",
+       x="")
+```
+
+\newpage
+
+```{r}
+dat %>% 
+  filter(collection=="harvest") %>% 
+  select(#type,name,population,
+         plot,
+         grain_testweight_lbbu_afterdryer,
+         grain_testweight_lbbu_atharvest,
+         grain_testweight_lbbu_afterdryerandaspiration
+         ) %>% 
+  pivot_longer(
+    cols = c(grain_testweight_lbbu_afterdryer,
+             grain_testweight_lbbu_atharvest,
+            grain_testweight_lbbu_afterdryerandaspiration)
+  ) %>% 
+  mutate(timing = str_sub(name,start=23),
+         data = str_sub(name, 7,15)) -> dat4
+
+dat4 %>% 
+  bind_rows(dat3) %>% 
+  select(-name) %>% 
+  left_join(dat2) %>% 
+  mutate(timing = factor(timing,levels = c("atharvest", "afterdryer", "afterdryerandaspiration" ))) -> dat5
+
+dat5 %>%
+  filter(data == "testweigh") %>% 
+  ggplot(aes(timing,value,fill=plot,
+             color = plot, 
+             group = plot)) +
+  geom_point() +
+  geom_line() +
+  geom_hline(yintercept = 56, linetype=2) +
+  labs(y="Test Weight (lb / bu)",
+       x="")
+
+```
+
+-   All plots appear to have test weight increase after drying and then again after aspiration. This could be from gaining moisture from sitting longer, but I would think that would decrease test weight?
+
+-   Plot 1 is weird, test weight does not change
+
+\newpage
+
+```{r}
+dat5 %>%
+  filter(data == "testweigh") %>% 
+  ggplot(aes(timing,value,fill=name,
+             color = name, 
+             group = name)) +
+  stat_summary() +
+  stat_summary(geom = "line") +
+  labs(y="Test Weight (lb / bu)",
+       x="")
+```

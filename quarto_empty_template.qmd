@@ -1,0 +1,14 @@
+---
+title: "Empty document"
+# subtitle: ""
+author: "Jesse Puka-Beals"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---

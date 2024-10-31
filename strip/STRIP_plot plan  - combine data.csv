@@ -1,0 +1,11 @@
+experiment,trial,plot,treatment,date,type,wet_grain_bulk_zipties_bag(s)_grams,number of bags per sample,dry_grain_bulk_zipties_bag(s)_grams,tare_bag_ziptie_grams,dry_grain_nobag_grams,tare_difference,area_sqft
+strip,mow,border,5 inch,20Aug,combine_grain,na,na,na,na,na,,na
+strip,mow,101,3 inch,20Aug,combine_grain,766,1,672.4,25.7,645,1.7,800
+strip,mow,102,4 inch,20Aug,combine_grain,2570,4,2331,25.7,2225,3.2,800
+strip,mow,103,1 inch,20Aug,combine_grain,896,2,807,25.7,755,0.6,800
+strip,mow,104,5 inch,20Aug,combine_grain,na,na,na,na,na,,na
+strip,mow,105,7 inch,20Aug,combine_grain,768,1,685,25.7,656,3.3,800
+strip,fert,,0 lb N,20Aug,combine_grain,2342,4,2133,25.7,2029,1.2,650
+strip,fert,,50 lb N,20Aug,combine_grain,570,1,519,25.7,493,0.3,650
+strip,fert,,100 lb N,20Aug,combine_grain,716,1,582,25.7,555,1.3,650
+strip,fert,,150 lb N,20Aug,combine_grain,992,2,760,25.7,704.4,4.2,650

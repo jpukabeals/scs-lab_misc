@@ -1,0 +1,95 @@
+---
+title: "DISH yield results"
+subtitle: "preliminary"
+author: "Sustainable Cropping Systems Lab UMN"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r conversions}
+library(tidyverse)
+library(measurements)
+
+```
+
+```{r}
+read.csv("DISH master - yield (9).csv") -> dat
+
+```
+
+# Grain yield
+
+```{r}
+dat %>% 
+  ggplot(aes(grain_combine_yield_uncleaned_kgha)) + 
+  stat_bin()
+
+# dat %>% 
+#   filter(grain_combine_yield_uncleaned_kgha<100)
+# this plot was noted as a poor stand
+
+```
+
+-   The one datapoint below 100 kg ha was noted during combine harvest as having a exceptionally poor stand of kernza. This plot received a 2X rate of prowl.
+
+```{r}
+dat %>% 
+  ggplot(aes(treatment,grain_combine_yield_uncleaned_kgha)) +
+  stat_summary() +
+  geom_hline(yintercept = 360.93,linetype=3) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(xlab="", caption = "dotted line is control")
+
+```
+
+\newpage
+
+# Forage yield
+
+```{r}
+dat %>% 
+  ggplot(aes(forage_dmyield_Mg_ha)) + 
+  stat_bin() +
+  facet_wrap(~timing)
+```
+
+-   fall sprayed harvested in early May, spring sprayed harvested in late May.
+
+\newpage
+
+```{r}
+
+# dat %>% 
+#   filter(treatment=="control_0") %>% 
+#   summarise(m=mean(grain_combine_yield_uncleaned_kgha))
+
+dat %>% 
+  filter(timing=="fall") %>% 
+  ggplot(aes(treatment,forage_dmyield_Mg_ha, col=timing)) +
+  stat_summary() +
+  geom_hline(yintercept = 0.547, linetype = 3) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x="")
+
+dat %>% 
+  filter(timing=="spring") %>% 
+  ggplot(aes(treatment,forage_dmyield_Mg_ha, col=timing)) +
+  stat_summary() +
+  geom_hline(yintercept = 2.67, linetype = 3) +
+  scale_colour_brewer(type = "div") +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(x="")
+```
+
+-   positive effect from increasing rates of outrider for fall
+
+-   negative effect of increasing finesse in fall
+
+-   positive effect increasing axial in spring

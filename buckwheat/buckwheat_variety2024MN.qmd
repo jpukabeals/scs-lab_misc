@@ -1,0 +1,156 @@
+---
+title: "Buckwheat variety trial 2024 MN"
+subtitle: ""
+author: "Jesse Bealsburg"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r import and clean, include=F}
+
+read.csv("MASTER organic buckwheat 2024 - data_firstFlowers.csv") -> dat_flower
+read.csv("MASTER organic buckwheat 2024 - data_greenSeeds.csv") -> dat_greenseed
+read.csv("MASTER organic buckwheat 2024 - data_ripeSeeds.csv") -> dat_ripeseed
+
+library(tidyverse)
+
+
+bind_rows(dat_flower,dat_greenseed,dat_ripeseed) -> dat
+
+
+dat %>% 
+  rename(canopeo = canopeo....) -> dat
+
+# Conversions
+library(measurements)
+# MN row spacing is 6 inch, 1 meter length. area is 0.1524 square meter 
+conv_unit(6,"in","m")
+
+
+dat %>% 
+  mutate(seedyield_kgha = conv_multiunit(yield_dry_grain/.1524,
+                                         from = "g / m2",
+                                         to = "kg / hectare"),
+         strawDMyield_Mgha = conv_multiunit(yield_dry_straw/.1524,
+                                         from = "g / m2",
+                                         to = "Mg / hectare"),
+         watercontent_percent = (yield_wet_total-yield_dry_total)/yield_wet_total*100) -> dat
+  
+
+```
+
+# Yield
+
+takeaway: Koto yielded less than other varieties
+
+```{r}
+dat %>% 
+  # distinct(timing)
+  filter(timing == "ripe seeds") %>% 
+  ggplot(aes(seedyield_kgha)) +
+  stat_bin(bins = 7) +
+  labs(caption = "1 missing data point")
+
+dat %>% 
+  # distinct(timing)
+  filter(timing == "ripe seeds") %>% 
+  ggplot(aes(variety,seedyield_kgha)) +
+  stat_summary()
+
+dat %>% 
+  filter(timing == "ripe seeds") %>% 
+  drop_na(seedyield_kgha) %>% 
+  summarise(mean = mean(seedyield_kgha),
+            max = max(seedyield_kgha),
+            min = min(seedyield_kgha),
+            n = n()) %>% 
+  knitr::kable(caption = "seed yield in kg ha")
+
+dat %>% 
+  filter(timing == "ripe seeds") %>% 
+  drop_na(seedyield_kgha) %>% 
+  group_by(variety) %>% 
+  summarise(mean = mean(seedyield_kgha),
+            max = max(seedyield_kgha),
+            min = min(seedyield_kgha),
+            n = n()) %>% 
+  knitr::kable(caption = "seed yield in kg ha")
+
+
+```
+
+-   Seed yield averaged 6921 kg ha
+
+-   koto yielded less than other varieties
+
+```{r}
+dat %>% 
+  # distinct(timing)
+  filter(timing == "ripe seeds") %>% 
+  ggplot(aes(variety,strawDMyield_Mgha)) +
+  stat_summary()
+
+dat %>% 
+  filter(timing == "ripe seeds") %>% 
+  drop_na(strawDMyield_Mgha) %>% 
+  summarise(mean = mean(strawDMyield_Mgha),
+            max = max(strawDMyield_Mgha),
+            min = min(strawDMyield_Mgha),
+            n = n()) %>% 
+  knitr::kable(caption = "straw dry matter yield in Mg ha")
+```
+
+-   straw dry matter yield averaged around 17 Mg ha
+
+-   straw dry matter yield was variable with no obvious differences among varieties
+
+# Weed suppression
+
+Takeaway: koto was shorter and had more leaves but had similar soil coverage as other varieties on 29July.
+
+```{r}
+dat %>% 
+  filter(timing == "first flowering") %>%    
+  ggplot(aes(variety,canopeo)) +   
+  stat_summary()  
+```
+
+-   On 23July, devyatka seems to be closing canopy slower than other buckwheat varieties
+
+```{r}
+dat %>% 
+  filter(timing == "first flowering") %>%    
+  ggplot(aes(variety,height)) +   
+  stat_summary() +
+  labs(y="plant height\n(cm)")
+```
+
+-   On 23July, Koto is shorter than other buckwheat varieties
+
+```{r}
+dat %>% 
+  filter(timing == "first flowering") %>%    
+  ggplot(aes(variety,leaf_count)) +   
+  stat_summary() 
+```
+
+-   On 23July, Koto may average more leaves than other varieties per plant.
+
+```{r}
+dat %>% 
+  # distinct(timing)
+  filter(timing == "ripe seeds") %>% 
+  ggplot(aes(variety,weed_score)) +
+  stat_summary() +
+  labs(caption = "collected at harvest on 16Sep20204. Higher score means more weedy.")
+
+```
+
+-   At harvest, weediness is an indirect way of measuring how patchy the stand was. Patchiness coming from lodging. Koto seems to be weedier than at least glgf land race, which would also agree with koto having a lower seed yield. Looks like koto stands just didn't do that good.

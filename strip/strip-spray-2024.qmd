@@ -1,0 +1,106 @@
+---
+title: "2,4-D carryover on wheatgrass establishment"
+subtitle: "pilot-strip-spray trial 2024"
+author: "Jesse Puka-Beals"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+bibliography: strip-spray.bib
+---
+
+## Questions addressed
+
+Does 24D and/or s-metolachlor impact wheatgrass establishment when applied before tillage and with more than a month prior to seeding?
+
+Does 24D impact wheatgrass establishment when applied right after seeding and before emergence as a burndown?
+
+## Methods
+
+The site for this trial is a small section of land on the northeast K8 field in St Paul experiment station. The area is 25 ft north-south and 185 ft west-east. The previous year, 2023, the site was in soybeans, then disked in fall. Primary weeds are pennycress and shepards purse in the spring and pigweed and lambsquarter in the summer. In the spring of 2024, the site was divided in half into a western and eastern section. The eastern section recieved the pre tillage spray treatments and the western section received post-tillage spray treatments. Pre-tillage spray treatments occurred on April 24 and were arranged so that a backpack sprayer pass would result in a standard rate of 2,4-D + s-metolachlor. This standard rate would then be doubled (2X) and tripled (3X) along with omitted for unsprayed plots (0X). After scoring the pre-tillage plots to quantify that weed control did occur, the field was cultivated twice (late May, mid-June). The entire site was planted on 27June to wheatgrass, the following day the western section was sprayed to 24D at 1X, 2X and 3X rates.
+
+We used a generic 2,4-D (3.8 lb gal) formulation from compare-n-save and a the dual formulation for s-metolachlor (7.6 lb ae gal).
+
+Wheatgrass emergence was then recorded 18 days after seeding.
+
+### Notes and maps
+
+In spring 2024, we imposed 4 rows of plots each 5 ft wide. In summer after cultivation, the 5ft strip on the southern edge had lodged kernza from the bulk field falling into it and didn't make sense to plant to wheatgrass so it was abandoned.
+
+The weed populations on the eastern section differed in density as shown on the plot map. This lined up nicely with plots and replication.
+
+![Plot map of the eastern section used for spraying in April 2024](strip-spray_plotmap2.png)
+
+![Plot map of the entire trial](strip-spray_plotmap.png)
+
+\newpage
+##  Results
+
+No differences were detected in wheatgrass plant counts 18 days after planting among different spray and tillage treatments.
+
+Wheatgrass vigor was lower in 3X 2,4-D post tillage plots, but not to the point where I'd worry about establishment. The weed population was much more dramatically reduced in number and vigor by the 3X 2,4-D treatment than the wheatgrass.
+
+The pre-tillage spray treatments did not have any obvious carryover onto wheatgrass establishment, but standing water over the eastern area of the site also reduced crop and weed establishment so it's more difficult to draw conclusions.
+
+Overall, under the warm and wet spring and summer conditions of 2024 there was no evidence to suggest that even off label rates of 2,4-D reduced wheatgrass emergence when applied right after planting. It's likely if 2,4-D was applied right before planting or a couple days before planting we would hvae observed the same acceptable wheatgrass stands.
+
+```{r}
+source("pilot_strip_spray.R")
+```
+
+```{r}
+
+dat2 %>% 
+  summarise(IWG_count_mean = round(mean(count)),
+            IWG_count_max = round(max(count)),
+            IWG_count_min = round(min(count)),
+            IWG_count_sd = round(sd(count))) %>% 
+  rename(
+         mean = IWG_count_mean,
+         max = IWG_count_max,
+         min = IWG_count_min,
+         sd = IWG_count_sd) %>% 
+  knitr::kable(caption = "Summary statistics of wheatgrass counts per meter of row 18 days after 2,4-D application")
+
+dat2 %>% 
+  group_by(rate) %>% 
+  summarise(IWG_count_mean = round(mean(count)),
+            IWG_count_max = round(max(count)),
+            IWG_count_min = round(min(count)),
+            IWG_count_sd = round(sd(count))) %>% 
+  rename("24D rate (lb ae acre)" = rate,
+         mean = IWG_count_mean,
+         max = IWG_count_max,
+         min = IWG_count_min,
+         sd = IWG_count_sd) %>% 
+  knitr::kable(caption = "Summary statistics of wheatgrass counts per meter of row grouped by different rates of 2,4-D 18 days after 2,4-D application")
+```
+
+```{r}
+dat2 %>% 
+  lm(count~rate,.) %>% 
+  anova() %>% 
+  knitr::kable(caption = "Analysis of variance where rate of 2,4-D is compared across counts of emerged wheatgrass")
+
+```
+
+```{r, fig.cap="Only data from plants sprayed post-tillage, right after seeding. Plant counts were collected 18 days after seeding with a 1 ft length of row, then convered to a meter basis."}
+
+dat2 %>% 
+  ggplot(aes(rate,count)) +
+  stat_summary()  +
+  labs(y="IWG plants per meter",
+       x="2,4-D (lbs ae per acre)")
+
+```
+
+# Photos
+
+![24D PRE is a 3X pre-tillage plot. No 24D is a 0X pre-tillage plot. While the reduction in the weeds is obvious from the 24D PRE, the wheatgrass stand was not noticeably impacted. Note that some wheatgrass rows are missing due to a seed tube clogging during planting](strip-spray_weed population.JPEG)
+
+![A side by side comparison of wheatgrass seedings 18 days after planting where on the left is a 3X treatment (1.5 lb ae acre of 2,4-D) and on the right in an unsprayed control. This is the best evidence of a reduction in vigor from the 3X 24D post-tillage treatment. There also may be indications of reduced tillering in the 3X 2,4-D wheatgrass. ](strip-spray_vigor comparison.JPEG)

@@ -1,0 +1,108 @@
+---
+title: "STRIP trial 2024 K8"
+subtitle: "preliminary"
+author: "Sustainable Cropping Systems Lab UMN"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r conversions}
+library(tidyverse)
+library(measurements)
+
+```
+
+```{r}
+read.csv("STRIP_plot plan  - combine data.csv") -> dat
+
+# convert yield to kg ha
+dat %>%
+  filter(area_sqft != "na") %>%
+  mutate(across(7:13, as.numeric)) %>%
+  mutate(yield_kgha =
+           conv_multiunit((dry_grain_nobag_grams / area_sqft), from = "g / ft2", "kg / hectare")) -> dat2
+
+# calculate water content of sample
+dat2 %>% 
+  mutate(water_content_percent = (wet_grain_bulk_zipties_bag.s._grams - dry_grain_bulk_zipties_bag.s._grams)/wet_grain_bulk_zipties_bag.s._grams*100) -> dat3
+
+# cleaner dataset
+dat3 %>% 
+  select(trial,treatment,yield_kgha,water_content_percent) -> dat4
+
+```
+
+# Mowing trial
+
+```{r}
+dat4 %>% 
+  filter(trial=="mow") %>% 
+  mutate(order = str_sub(treatment,1,1)) %>% 
+  arrange(order) %>% 
+  select(-order)-> dat_mow
+  
+```
+
+```{r}
+dat_mow %>% 
+  ggplot(aes(treatment,yield_kgha)) +
+  stat_summary(geom = "bar",
+               col = 1,
+               size=1) +
+  labs(x="mowing height in spring 2024")
+```
+
+```{r}
+dat_mow %>% 
+  mutate(across(3:4,round)) %>% 
+  knitr::kable()
+```
+
+# Fertilizing trial
+
+```{r}
+dat4 %>% 
+  filter(trial=="fert") %>% 
+  ggplot(aes(treatment,yield_kgha)) +
+  stat_summary(geom = "bar",
+               col=1,
+               size=1) +
+  labs(x="fertilizer applied in spring 2024")
+
+```
+
+```{r}
+dat4 %>% 
+  filter(trial=="fert") %>% 
+  mutate(across(3:4,round)) %>% 
+  knitr::kable()
+```
+
+# Notes
+
+-   Lodging was severe
+
+-   Strips that didn't lodge yielded higher
+
+-   Yield estimates from combine over area of 800 ft2 for mow strips and 650 ft2 for fertility strips. Fertility strips were shorter due to instruments in the field we wanted to avoid
+
+# Images
+
+![Mow trial after treatments were imposed in early spring](images/Screenshot%202024-08-27%20120058.png)
+
+![Fertilizing trial on 3June2024. Numbers represent lbs N applied in spring. Already some lodging in 150 lb N strip.](images/IMG_5355-01.JPEG)
+
+![fertilizing trial on 17June2024. Numbers represent lbs N applied in spring. Lodging began and never fully recovered through to harvest. Less lodging in unfertilized 0 lb N strip.](images/IMG_5354-01.JPEG)
+
+![Heavily lodged kernza in a fertilty strip. Already lots of regrowth. Very little grain.](images/IMG_6835.JPEG){fig-align="center"}
+
+![cleaner grain sample at 0N](images/IMG_6998.JPG)
+
+![dirtier and greener sample at 100 lb N](images/IMG_7001.JPG)

@@ -1,0 +1,121 @@
+---
+title: "Buckwheat preliminary data"
+# subtitle: "pilot-strip-spray trial 2024"
+author: "Jesse Puka-Beals"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+
+read.csv("Organic Buckwheat Plot Plan - old_data_combined.csv") -> dat
+
+dat %>% 
+  select(-plot.1) -> dat
+```
+
+I collected this data on 23 July 2024 to get a sense for the usefulness of some measurements. 
+
+Plots in Minnesota have uneven vigor. As a result, I recorded 2 measurements for each plot, a measurement from a low vigor area and a measurement from a high vigor area. I decided that 3 of the 16 plots didn't have sufficient area that I'd call low vigor to collect yield data. I think the patchiness in vigor will persist through harvest, but that it will make more sense to just avoid sampling from low vigor areas. The data I collected on 23 July for low vigor areas can still be useful for description.  
+
+# description of measurements 
+```{r, include=F}
+dat %>% 
+  summary()
+```
+
+canopy = canopeo estimate. Recorded at waist height (80cm) and so long edge of phone was parallel with rows. 
+
+variety = buckwheat variety
+
+sample = yes no on whether sufficient area to collect yield data based on vigor factor
+
+flowering = 0-3 score. 0 = no flowering, 3 = flowering. Just a proxy for the amount of white flower petals in the plot
+
+canopy_weed, weed = 0-10 scores of weed abundance. 10 = 100% weeds. 
+
+height = plant height in cm
+
+leaf_count = number of leaves on a plant. 
+
+# Vigor
+
+```{r, include=F}
+dat %>% 
+  filter(sample=="no") %>% 
+  select(variety, plot, sample)
+# these plots remove are 2 manor plots and a devyatka. 
+```
+Of the 3 plots that didn't have enough area to be low vigor, 2 of them were the manor variety and 1 the devyatka. Perhaps these varieties are more resilient. 
+
+# Buckwheat plant height
+
+```{r}
+dat %>% 
+  ggplot(aes(variety, height, colour = vigor)) +
+  stat_summary(position = position_dodge(.5)) +
+  labs(y="Plant height (cm)")
+```
+
+
+# Canopy coverage
+High vigor areas were already averaging 90% coverage on 23 July, with some at 97% canopy closure. 
+
+```{r}
+dat %>% 
+  group_by(vigor) %>% 
+  summarise(mean = round(mean(canopy)),
+            max = round(max(canopy)),
+            min = round(min(canopy)),
+            sd = round(sd(canopy)))
+
+dat %>% 
+  ggplot(aes(variety, canopy, colour = vigor)) +
+  stat_summary() +
+  labs(y="canopy percent determind by Canopeo (%)")
+
+```
+
+# Flowering
+Clear differences on flowering time on 23 July in Minnesota
+```{r}
+
+dat %>% 
+  ggplot(aes(variety, flowering, colour = vigor)) +
+  stat_summary(position = position_dodge(.5)) +
+  labs(y="Flowering score (0=no flowering)")
+```
+
+# Weeds
+
+The weeds scores collected on 23July felt useful in describing the background community, but not in measuring the effect of buckwheat on weeds. Those effects will likely emerge in the next weeks. The weeds growing under the canopy of buckwheat seemed similar to the weeds growing in full sun.  
+
+```{r}
+dat %>% 
+  ggplot(aes(variety, weed, colour = vigor)) +
+  stat_summary(position = position_dodge(.5)) +
+  labs(y="weed score (0=no weeds)")
+```
+
+# leaf count
+
+```{r}
+
+dat %>% 
+  filter(leaf_count < 30) %>% 
+  ggplot(aes(variety, leaf_count, colour = vigor)) +
+  stat_summary(position = position_dodge(.5)) +
+  labs(y="leaf count per plant")
+```
+
+
+
+
