@@ -1,0 +1,375 @@
+---
+title: "Weather lab meeting"
+author: "jesse puka-beals"
+date: "2022-11-30"
+# output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Weather data
+
+I went on the google drive and typed in "weather data"
+
+This was one of the first hits
+
+https://docs.google.com/spreadsheets/d/1By_xv0TOeNumPEBQChkT3BWN6q_bBKHA/edit#gid=1780485077
+
+
+```{r}
+# library(googlesheets4)
+# 
+# url <- "https://docs.google.com/spreadsheets/d/1By_xv0TOeNumPEBQChkT3BWN6q_bBKHA/edit#gid=1780485077"
+# 
+# read_sheet(url,
+#            # gs4_deauth()
+#            )
+# got an errror I don't understand, I give up immediately
+
+```
+
+Went to the All Rosemount Weather Data tab, hit file and download csv
+
+Moving that csv into my project directory "r-practice"
+
+```{r}
+
+read.csv("weather_data_rosemount.csv") -> dat
+
+dat %>% 
+  # colnames()
+  dplyr::rename(
+    date = Date,
+    min_F = Minimum.Temperature.degrees..F.,
+    max_F = Maximum.Temperature.degrees..F.,
+    precip_inch = Precipitation..inches.,
+    snow_in = Snow..inches.,
+    snow_depth = Snow.Depth..inches.
+  )  %>% 
+  # colnames()
+  # glimpse()
+  mutate(date = as.POSIXct(date,
+                           format = "%m/%d/%Y"),
+         year = format(date,"%Y"),
+         month = format(date,"%m"),
+         day = format(date, "%d"),
+         .after = date) -> dat1
+  # glimpse()
+
+# dat1 %>% 
+#   mutate(across(
+#     .cols = 6,
+#     na_if("M")
+#   ))
+
+dat1 %>% 
+  # mutate(max_F = na_if(max_F,"M"),
+  #        min_F = na_if(min_F,"M")) %>%
+  mutate(max_F = as.numeric(max_F),
+         min_F = as.numeric(min_F),
+         precip_inch = as.numeric(precip_inch))  -> dat2
+
+
+```
+
+
+# summarise data
+
+By year and month, we want mean high temp, mean low temp, mean temp, mean precip
+
+
+
+```{r}
+
+options(digits = 2)
+
+dat2 %>% 
+  filter(year >= 2019 &
+           year != 2022) %>% 
+  group_by(year,month) %>% 
+  # glimpse()
+  drop_na(
+    max_F,
+    min_F
+    # precip_inch
+    ) %>% #similar to na.omit() but drops entire row
+  summarise(
+    n=n(),
+    temp_max_F=mean(na.omit(max_F)),
+    temp_min_F=mean(na.omit(min_F)),
+    temp_mean_F = mean((temp_max_F+temp_min_F)/2),
+    precip_inch = mean(na.omit(precip_inch))
+    ) -> sum.tab1
+
+sum.tab1
+
+```
+
+# calculate 30 year average
+
+```{r}
+
+dat2 %>% 
+  filter(year >= 2021-30) %>% 
+  group_by(month) %>% 
+  # glimpse()
+  drop_na(
+    max_F,
+    min_F
+    # precip_inch
+    ) %>% #similar to na.omit() but drops entire row
+  summarise(
+    n=n(),
+    temp_max_F=mean(na.omit(max_F)),
+    temp_min_F=mean(na.omit(min_F)),
+    temp_mean_F = mean((temp_max_F+temp_min_F)/2),
+    precip_inch = mean(na.omit(precip_inch))
+    ) -> sum.tab2
+
+sum.tab2 %>% 
+  # glimpse()
+  mutate(year = "30-yr",.before=month) -> sum.tab3
+
+sum.tab1 %>% 
+  bind_rows(sum.tab3) -> sum.tab4
+  # glimpse()
+  # distinct(year)
+
+# now let's look at the summary table
+
+sum.tab4
+```
+
+
+Put the data in a wider format for table
+
+```{r}
+sum.tab4 %>% 
+  dplyr::select(-c(n,temp_max_F,temp_min_F)) %>% 
+  pivot_wider(
+    names_from = year,
+    values_from = c(temp_mean_F,precip_inch))
+```
+
+
+Clearer format
+
+```{r}
+sum.tab4 %>%
+  group_by(year) %>%
+  summarise(temp=mean(temp_mean_F),
+            rain = mean(precip_inch))
+```
+
+
+# Add in GDD
+
+Convert everything to C
+
+start at first day of the year
+
+calculate GDD units for a given day (Tmax-Tmin)/2-Tbase
+
+Detect 5 days where average day is above 0C
+
+For each year, start a cumulative tally at the starting point
+
+
+
+```{r}
+library(measurements)
+options(scipen = 999, digits = 2)
+
+dat2 %>% 
+  filter(year >= 2019 &
+           year != 2022) %>% 
+  # colnames()
+  mutate(max_C = conv_unit(max_F,"F","C"),
+         min_C = conv_unit(min_F,"F","C"),
+         precip_mm = conv_unit(precip_inch,"inch","mm")) %>% 
+  dplyr::select(-c(max_F,min_F,snow_in,snow_depth,precip_inch)) -> dat3
+
+  
+```
+
+
+calculate GDD units for a given day (Tmax-Tmin)/2-Tbase
+
+```{r}
+GDD_calc <- function(Tmax,Tmin){
+  # (Tmax-Tmin)/2-Tbase
+  Tmax = if_else(Tmax>30, 30,Tmax)
+  Tmax = if_else(Tmax<0,0,Tmax)
+  Tmin = if_else(Tmin<0,0,Tmin)
+  Tmin = if_else(Tmin>30,30,Tmin)
+  Tbase = 0
+  (Tmax-Tmin)/2-Tbase
+}
+
+rounder <- function(x){
+  round(x,2)
+}
+
+dat3 %>% 
+  mutate(gdd = GDD_calc(max_C,min_C),
+         max_C = rounder(max_C),
+         min_C = rounder(min_C),
+         gdd = rounder(gdd),
+         mean_C = (max_C+min_C)/2) %>% 
+  relocate(precip_mm,.before = max_C) -> dat4
+  
+
+```
+
+
+# calculating GDD
+
+This is where I cannot figure out an elegant repeatable way to do this
+
+Every year will have a different start point and then you will need to create a cumulative sum for that year, but then stop after the year if over and reset
+
+I would need a function that would start a cumulative sum after a certain condition is met for a given year and end it after the year is over. 
+
+**HELP**
+
+How do I calculate GDD cumulatively in R
+
+For a given year, I need to find 5 rows that
+
+start at first day of the year
+
+Detect 5 days where average day is above 0C
+
+For each year, start a cumulative tally at the starting point
+
+```{r}
+
+dat5 <- dat4
+
+for (i in 1:length(dat5$date)) {
+  ifelse(
+    dat5$mean_C[i] > 0 & #once
+      dat5$mean_C[i+1] > 0 &
+      dat5$mean_C[i+2] > 0 &
+      dat5$mean_C[i+3] > 0 &
+      dat5$mean_C[i+4] > 0,
+    dat5$start[i] <-  "start",
+    dat5$start[i] <-  NA
+  )
+}
+# we only want one start in a year, not sure how to deal with that
+
+# quick hack
+dat5 %>% 
+  rowid_to_column() %>% 
+  filter(year=="2021") %>% 
+  filter(start=="start") %>% 
+  head(1) %>% 
+  pull(rowid)
+
+# 79 for 2019
+# 448 for 2020
+# 797 for 2021
+
+##UGLY HARD CODING, RUN AWAY
+
+```
+
+The second we are hard coding we run away
+
+Because I don't know how to do this elegantly, we will separate out by year, then join back together
+
+```{r}
+# 2019
+
+dat5 %>% 
+  filter(year=="2019") %>% 
+  mutate(gdd2 = gdd) -> dat5_2019
+
+dat5_2019 %>% 
+  rowid_to_column() %>% 
+  filter(start=="start") %>% 
+  head(1) %>% 
+  pull(rowid)
+# this is where we start counting GDD
+
+dat5_2019$gdd2[1:79-1] <- 0
+
+# we will call cumsum on the entire gdd2 column, but we have forced all the gdd values prior to the start to be 0
+
+dat5_2019 %>% 
+  drop_na(gdd2) %>% 
+  mutate(gdd_cumulative = cumsum(gdd2)) -> dat5_2019a
+
+#### NOW WE DO IT AGAIN ####
+
+# 2020
+
+dat5 %>% 
+  filter(year=="2020") %>% 
+  mutate(gdd2 = gdd) -> dat5_2020
+
+dat5_2020 %>% 
+  rowid_to_column() %>% 
+  filter(start=="start") %>% 
+  head(1) %>% 
+  pull(rowid)
+# this is where we start counting GDD
+
+dat5_2020$gdd2[1:83-1] <- 0
+
+# we will call cumsum on the entire gdd2 column, but we have forced all the gdd values prior to the start to be 0
+
+dat5_2020 %>% 
+  drop_na(gdd2) %>%
+  mutate(gdd_cumulative = cumsum(gdd2)) -> dat5_2020a
+
+#### NOW WE DO IT AGAIN ####
+
+# 2021
+
+dat5 %>% 
+  filter(year=="2021") %>% 
+  mutate(gdd2 = gdd) -> dat5_2021
+
+dat5_2021 %>% 
+  rowid_to_column() %>% 
+  filter(start=="start") %>% 
+  head(1) %>% 
+  pull(rowid)
+# this is where we start counting GDD
+
+dat5_2021$gdd2[1:66-1] <- 0
+
+# we will call cumsum on the entire gdd2 column, but we have forced all the gdd values prior to the start to be 0
+
+dat5_2021 %>% 
+  drop_na(gdd2) %>% 
+  mutate(gdd_cumulative = cumsum(gdd2)) -> dat5_2021a
+
+
+## NOW WE JOIN ## UGH
+
+bind_rows(
+  dat5_2019a,
+  dat5_2020a,
+  dat5_2021a
+) -> dat6
+
+# rm(dat5_2019,dat5_2019a,dat5_2020,dat5_2020a,dat5_2021,dat5_2021a)
+
+```
+
+
+```{r}
+dat6 %>% 
+  # colnames()
+  mutate(mday = format(date,"%m-%d")) %>% 
+  ggplot(aes(mday,gdd_cumulative,
+             color = year)) +
+  geom_point() 
+```
+

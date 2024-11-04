@@ -1,0 +1,110 @@
+---
+title: "Rosholt Weather"
+author: "Jason Hickman"
+date: "2024-08-09"
+output: html_document
+---
+
+```{r }
+library(dplyr)
+
+#read in the data
+temps = read.csv("Rosholt Temps.csv")
+
+#create a date column with Month/Day/Year
+temps$date = paste(temps$month, temps$day, temps$year, sep = "/")
+
+#read columns as a date, year, month as numerics, and new column for day of the year (julian day)
+temps = temps %>% 
+  mutate(c.date = as.Date(date, "%m/%d/%Y")) %>% 
+  mutate(year = as.numeric(format(c.date, format = "%Y")),
+         month = as.numeric(format(c.date, format = "%m")),
+         doy = as.numeric(format(c.date, format = "%j"))) 
+
+#gather total observed precip per month
+precip = temps %>% 
+  group_by(year, month) %>% 
+  summarise(precip.sum = sum(precip)) %>% 
+  mutate(doy = seq(15, 365, by = 365/12)) 
+
+#gather 30-year normal precip per month  
+precip.normal = temps %>% 
+  group_by(year, month) %>% 
+  summarise(norm.precip = sum(norm.precip)) %>% 
+  mutate(doy = seq(15, 365, by = 365/12))
+
+library(ggplot2)
+#look at precip only
+ggplot() +
+  geom_bar(precip, mapping = aes(x = doy, y = precip.sum), fill = "grey",
+           stat = "identity", width = 28) +
+  facet_grid(~year)
+
+#2020-2023 AVERAGE TEMP
+#we want temps to lie in the 2-10 range on precip graph
+#min and max of temp are: -18.7 and 84.2
+#so, we want our precip range to match up to the min/max range of temp
+#i.e. we want to transform -18.7 to 5 and 84.2 to 10
+#do this by finding slope of the line that passes through the points
+#(-18.7, 2) and (84.2, 10)
+#y = mx + b
+(10 - 2)/ (84.2 + 18.7) # m = 0.07774538
+#y-intercept = 
+10 - (84.2 * 0.07774538) #b = 3.453839
+#thus scaling equation = 3.453839 +  (0.07774538 * avg.temp)
+
+temps = temps %>% 
+  mutate(new.avg = 3.453839 + (0.07774538*avg),
+         new.norm.avg = 3.453839 + (0.07774538 * norm.avg))
+
+#graph temp + transformed precip
+ggplot() +
+  geom_bar(precip, mapping = aes(x = doy, y = precip.sum), fill = "grey",
+           stat = "identity", width = 28) +
+  geom_line(temps, mapping = aes(x = doy, y = new.avg), col = "blue") +
+  scale_x_continuous(breaks = c(365/12, 365/12*4, 365/12*8, 365) - 15,
+                     labels = c("Jan", "Apr", "Aug", "Dec"),
+                     name = "") +
+  scale_y_continuous(name = "") +
+  facet_wrap(~year) +
+  theme_bw()
+
+#adding second y-axis
+rosholt.weather = ggplot() +
+  geom_bar(precip, mapping = aes(x = doy, y = precip.sum), fill = "blue",
+           stat = "identity", width = 28) +
+  geom_line(temps, mapping = aes(x = doy, y = new.avg), col = "#469990") +
+  scale_x_continuous(breaks = c(365/12, 365/12*4, 365/12*8, 365) - 15,
+                     labels = c("Jan", "Apr", "Aug", "Dec"),
+                     name = "") +
+  scale_y_continuous(name = "Rain (in)",
+                     sec.axis = sec_axis(~(. - 3.453839)/0.07774538,
+                                         name = "Average Daily Temperature (F)",
+                                         breaks = c(-20, 0, 20, 40, 60, 80, 100))) +
+  geom_bar(precip.normal, mapping = aes(x = doy, y = norm.precip), fill = "black",
+           stat = "identity", width = 28, alpha = 0.4) +
+  geom_line(temps, mapping = aes(x = doy, y = new.norm.avg), col = "red") +
+  scale_x_continuous(breaks = c(365/12, 365/12*3, 365/12*6, 365/12*9, 365) - 15,
+                     labels = c("Jan", "Mar", "Jun", "Sept", "Dec"),
+                     name = "") +
+  scale_y_continuous(name = "Rain (in)",
+                     sec.axis = sec_axis(~(. - 3.453839)/0.07774538,
+                                         name = "Average Daily Temperature (F)",
+                                         breaks = c(-20, 0, 20, 40, 60, 80, 100))) +
+  facet_wrap(~year) +
+  theme_bw() +
+  theme(axis.title = element_text(size = 16),
+        axis.text = element_text(size = 14),
+        strip.text.x = element_text(size = 14))
+
+rosholt.weather
+ggsave(plot = rosholt.weather,
+       filename = "Weather Data.jpeg",
+       units = "in", height = 7, width = 10, dpi = 350)
+
+```
+
+```{r}
+rosholt.weather
+```
+

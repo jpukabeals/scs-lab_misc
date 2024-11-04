@@ -1,0 +1,24 @@
+---
+title: "Weather data summary"
+# subtitle: ""
+author: "Jason Hickman with modifications by Jesse Bealsburg"
+date: "`r Sys.Date()`"
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+Standardize how we pull weather data for st paul, rosemount, becker, waseca and rosholt
+
+start with rosemount, then expand to st paul
+
+understand how Jason's rmarkdown file works, figure out the minimum info required in the weather file
+
+we want one file of all sites and all weather data that we can update every year
+
+workflow: download master file, filter to the sites and years you want, generate figures
