@@ -1,0 +1,187 @@
+---
+title: "Mungbean trial 2024 Minnesota"
+# subtitle: ""
+author: "Jesse Bealsburg"
+date: today
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Visual assessments
+
+Visual plot assessments were taken on July 16 2024 by Jesse.
+
+Of the 409 entries/plots, 387 were scored (the remaining were missed due to a navigation error during scoring the trial.
+
+Of the 387 plots scores, 349 were genotypes/breeding lines and the remainder were the two check varieties (Albert Lea and OK2000)
+
+```{r}
+library(tidyverse)
+read.csv("mungbean plot map - master.csv") -> dat
+
+dat %>% 
+  select(PLOT,ENTRY,TREATMENT,genotype,activity,vigorcode_num) %>% 
+  filter(vigorcode_num != "empty" &
+           vigorcode_num != "skipped") %>% 
+  mutate(vigorcode_num = as.numeric(vigorcode_num)) %>% 
+  filter(genotype!= "belkin" &
+         genotype!= "albert lea 2x" &
+         genotype!= "albert lea 3x" &
+         genotype!= "enlist 1.7" &
+         genotype!= "enlist 005"
+         ) %>% 
+  drop_na(vigorcode_num) -> dat1
+  # distinct(vigorcode_num)
+
+dat1 %>% 
+  mutate(check = if_else(TREATMENT!= "CH1" & TREATMENT!="CH2", "genotype","checks")) %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding lines"))) %>% 
+  mutate(type = factor(type,
+                       levels = c("Albert Lea", "OK2000", "Breeding lines"))) %>% 
+  group_by(type) %>% 
+  summarise(n=n()) %>% 
+  knitr::kable(caption = "Visual assessment observation counts")
+```
+
+Each line only had one rep, but two check varieties were diagonally replicated throughout the trial.
+
+[*Of the 387 scored plots...*]{.underline}
+
+-   33 were notable for exceptionally good vigor.
+
+-   21 genotypes had notable yellow leaves
+
+-   35 had notably dead leaves
+
+-   47 were deemed unharvestable due to poor population and stature.
+
+\newpage
+
+```{r}
+
+dat1 %>% 
+  ggplot(aes(vigorcode_num)) +
+  stat_bin() +
+  labs(x="vigor score",
+       caption = "4=excellent, 3=average, 2=yellow leaves 1=dead leaves, 0=unharvestable",
+       title = "All scored plots")
+```
+
+-   239 of the 387 scored plots, or 62% were scored as average vigor.
+
+\newpage
+
+```{r fig.height=3}
+# dat1 %>% 
+#   filter(TREATMENT == "CH1" | 
+#            TREATMENT == "CH2") %>% 
+#   ggplot(aes(vigorcode_num)) +
+#   stat_bin() +
+#   labs(x="vigor score",
+#        caption = "4=excellent, 3=average, 2=yellow leaves 1=dead leaves, 0=unharvestable",
+#        title = "Only check plots OK2000 and a commercial variety\n from Albert Lea Seeds")
+
+dat1 %>% 
+  filter(TREATMENT == "CH1" ) %>% 
+  ggplot(aes(vigorcode_num)) +
+  stat_bin() +
+  labs(x="vigor score",
+       caption = "4=excellent, 3=average, 2=yellow leaves 1=dead leaves, 0=unharvestable",
+       title = "Only a commercial variety from Albert Lea Seeds")
+
+dat1 %>% 
+  filter(TREATMENT == "CH2") %>% 
+  ggplot(aes(vigorcode_num)) +
+  stat_bin() +
+  labs(x="vigor score",
+       caption = "4=excellent, 3=average, 2=yellow leaves 1=dead leaves, 0=unharvestable",
+       title = "Only OK2000")
+```
+
+-   check plots were the only germplasm with replication throughout the trial. We expect their vigor to be similar and average around 3, but some plots were scored as unharvestable and others scored as exceptionally good vigor
+
+-   This could be due to true variation or data collection/entry error.
+
+\newpage
+
+```{r}
+dat1 %>% 
+  mutate(check = if_else(TREATMENT!= "CH1" & TREATMENT!="CH2", "genotype","checks")) %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding lines"))) %>% 
+  mutate(type = factor(type,
+                       levels = c("Albert Lea", "OK2000", "Breeding lines"))) %>% 
+  # group_by(type) %>% 
+  # summarise(n=n())
+  ggplot(aes(type,vigorcode_num)) +
+  stat_summary() +
+  labs(y="Vigor score",
+       x="")
+
+```
+
+-   On average, the two check varieties averaged better vigor than the breeding lines
+
+\newpage
+
+```{r}
+dat1 %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
+  filter(vigorcode_num==4) %>% 
+  filter(TREATMENT!="CH1" & TREATMENT!= "CH2") %>% 
+  arrange(genotype) %>% 
+  arrange(PLOT) %>% 
+  rowid_to_column() %>%  
+  select(rowid,genotype,PLOT) %>% 
+  knitr::kable(caption = "genotypes with exceptionally good vigor, scoring a vigor score of 4 on 16Jul2024")
+  
+```
+
+The average vigor score was 2.46.
+
+\newpage
+
+```{r}
+dat1 %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
+  filter(vigorcode_num==2) %>% 
+  filter(TREATMENT!="CH1" & TREATMENT!= "CH2") %>% 
+  arrange(genotype) %>% 
+  arrange(PLOT) %>% 
+  rowid_to_column() %>%  
+  select(rowid,genotype, PLOT) %>%
+  knitr::kable(caption = "lines with yellow leaves, scoring a vigor score of 2 on 16Jul2024")
+```
+
+\newpage
+
+```{r}
+dat1 %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
+  filter(vigorcode_num==1) %>% 
+  filter(TREATMENT!="CH1" & TREATMENT!= "CH2") %>% 
+  arrange(genotype) %>%
+  arrange(PLOT) %>% 
+  rowid_to_column() %>%  
+  select(rowid,genotype, PLOT) %>%
+  knitr::kable(caption = "genotypes with dying leaves, scoring a vigor score of 1 on 16Jul2024")
+```
+
+\newpage
+
+```{r}
+dat1 %>% 
+  mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
+  filter(vigorcode_num==0) %>% 
+  filter(TREATMENT!="CH1" & TREATMENT!= "CH2") %>% 
+  arrange(genotype) %>% 
+  arrange(PLOT) %>% 
+  rowid_to_column() %>%  
+  select(rowid,genotype, PLOT) %>%
+  knitr::kable(caption = "genotypes deemed unharvestable, scoring a vigor score of 0  on 16Jul2024. This could be due to insufficient population in the stand")
+```
