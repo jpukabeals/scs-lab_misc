@@ -1,0 +1,58 @@
+---
+title: "Crop Comparison Trial 2024 MN"
+# subtitle: ""
+author: "Jesse Bealsburg"
+date: today
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Canopeo
+
+```{r}
+library(tidyverse)
+
+read.csv("Crop Comparison Plot Plan.xlsx - data_canopeo.csv") -> dat
+
+dat %>% 
+  ggplot(aes(canopy_percent)) +
+  stat_bin() +
+  labs(x="canopy closure (%)")
+
+dat %>% 
+  summarise(mean = mean(canopy_percent),
+            max = max(canopy_percent),
+            min = min(canopy_percent),
+            n=n()) %>% 
+  knitr::kable(caption = "Canopy closure (%) on 7November2024")
+```
+
+```{r}
+dat %>% 
+  mutate(treatment=fct_reorder(treatment,canopy_percent)) %>% 
+  ggplot(aes(treatment,canopy_percent)) +
+  stat_summary() +
+  labs(x="",
+       y="Canopy closure (%)") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+
+```
+
+-   Winter rye remains the GOAT
+
+\newpage
+
+![Trial on 7Nov. Plot boundaries visible due to differences in soil cover](IMG_8338 (1).JPEG)
+
+![Wheatgrass plot with poor soil coverage](IMG_8320.JPEG)
+
+![Intercrop plot with ok soil coverage](IMG_8319.JPEG)
+
+![Small grain plot with good soil coverage](IMG_8325.JPEG)
