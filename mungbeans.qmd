@@ -26,10 +26,11 @@ library(tidyverse)
 read.csv("mungbean plot map - master.csv") -> dat
 
 dat %>% 
-  select(PLOT,ENTRY,TREATMENT,genotype,activity,vigorcode_num) %>% 
+  select(PLOT,ENTRY,TREATMENT,genotype,activity,vigorcode_num, rowcode) %>% 
   filter(vigorcode_num != "empty" &
            vigorcode_num != "skipped") %>% 
-  mutate(vigorcode_num = as.numeric(vigorcode_num)) %>% 
+  mutate(vigorcode_num = as.numeric(vigorcode_num),
+         rowcode = as.numeric(rowcode)) %>% 
   filter(genotype!= "belkin" &
          genotype!= "albert lea 2x" &
          genotype!= "albert lea 3x" &
@@ -60,6 +61,8 @@ Each line only had one rep, but two check varieties were diagonally replicated t
 -   35 had notably dead leaves
 
 -   47 were deemed unharvestable due to poor population and stature.
+
+-   63% of plots had sufficient population for a whole plot combine harvest and many were likely adjacent to a plot with insufficient population, resulting in border effect which would overestimate yield potential
 
 \newpage
 
@@ -185,3 +188,53 @@ dat1 %>%
   select(rowid,genotype, PLOT) %>%
   knitr::kable(caption = "genotypes deemed unharvestable, scoring a vigor score of 0  on 16Jul2024. This could be due to insufficient population in the stand")
 ```
+
+\newpage
+
+## Plots with sufficient population
+
+One of the key assumptions of the trial design we selected was they each plot or entry (2 ft x 10 ft) would have 2 rows of mungbeans at a sufficient population to form a canopied row. If this occurs, then all plots experience the same row spacing and can be combine harvested without any border effect from alleys.
+
+Unfortunately, many plots did not score a "2" during the July visual assessment, meaning they did not have 2 rows with sufficient population. At this point, you cannot take a combine harvest of the plot because the seed yield of that plot will not represent the yield potential of the genotype but rather the effect of insufficient population on yield.
+
+When there is insufficient population, this also impacts adjacent plots. If a genotype is next to a plot that has a lower population, it will experience less competition and perform better. So many plots that scored a "2" were also compromised because they were adjacent to plots that were not a "2". I now realize this is another advantage of border or quadrat harvests within plots because it shelters the plot from the effects of the adjacent plot.
+
+Overall, *we expected like 95% of plots scoring a "2", in reality, this was 63%*
+
+```{r}
+# dat1 %>% 
+#   ggplot(aes(rowcode)) +
+#   stat_bin() +
+#   labs(x="population score",
+#        caption = "2=both rows good, 1=1 row good, 0=no rows good",
+#        title = "All scored plots")
+
+dat1 %>% 
+  group_by(rowcode) %>% 
+  count(rowcode) %>% 
+  mutate("percent of total (%)" = round(n/387*100)) %>% 
+  knitr::kable(caption = "population scores where a 2 is a sufficient population")
+```
+
+-   244 of the 387 scored plots, or 63% had sufficient population for a combine harvest
+
+-   Many of these plots likely also experienced border effect from adjacent plots with insufficient population
+
+```{r}
+
+dat1 %>% 
+  filter(TREATMENT == "CH1" ) %>% 
+  group_by(rowcode) %>% 
+  count(rowcode) %>% 
+  mutate("percent of total (%)" = round(n/(14+4+1)*100)) %>% 
+  knitr::kable(caption = "population scores of the n=19 Check 1 (Albert Lea)")
+
+dat1 %>% 
+  filter(TREATMENT == "CH2" ) %>% 
+  group_by(rowcode) %>% 
+  count(rowcode) %>% 
+  mutate("percent of total (%)" = round(n/(13+2+4)*100)) %>% 
+  knitr::kable(caption = "population scores of the n=19 Check 2 (OK2000)")
+```
+
+-   There was no obvious difference between check varieties (which we'd expect to have good vigor) and the breeding lines. Insufficient population seems to be randomly distributed throughout the trial, possibly due to in-field variability or a data entry error when taking these visual scores
