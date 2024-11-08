@@ -239,4 +239,4 @@ dat1 %>%
   knitr::kable(caption = "population scores of the n=19 Check 2 (OK2000)")
 ```
 
--   There was no obvious difference between check varieties (which we'd expect to have good vigor) and the breeding lines. Insufficient population seems to be randomly distributed throughout the trial, possibly due to in-field variability or a data entry error when taking these visual scores
+-   There was no obvious difference between check varieties (which we'd expect to have a sufficient population to form a canopied row) and the breeding lines. Insufficient population seems to be randomly distributed throughout the trial, possibly due to in-field variability, planter performance, how we planted the trial or a data entry error when taking these visual scores
