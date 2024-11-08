@@ -66,6 +66,8 @@ Each line only had one rep, but two check varieties were diagonally replicated t
 
 \newpage
 
+## Vigor scores
+
 ```{r}
 
 dat1 %>% 
@@ -191,7 +193,7 @@ dat1 %>%
 
 \newpage
 
-## Plots with sufficient population
+## Population scores
 
 One of the key assumptions of the trial design we selected was they each plot or entry (2 ft x 10 ft) would have 2 rows of mungbeans at a sufficient population to form a canopied row. If this occurs, then all plots experience the same row spacing and can be combine harvested without any border effect from alleys.
 
