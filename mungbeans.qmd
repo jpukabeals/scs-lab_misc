@@ -147,7 +147,9 @@ dat1 %>%
 # The average vigor score was 2.46. 
 ```
 
-\newpage <!--#  -->
+\newpage
+
+<!--#  -->
 
 ```{r, include=F}
 dat1 %>% 
@@ -161,7 +163,9 @@ dat1 %>%
   knitr::kable(caption = "lines with yellow leaves, scoring a vigor score of 2 on 16Jul2024")
 ```
 
-\newpage <!--#  -->
+\newpage
+
+<!--#  -->
 
 ```{r, include=F}
 dat1 %>% 
@@ -175,7 +179,9 @@ dat1 %>%
   knitr::kable(caption = "genotypes with dying leaves, scoring a vigor score of 1 on 16Jul2024")
 ```
 
-\newpage <!--#  -->
+\newpage
+
+<!--#  -->
 
 ```{r, include=F}
 dat1 %>% 
@@ -261,7 +267,7 @@ Yield data was collected on 7Nov for hand harvest and 12Nov for combine harvest.
 
 ## Hand harvest
 
-![Hand harvested sample after drying, belt threshing, sieving and aspirating. This is considered "partial cleaning" because stems and bits of dirt remain. ](IMG_8432.JPEG){fig-align="center" width="4in"}
+![Hand harvested sample after drying, belt threshing, sieving and aspirating. This is considered "partial cleaning" because stems and bits of dirt remain.](IMG_8432.JPEG){fig-align="center" width="4in"}
 
 \newpage
 
@@ -357,7 +363,7 @@ dat3 %>%
 
 ## Combine harvest
 
-![Harvest sample out of combine. Soybean concave at 5mm distance, drum speed around 600 rpm, fan speed at 3050 rpm, adjustable seive at 5, whole system blow wide open at 8 to both outlets](IMG_8463.JPEG){fig-align="center" width="4in"}
+![Harvest sample out of combine. Soybean concave at 5mm distance, drum speed at 540 rpm, fan speed at 2850 rpm, adjustable seive at 5, whole system blow wide open at 8 to both outlets](IMG_8463.JPEG){fig-align="center" width="4in"}
 
 ```{r}
 
