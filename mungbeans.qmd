@@ -3,6 +3,7 @@ title: "Mungbean trial 2024 Minnesota"
 # subtitle: ""
 author: "Jesse Bealsburg"
 date: today
+bibliography: mungbean_bib.bib
 format: pdf
 editor: visual
 execute:
@@ -19,11 +20,11 @@ Visual plot assessments were taken on July 16 2024 by Jesse.
 
 Of the 409 entries/plots, 387 were scored (the remaining were missed due to a navigation error during scoring the trial.
 
-Of the 387 plots scores, 349 were genotypes/breeding lines and the remainder were the two check varieties (Albert Lea and OK2000)
+Of the 387 plots scores, 349 were genotypes/breeding lines and the remainder were the two check varieties (Albert Lea and OK2000).
 
 ```{r}
 library(tidyverse)
-read.csv("mungbean plot map - master.csv") -> dat
+read.csv("mungbean plot map and master - master.csv") -> dat
 
 dat %>% 
   select(PLOT,ENTRY,TREATMENT,genotype,activity,vigorcode_num, rowcode) %>% 
@@ -56,15 +57,13 @@ Each line only had one rep, but two check varieties were diagonally replicated t
 
 -   33 were notable for exceptionally good vigor.
 
--   21 genotypes had notable yellow leaves
+-   21 genotypes had notable yellow leaves.
 
--   35 had notably dead leaves
+-   35 had notably dead leaves.
 
 -   47 were deemed unharvestable due to poor population and stature.
 
--   63% of plots had sufficient population for a whole plot combine harvest and many were likely adjacent to a plot with insufficient population, resulting in border effect which would overestimate yield potential
-
-\newpage
+-   63% of plots had sufficient population for a whole plot combine harvest and many were likely adjacent to a plot with insufficient population, resulting in border effect which would overestimate yield potential.
 
 ## Vigor scores
 
@@ -109,7 +108,7 @@ dat1 %>%
        title = "Only OK2000")
 ```
 
--   check plots were the only germplasm with replication throughout the trial. We expect their vigor to be similar and average around 3, but some plots were scored as unharvestable and others scored as exceptionally good vigor
+-   check plots were the only germplasm with replication throughout the trial. We expect their vigor to be similar and average around 3, but some plots were scored as unharvestable and others scored as exceptionally good vigor.
 
 -   This could be due to true variation or data collection/entry error.
 
@@ -130,11 +129,11 @@ dat1 %>%
 
 ```
 
--   On average, the two check varieties averaged better vigor than the breeding lines
+-   On average, the two check varieties averaged better vigor than the breeding lines.
 
 \newpage
 
-```{r}
+```{r, include=F}
 dat1 %>% 
   mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
   filter(vigorcode_num==4) %>% 
@@ -144,14 +143,13 @@ dat1 %>%
   rowid_to_column() %>%  
   select(rowid,genotype,PLOT) %>% 
   knitr::kable(caption = "genotypes with exceptionally good vigor, scoring a vigor score of 4 on 16Jul2024")
-  
+
+# The average vigor score was 2.46. 
 ```
 
-The average vigor score was 2.46.
+\newpage <!--#  -->
 
-\newpage
-
-```{r}
+```{r, include=F}
 dat1 %>% 
   mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
   filter(vigorcode_num==2) %>% 
@@ -163,9 +161,9 @@ dat1 %>%
   knitr::kable(caption = "lines with yellow leaves, scoring a vigor score of 2 on 16Jul2024")
 ```
 
-\newpage
+\newpage <!--#  -->
 
-```{r}
+```{r, include=F}
 dat1 %>% 
   mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
   filter(vigorcode_num==1) %>% 
@@ -177,9 +175,9 @@ dat1 %>%
   knitr::kable(caption = "genotypes with dying leaves, scoring a vigor score of 1 on 16Jul2024")
 ```
 
-\newpage
+\newpage <!--#  -->
 
-```{r}
+```{r, include=F}
 dat1 %>% 
   mutate(type = if_else(TREATMENT== "CH1", "Albert Lea",if_else(TREATMENT=="CH2", "OK2000", "Breeding line"))) %>% 
   filter(vigorcode_num==0) %>% 
@@ -201,7 +199,7 @@ Unfortunately, many plots did not score a "2" during the July visual assessment,
 
 When there is insufficient population, this also impacts adjacent plots. If a genotype is next to a plot that has a lower population, it will experience less competition and perform better. So many plots that scored a "2" were also compromised because they were adjacent to plots that were not a "2". I now realize this is another advantage of border or quadrat harvests within plots because it shelters the plot from the effects of the adjacent plot.
 
-Overall, *we expected like 95% of plots scoring a "2", in reality, this was 63%*
+Overall, *we expected like 95% of plots scoring a "2", in reality, this was 63%.*
 
 ```{r}
 # dat1 %>% 
@@ -218,9 +216,9 @@ dat1 %>%
   knitr::kable(caption = "population scores where a 2 is a sufficient population")
 ```
 
--   244 of the 387 scored plots, or 63% had sufficient population for a combine harvest
+-   244 of the 387 scored plots, or 63% had sufficient population for a combine harvest.
 
--   Many of these plots likely also experienced border effect from adjacent plots with insufficient population
+-   Many of these plots likely also experienced border effect from adjacent plots with insufficient population.
 
 ```{r}
 
@@ -239,4 +237,168 @@ dat1 %>%
   knitr::kable(caption = "population scores of the n=19 Check 2 (OK2000)")
 ```
 
--   There was no obvious difference between check varieties (which we'd expect to have a sufficient population to form a canopied row) and the breeding lines. Insufficient population seems to be randomly distributed throughout the trial, possibly due to in-field variability, planter performance, how we planted the trial or a data entry error when taking these visual scores
+-   There was no obvious difference between check varieties (which we'd expect to have a sufficient population to form a canopied row) and the breeding lines. Insufficient population seems to be randomly distributed throughout the trial, possibly due to in-field variability, planter performance, how we planted the trial or a data entry error when taking these visual scores.
+
+\newpage
+
+# Yield
+
+Yield data was collected on 7Nov for hand harvest and 12Nov for combine harvest.
+
+14 plots were selected for hand harvest based on visual assessment data to get a variety of vigor scores.
+
+22 "plots" were harvested by the combine, but their ID was unknown. Only the square footage of area harvested was known. This was just done for comparing combine to hand harvest.
+
+[*We learned...*]{.underline}
+
+-   Of plots where we had a sufficient mungbean population and hand harvested, we averaged around 1000 lbs A of seed which is exactly what we'd expect. See @tbl-expected.
+
+-   Despite samples sitting in the field and deteriorating, we still achieved yields above 1500 lbs A, which was identified as the yield necessary to beat a soybean harvest of 50 bu A with a mungbean price of 2X of soybean [@IowaStateExtension].
+
+-   Combine harvest required a lot of border plots to dial in settings and an unreasonable amount and quality of sample to use the on-board scale and sensors for determination of yield, moisture and test weight.
+
+-   The combine underestimated yield compared to the hand harvested sample by about 50%.
+
+## Hand harvest
+
+![Hand harvested sample after drying, belt threshing, sieving and aspirating. This is considered "partial cleaning" because stems and bits of dirt remain. ](IMG_8432.JPEG){fig-align="center" width="4in"}
+
+\newpage
+
+### Did we get reasonable mungbean seed yields in MN? Yes
+
+| Average | High  | Low | Source              |
+|---------|-------|-----|---------------------|
+| 1000    | 1200  |     | @IowaStateExtension |
+|         | 2000+ | 300 | @Oplinger1990       |
+
+: Expected mungbean seed yields (lbs / A) based on what sources consider average, high and low {#tbl-expected}
+
+```{r}
+library(measurements)
+
+dat %>% 
+  filter(subsample_7Nov == "yes") %>% 
+  mutate(yield_kgha = conv_multiunit(seed_dirty_dry_noenvelope_g/20,
+                                     from = "g / ft2",
+                                     to = "kg / hectare"),
+         yield_lbsA = conv_multiunit(seed_dirty_dry_noenvelope_g/20,
+                                     from = "g / ft2",
+                                     to = "lbs / acre")) %>% 
+  select(PLOT,genotype,date,yield_lbsA) -> dat2
+
+dat2 %>% 
+  summarise(mean = mean(yield_lbsA),
+            max = max(yield_lbsA),
+            min = min(yield_lbsA),
+            n=n() ) %>% 
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  knitr::kable(caption = "Mungbean seed yield estimation (lbs / A) from hand harvest on 7Nov2024 and partial cleaning. These estimates are likely overpredicted due to some dirt remaining in sample. These estimates are also underpredicted because they include plots with insufficient population")
+
+dat2 %>% 
+  left_join(dat1) %>% 
+  select(PLOT,genotype, rowcode,vigorcode_num, yield_lbsA) %>% 
+    arrange(rowcode, vigorcode_num) -> dat3
+
+dat3 %>% 
+  filter(rowcode=="2") %>% 
+  summarise(mean = mean(yield_lbsA),
+            max = max(yield_lbsA),
+            min = min(yield_lbsA),
+            n=n() ) %>% 
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  knitr::kable(caption = "Mungbean seed yield estimation (lbs / A) from hand harvest on 7Nov2024 and partial cleaning. These estimates are likely overpredicted due to some dirt remaining in sample. Plots with insufficient population are filtered out")
+```
+
+\newpage
+
+### Do all the subsamples score a 2 for population score? No
+
+```{r}
+
+dat3 %>%
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  knitr::kable(caption = "Not all of the 14 hand harvested plots had a population score of 2, meaning they had sufficient population for a combine harvest")
+
+```
+
+\newpage
+
+### Do plots with higher vigor ratings have higher seed yields when variable population is controlled for? Yes
+
+```{r}
+
+dat3 %>% 
+  filter(rowcode=="2") %>% 
+  group_by(vigorcode_num) %>% 
+  summarise(mean = mean(yield_lbsA),
+            max = max(yield_lbsA),
+            min = min(yield_lbsA),
+            n=n() ) %>%
+  rename(`Vigor code` = vigorcode_num) %>% 
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  knitr::kable(caption = "Mungbean predicted seed yield (lbs / A) of hand harvested plots with a sufficient population for a whole plot harvest grouped by vigor class rating")
+```
+
+```{r}
+dat3 %>% 
+  filter(rowcode=="2") %>% 
+  ggplot(aes(vigorcode_num,yield_lbsA)) +
+  # stat_summary(geom = "bar") +
+  geom_point() +
+  stat_summary(geom = "line",
+               linetype = 2) +
+  labs(y="mungbean seed yield estimate\n(lbs / A)",
+       x="vigor class",
+       caption = "4=excellent, 3=average, 2=yellow leaves 1=dead leaves")
+```
+
+\newpage
+
+## Combine harvest
+
+![Harvest sample out of combine. Soybean concave at 5mm distance, drum speed around 600 rpm, fan speed at 3050 rpm, adjustable seive at 5, whole system blow wide open at 8 to both outlets](IMG_8463.JPEG){fig-align="center" width="4in"}
+
+```{r}
+
+read.csv("mungbean_12Nov2024_combine.csv") %>% 
+  mutate(harvest_sqft = if_else(Row == "1", 20, 40)) %>% 
+  mutate(yield_lbsA = conv_multiunit(Weight..lb./harvest_sqft,
+                                     from = "lbs / ft2", 
+                                     to = "lbs / acre")) %>% 
+  mutate(method = "combine")-> dat4
+
+dat4 %>% 
+  select(method,yield_lbsA,harvest_sqft) -> dat5
+
+dat3 %>% 
+  mutate(method = "handharvest",
+         harvest_sqft = 20) %>% 
+  select(method,yield_lbsA,harvest_sqft) %>% 
+  bind_rows(dat5) -> dat6
+  
+dat6 %>% 
+  group_by(method) %>% 
+  summarise(mean = mean(yield_lbsA),
+            max = max(yield_lbsA),
+            min = min(yield_lbsA),
+            n=n() ) %>%
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  knitr::kable(caption = "Comparison of seed yield estimates (lbs / A) of combine harvest data vs. hand harvest")
+```
+
+```{r}
+dat6 %>% 
+  group_by(method,harvest_sqft) %>% 
+  summarise(mean = mean(yield_lbsA),
+            max = max(yield_lbsA),
+            min = min(yield_lbsA),
+            n=n() ) %>%
+  mutate(across(where(is.numeric), ~ round(.))) %>% 
+  arrange(desc(method)) %>% 
+  knitr::kable(caption = "Comparison of seed yield estimates (lbs / A) of combine harvest data vs. hand harvest, grouped by harvest area")
+```
+
+-   A plot is 20 square feet. We did 1 pass of eleven plots where we harvested 1 plot at a time, and then did an additional pass were where harvested the entirety of the header width which is about 4 ft resulting in an estimated harvest square feet of 40, just to see if it would be different. It doesn't appear it to have changed yield estimates much.
+
+# Bibliography
