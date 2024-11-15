@@ -363,7 +363,7 @@ dat3 %>%
 
 ## Combine harvest
 
-![Harvest sample out of combine. Soybean concave at 5mm distance, drum speed at 540 rpm, fan speed at 2850 rpm, adjustable seive at 5, whole system blow wide open at 8 to both outlets](IMG_8463.JPEG){fig-align="center" width="4in"}
+![Harvest sample out of combine. Soybean concave at 5mm distance, drum speed at 540 rpm, fan speed at 2850 rpm, adjustable seive at 3, whole system blow wide open at 8 to both outlets](IMG_8463.JPEG){fig-align="center" width="4in"}
 
 ```{r}
 
