@@ -1,0 +1,174 @@
+---
+title: "Crop Comparison Trial 2024 MN"
+# subtitle: ""
+author: "Jesse Bealsburg"
+date: today
+format: pdf
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Canopy closure (canopeo)
+
+```{r}
+library(tidyverse)
+
+read.csv("Crop Comparison Plot Plan.xlsx - data_canopeo.csv") -> dat
+
+dat %>% 
+  mutate(date = as.POSIXct(date),
+         id = factor(id),
+         plot = factor(plot),
+         treatment = factor(treatment)) -> dat
+
+dat %>% 
+  ggplot(aes(canopy_percent)) +
+  stat_bin(bins=10) +
+  labs(x="canopy closure (%)") +
+  facet_wrap(~date)
+
+dat %>% 
+  group_by(date) %>% 
+  summarise(mean = mean(canopy_percent),
+            max = max(canopy_percent),
+            min = min(canopy_percent),
+            n=n()) %>% 
+  mutate(across(where(is.numeric), ~round(.))) %>% 
+  knitr::kable(caption = "Canopy closure (%) by date")
+
+```
+
+```{r}
+dat %>% 
+  filter(plot != "border") %>% 
+  mutate(treatment=fct_reorder(treatment,canopy_percent)) %>% 
+  mutate(date = as.character(date)) %>% 
+  ggplot(aes(treatment,canopy_percent,col=date, group = (date))) +
+  stat_summary() +
+  labs(x="",
+       y="Canopy closure (%)") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) 
+
+```
+
+-   Winter rye remains the GOAT, but some winter barley lines are catching up
+
+\newpage
+
+![Trial on 7Nov. Plot boundaries visible due to differences in soil cover.](IMG_8338%20(1).JPEG)
+
+![Wheatgrass plot with poor soil coverage on 7Nov.](IMG_8320.JPEG)
+
+![Intercrop plot with ok soil coverage on 7Nov.](IMG_8319.JPEG)
+
+![Small grain plot with good soil coverage on 7Nov](IMG_8325.JPEG)
+
+# 
+
+| Date | Canopeo adjustment used | Note |
+|----|----|----|
+| 7Nov | 0.8 | Captured leaf canopy well. Did not misidentify surface debris as leaf tissue. |
+| 14Nov | 1.1 | Better at capturing totality of leaf area, especially thin wheatgrass blades which it was underestimating at 0.8. Misidentified small bits of surface debris as leaf area. |
+
+: Canopeo settings used
+
+\newpage
+
+# Population
+
+```{r, fig.height=3}
+library(measurements)
+
+read.csv("Crop Comparison Plot Plan.xlsx - data_populationyield (2).csv") %>% 
+  select(1:10) %>% 
+  mutate(date = if_else(timing=="fall_2WAP", "2024-10-18", "2024-11-14")) %>% 
+  mutate(date = as.POSIXct(date),
+         id = factor(id),
+         plot = factor(plot),
+         treatment = factor(treatment)) -> dat2
+
+dat2 %>% 
+  select(plot,treatment,quad_count1,quad_count2,quad_count3) %>% 
+  mutate(date = "2024-10-18") %>% 
+  pivot_longer(cols = 3:5) %>% 
+  drop_na(value) %>% 
+  mutate(plants_per_foot = value,
+         plants_per_meter = plants_per_foot/conv_unit(1,
+                                      from = "ft",
+                                      to = "m")) %>% 
+  mutate(treatment=fct_reorder(treatment,plants_per_meter)) %>% 
+  ggplot(aes(treatment,plants_per_meter, col=date,group=date)) +
+  stat_summary() +
+  labs(x="",
+       y="Plants per meter") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) 
+  
+
+dat2 %>% 
+  select(plot,treatment,quad_count1,quad_count2,quad_count3) %>% 
+  pivot_longer(cols = 3:5) %>% 
+  drop_na(value) %>% 
+  mutate(plants_per_foot = value,
+         plants_per_meter = plants_per_foot/conv_unit(1,
+                                      from = "ft",
+                                      to = "m")) %>% 
+  mutate(treatment=fct_reorder(treatment,plants_per_meter)) %>% 
+  # group_by(treatment) %>% 
+  summarise(mean = mean(plants_per_meter),
+            max = max(plants_per_meter),
+            min = min(plants_per_meter),
+            n=n()) %>% 
+  mutate(across(where(is.numeric), ~round(.))) %>% 
+  knitr::kable(caption = "Plants per meter on 18Oct")
+
+dat2 %>% 
+  select(plot,treatment,quad_count1,quad_count2,quad_count3) %>% 
+  pivot_longer(cols = 3:5) %>% 
+  drop_na(value) %>% 
+  mutate(plants_per_foot = value,
+         plants_per_meter = plants_per_foot/conv_unit(1,
+                                      from = "ft",
+                                      to = "m")) %>% 
+  mutate(treatment=fct_reorder(treatment,plants_per_meter)) %>% 
+  group_by(treatment) %>%
+  summarise(mean = mean(plants_per_meter),
+            max = max(plants_per_meter),
+            min = min(plants_per_meter),
+            n=n()) %>% 
+  mutate(across(where(is.numeric), ~round(.))) %>% 
+  knitr::kable(caption = "Plants per meter on 18Oct")
+
+
+```
+
+\newpage
+
+# Dry matter yield
+
+```{r}
+
+dat2 %>% 
+  drop_na(fall_drymattercontent_g) %>% 
+  mutate(drymatteryield_kgha = conv_multiunit(fall_drymattercontent_g/3,
+                                              from = "g / ft2",
+                                              to = "kg / hectare")) %>% 
+  mutate(treatment=fct_reorder(treatment,drymatteryield_kgha)) %>% 
+  mutate(date = as.character(date)) %>% 
+  ggplot(aes(treatment,drymatteryield_kgha,col=date, group = (date))) +
+  stat_summary() +
+  labs(x="",
+       y="Dry matter content \n(kg/ha) ") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+  
+  
+```
+
+-   Dry matter yield on 14Nov was unfortunately very muddy and may need to be resampled.

@@ -1,50 +1,103 @@
-experiment,plot,id,treatment,date,canopy_percent
-cct,101,14,IWG-WB,7Nov2024,10.64
-cct,102,13,IWG-WW,7Nov2024,0.45
-cct,103,11,perennial rye 1,7Nov2024,19.47
-cct,104,10,IWG,7Nov2024,0.05
-cct,105,2,winter barley 2,7Nov2024,32.31
-cct,106,9,winter wheat,7Nov2024,23.03
-cct,107,9,winter wheat,7Nov2024,21.03
-cct,108,12,perennial rye 2,7Nov2024,18.77
-cct,109,5,winter barley 5,7Nov2024,28.72
-cct,110,1,winter barley 1,7Nov2024,28.1
-cct,111,3,winter barley 3,7Nov2024,42.5
-cct,112,4,winter barley 4,7Nov2024,37.15
-cct,113,8,winter rye 1,7Nov2024,44.21
-cct,201,6,winter durum 1,7Nov2024,12.37
-cct,202,7,winter durum 2,7Nov2024,11.54
-cct,203,13,IWG-WW,7Nov2024,0.21
-cct,204,1,winter barley 1,7Nov2024,22.98
-cct,205,2,winter barley 2,7Nov2024,21.89
-cct,206,4,winter barley 4,7Nov2024,26.99
-cct,207,3,winter barley 3,7Nov2024,30.54
-cct,208,14,IWG-WB,7Nov2024,6.6
-cct,209,9,winter wheat,7Nov2024,15.62
-cct,210,8,winter rye 1,7Nov2024,31.28
-cct,211,10,IWG,7Nov2024,0.08
-cct,212,5,winter barley 5,7Nov2024,30.94
-cct,301,10,IWG,7Nov2024,0.06
-cct,302,9,winter wheat,7Nov2024,15.29
-cct,303,6,winter durum 1,7Nov2024,8.32
-cct,304,5,winter barley 5,7Nov2024,23.95
-cct,305,8,winter rye 1,7Nov2024,31.63
-cct,306,3,winter barley 3,7Nov2024,29.15
-cct,307,14,IWG-WB,7Nov2024,8.64
-cct,308,4,winter barley 4,7Nov2024,30.08
-cct,309,1,winter barley 1,7Nov2024,23.04
-cct,310,7,winter durum 2,7Nov2024,12.05
-cct,311,13,IWG-WW,7Nov2024,0.52
-cct,312,2,winter barley 2,7Nov2024,31.06
-cct,401,6,winter durum 1,7Nov2024,9.21
-cct,402,14,IWG-WB,7Nov2024,8.28
-cct,403,9,winter wheat,7Nov2024,9.45
-cct,404,8,winter rye 1,7Nov2024,44.44
-cct,405,4,winter barley 4,7Nov2024,33.68
-cct,406,2,winter barley 2,7Nov2024,25.46
-cct,407,13,IWG-WW,7Nov2024,0.4
-cct,408,10,IWG,7Nov2024,0.09
-cct,409,1,winter barley 1,7Nov2024,24.48
-cct,410,7,winter durum 2,7Nov2024,10.53
-cct,411,5,winter barley 5,7Nov2024,26.2
-cct,412,3,winter barley 3,7Nov2024,30.09
+experiment,plot,id,treatment,date,canopy_percent,adjustment
+cct,101,14,IWG-WB,2024-11-7,10.64,0.8
+cct,102,13,IWG-WW,2024-11-7,0.45,0.8
+cct,103,11,perennial rye 1,2024-11-7,19.47,0.8
+cct,104,10,IWG,2024-11-7,0.05,0.8
+cct,105,2,winter barley 2,2024-11-7,32.31,0.8
+cct,106,9,winter wheat,2024-11-7,23.03,0.8
+cct,107,9,winter wheat,2024-11-7,21.03,0.8
+cct,108,12,perennial rye 2,2024-11-7,18.77,0.8
+cct,109,5,winter barley 5,2024-11-7,28.72,0.8
+cct,110,1,winter barley 1,2024-11-7,28.1,0.8
+cct,111,3,winter barley 3,2024-11-7,42.5,0.8
+cct,112,4,winter barley 4,2024-11-7,37.15,0.8
+cct,113,8,winter rye 1,2024-11-7,44.21,0.8
+cct,201,6,winter durum 1,2024-11-7,12.37,0.8
+cct,202,7,winter durum 2,2024-11-7,11.54,0.8
+cct,203,13,IWG-WW,2024-11-7,0.21,0.8
+cct,204,1,winter barley 1,2024-11-7,22.98,0.8
+cct,205,2,winter barley 2,2024-11-7,21.89,0.8
+cct,206,4,winter barley 4,2024-11-7,26.99,0.8
+cct,207,3,winter barley 3,2024-11-7,30.54,0.8
+cct,208,14,IWG-WB,2024-11-7,6.6,0.8
+cct,209,9,winter wheat,2024-11-7,15.62,0.8
+cct,210,8,winter rye 1,2024-11-7,31.28,0.8
+cct,211,10,IWG,2024-11-7,0.08,0.8
+cct,212,5,winter barley 5,2024-11-7,30.94,0.8
+cct,301,10,IWG,2024-11-7,0.06,0.8
+cct,302,9,winter wheat,2024-11-7,15.29,0.8
+cct,303,6,winter durum 1,2024-11-7,8.32,0.8
+cct,304,5,winter barley 5,2024-11-7,23.95,0.8
+cct,305,8,winter rye 1,2024-11-7,31.63,0.8
+cct,306,3,winter barley 3,2024-11-7,29.15,0.8
+cct,307,14,IWG-WB,2024-11-7,8.64,0.8
+cct,308,4,winter barley 4,2024-11-7,30.08,0.8
+cct,309,1,winter barley 1,2024-11-7,23.04,0.8
+cct,310,7,winter durum 2,2024-11-7,12.05,0.8
+cct,311,13,IWG-WW,2024-11-7,0.52,0.8
+cct,312,2,winter barley 2,2024-11-7,31.06,0.8
+cct,401,6,winter durum 1,2024-11-7,9.21,0.8
+cct,402,14,IWG-WB,2024-11-7,8.28,0.8
+cct,403,9,winter wheat,2024-11-7,9.45,0.8
+cct,404,8,winter rye 1,2024-11-7,44.44,0.8
+cct,405,4,winter barley 4,2024-11-7,33.68,0.8
+cct,406,2,winter barley 2,2024-11-7,25.46,0.8
+cct,407,13,IWG-WW,2024-11-7,0.4,0.8
+cct,408,10,IWG,2024-11-7,0.09,0.8
+cct,409,1,winter barley 1,2024-11-7,24.48,0.8
+cct,410,7,winter durum 2,2024-11-7,10.53,0.8
+cct,411,5,winter barley 5,2024-11-7,26.2,0.8
+cct,412,3,winter barley 3,2024-11-7,30.09,0.8
+cct,border,8,winter rye 1,2024-11-7,44.33,0.800000012
+cct,101,14,IWG-WB,2024-11-14,19.74,1.1
+cct,102,13,IWG-WW,2024-11-14,5.28,1.1
+cct,103,11,perennial rye 1,2024-11-14,37.6,1.1
+cct,104,10,IWG,2024-11-14,2.36,1.1
+cct,105,2,winter barley 2,2024-11-14,41.56,1.1
+cct,106,9,winter wheat,2024-11-14,39.47,1.1
+cct,107,9,winter wheat,2024-11-14,39.78,1.1
+cct,108,12,perennial rye 2,2024-11-14,37.68,1.1
+cct,109,5,winter barley 5,2024-11-14,41.06,1.1
+cct,110,1,winter barley 1,2024-11-14,45.66,1.1
+cct,111,3,winter barley 3,2024-11-14,48.17,1.1
+cct,112,4,winter barley 4,2024-11-14,50.91,1.1
+cct,113,8,winter rye 1,2024-11-14,48.88,1.1
+cct,201,6,winter durum 1,2024-11-14,23.36,1.1
+cct,202,7,winter durum 2,2024-11-14,29.86,1.1
+cct,203,13,IWG-WW,2024-11-14,3.81,1.1
+cct,204,1,winter barley 1,2024-11-14,41.45,1.1
+cct,205,2,winter barley 2,2024-11-14,38.91,1.1
+cct,206,4,winter barley 4,2024-11-14,46.62,1.1
+cct,207,3,winter barley 3,2024-11-14,43.1,1.1
+cct,208,14,IWG-WB,2024-11-14,20.48,1.1
+cct,209,9,winter wheat,2024-11-14,35.55,1.1
+cct,210,8,winter rye 1,2024-11-14,48.64,1.1
+cct,211,10,IWG,2024-11-14,2.87,1.1
+cct,212,5,winter barley 5,2024-11-14,49.04,1.1
+cct,301,10,IWG,2024-11-14,2.58,1.1
+cct,302,9,winter wheat,2024-11-14,36.12,1.1
+cct,303,6,winter durum 1,2024-11-14,22.46,1.1
+cct,304,5,winter barley 5,2024-11-14,38.61,1.1
+cct,305,8,winter rye 1,2024-11-14,47.64,1.1
+cct,306,3,winter barley 3,2024-11-14,48.5,1.1
+cct,307,14,IWG-WB,2024-11-14,23.48,1.1
+cct,308,4,winter barley 4,2024-11-14,45.08,1.1
+cct,309,1,winter barley 1,2024-11-14,39.42,1.1
+cct,310,7,winter durum 2,2024-11-14,24.16,1.1
+cct,311,13,IWG-WW,2024-11-14,6.85,1.1
+cct,312,2,winter barley 2,2024-11-14,44.68,1.1
+cct,401,6,winter durum 1,2024-11-14,16.62,1.1
+cct,402,14,IWG-WB,2024-11-14,26.83,1.1
+cct,403,9,winter wheat,2024-11-14,27.46,1.1
+cct,404,8,winter rye 1,2024-11-14,56.8,1.1
+cct,405,4,winter barley 4,2024-11-14,54.25,1.1
+cct,406,2,winter barley 2,2024-11-14,44.1,1.1
+cct,407,13,IWG-WW,2024-11-14,6.72,1.1
+cct,408,10,IWG,2024-11-14,4.04,1.1
+cct,409,1,winter barley 1,2024-11-14,44.08,1.1
+cct,410,7,winter durum 2,2024-11-14,24.55,1.1
+cct,411,5,winter barley 5,2024-11-14,49.44,1.1
+cct,412,3,winter barley 3,2024-11-14,52.99,1.1
+cct,border,8,winter rye 1,2024-11-14,47.67,1.1
+cct,border,8,winter rye 1,2024-11-14,48.69,1.1
+cct,border,8,winter rye 1,2024-11-14,10.8,0.800000012
