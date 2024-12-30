@@ -1,7 +1,7 @@
 ---
-title: "Empty document"
+title: "Perennial wheat (PeWhe1 + Pewhe2) report"
 # subtitle: ""
-author: "Jesse Puka-Beals"
+author: "Jesse Bealsburg"
 date: "`r Sys.Date()`"
 format: pdf
 editor: visual
