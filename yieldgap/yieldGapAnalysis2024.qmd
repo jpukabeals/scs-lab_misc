@@ -13,20 +13,22 @@ editor_options:
   chunk_output_type: console
 ---
 
-Some samples are missing. They were likely stored with other projects and will emerge as we process samples from other projects.
+Deliverables: yield (kg ha) at "bin run" quality using hand harvest with quadrat for estimation
 
 lbs / A = pounds per acre
 
-Link to data: <https://docs.google.com/spreadsheets/d/1AG8SbE3liLRZ5mTV01j_G7iAxJ7xqVl9ZAQjE3jXGMc/edit?gid=0#gid=0>
+Link to drive: <https://drive.google.com/drive/folders/1kydbCweD-InbtWBmElheSLFq6kMmdUsG>
 
 ```{r load data}
 library(tidyverse)
-read.csv("yield gap MASTER - data_10Sep.csv") -> dat
+
+read.csv("yield gap MASTER - data_9Jan2025.csv") -> dat
 
 # Filter out Jakes special sample
-dat %>% 
-  filter(sample != "special") %>% 
-  mutate(sample = as.numeric(sample)) %>% 
+dat %>%
+  filter(sample != "special") %>%
+  mutate(sample = as.numeric(sample)) %>%
+  rename(spacing = row.spacing) %>%
   mutate(site = fct_recode(site,tentis = "whitebarn"))-> dat1
 
 ```
@@ -39,11 +41,7 @@ At 7 inch row spacing, 1 sample represents 0.35 square meters.
 
 At 7.5 inch row spacing, 1 sample represents 0.38 square meters.
 
-This difference in row spacing when predicting to lbs per acre is about 44 lbs per acre of error. We are assuming 7.25 inch row spacing for all sites for this preliminary report, a site with 7.5 inch row spacing we'd reduce our prediction by \~22 lbs A and a site with 7 inch row spacing we'd increase our prediction by 25 lbs A.
-
-For most trials, \~0.5 square meters is typically used for estimating grain yield. So these samples averaging around 0.38 m2 are 25% smaller than typical quadrats used for yield prediction.
-
-Since row spacing will not be known for all sites until farmer interviews, here we are assuming 7.25 inch row spacing for all sites. This provides an average magnitude of error of 50 lbs per acre. For example, we predict Wendy at 7.25 inch row spacing at 550 lbs A, but at 7.5 inch row spacing would be 525 lbs A.
+For most trials, \~0.5 square meters is typically used for estimating grain yield. So these samples are about 25% smaller than typical quadrats used for yield prediction. We opted for smaller quadrats in this trial over concern the paper bags would be too full to fully close with a 0.5m2 sample which could cause parts of the sample to be lost when walking through the field and in transit to campus.
 
 ```{r, include=F}
 library(measurements)
@@ -58,8 +56,7 @@ conv_unit(7.5,"in","m") * 2
 conv_unit(30*30, "inch2", "m2")
 
 
-dat1 %>% 
-  mutate(spacing = 7.25) %>%  # change this when row spacing data is reported
+dat1 %>%
   mutate(yield_gm2 = dry_nobag_threshed_grams/(conv_unit(spacing,"in","m") * 2),
          yield_kgha = conv_multiunit(yield_gm2,
                                      from = "g / m2",
@@ -70,6 +67,26 @@ dat1 %>%
 
 
 ```
+
+\newpage
+
+## Dataset summary
+
+abridged summary of the following file "yieldGapAnalysis_datasetForAnalysis_9Jan2025.csv"
+
+```{r}
+dat2 %>%
+  select(-c(1,2,4)) %>%
+  mutate(sample=as.factor(sample),
+         spacing=as.factor(spacing)) %>% 
+  relocate(spacing,.after = sample) %>% 
+  summary() 
+
+write.csv(dat2,"yieldGapAnalysis_datasetForAnalysis_9Jan2025.csv", 
+          row.names = F)
+```
+
+\newpage
 
 ### Figures
 
@@ -96,7 +113,7 @@ dat2 %>%
             max = max(yield_lbsA),
             min = min(yield_lbsA)) %>% 
   mutate(across(.cols = 2:6,round)) %>%  
-  knitr::kable(caption = "Predicted kernza grain yields in lbs per acre.  Combined across all sites. Assuming 7.25inch row spacing")
+  knitr::kable(caption = "Predicted kernza grain yields in lbs per acre.  Combined across all sites. Bin run quality. Estimated from 2 meters of row length at a minimum of 6 points in the field.")
 
 dat2 %>% 
   drop_na(yield_lbsA) %>% 
@@ -108,7 +125,7 @@ dat2 %>%
             max = max(yield_lbsA),
             min = min(yield_lbsA)) %>% 
   mutate(across(.cols = 2:7,round)) %>% 
-  knitr::kable(caption = "Predicted kernza grain yields in lbs per acre.  Seperated by site. Assuming 7.25inch row spacing")
+  knitr::kable(caption = "Predicted kernza grain yields in lbs per acre.  Seperated by site. Bin run quality. Estimated from 2 meters of row length at a minimum of 6 points in the field.")
 ```
 
 ### Notes
@@ -117,32 +134,32 @@ dat2 %>%
 
     -   Sample collection error (sampling a larger area than stated in protocol or sampling only high yielding areas) is unlikely across so many different sites and collectors.
 
-    -   Sample processing error is more possible. We followed the standard threshing protocol, but it is imperfect. Our final samples still contain some empty hulls and stems. We could dry samples further and attempt to thresh again to break down spikelets and stems into smaller pieces for further sieving and aspirating. This would reduce our predicted grain yield, but samples are already about as clean as most combines would achieve. These predicted grain yields are for uncleaned seed. The amount of clean naked seed is less.
+    -   Sample processing error is more possible. We followed the standard threshing protocol, but it is imperfect. Our final samples still contain some empty hulls and stems. We could dry samples further and attempt to thresh again to break down spikelets and stems into smaller pieces for further sieving and aspirating. This would reduce our predicted grain yield, but samples are already about as clean as most combines would achieve. These predicted grain yields are for uncleaned seed at "bin run" quality. The amount of clean naked seed is less.
 
--   As I collected samples from both Stan and Tentis, I am very surprised we predicted higher yields for Tentis. I am not surprised the variation for Stan is much lower.
+-   As I (Jesse) collected samples from both Stan and Tentis, I am very surprised we predicted higher yields for Tentis. I am not surprised the variation for Stan is much lower.
 
 ### Sample processing note
 
-All samples were processed using our standard protocol of threshing, sieving and aspirating. The quality of these samples were about as pure as samples that come directly out of the wintersteiger plot combine we use. They contain stems, empty hulls, spikelets and seeds that are both naked and within a hull. As a result, their weight represents the amount we expect to leave a field, "bin run". These samples would require further cleaning and the amount of pure seed in the sample is likely \~20-30% less of the "bin run" yields predicted.
+All samples were processed using our [standard protocol of threshing, sieving and aspirating](https://docs.google.com/document/d/1oHFbAqYCipop3GpHFU4xqgxcJX-R6GEAkzti5fYfBlg/edit?tab=t.0). The quality of these samples were about as pure as samples that come directly out of the wintersteiger plot combine we use. They contain stems, empty hulls, spikelets and seeds that are both naked and within a hull. As a result, their weight represents the amount we expect to leave a field, "bin run". These samples would require further cleaning and the amount of pure seed in the sample is likely \~20-30% less of the "bin run" yields predicted.
 
-| Processing step                                                   | sample weight (g) | predicted yield (lbs A) | change from reported value (%) |
-|-------------------------------------------------------------------|-------------------|-------------------------|--------------------------------|
-| standard threshing, sieving, aspirating                           | 33.8              | 819                     | 0                              |
-| 1 day storage in lab, humidity gain                               | 34.1              | 826                     | 1                              |
-| light sieving to remove obvious stems, spikelets                  | 32                | 775                     | -5                             |
-| standard sieving, removing empty stems                            | 29.3              | 710                     | -13                            |
-| aggressive sieving, removing most hulls including hulls with seed | 25.5              | 618                     | -24.6                          |
-| smaller sieve, primarily naked seed remains                       | 23.5              | 569                     | -30.5                          |
+| Processing step | sample weight (g) | predicted yield (lbs A) | change from reported value (%) |
+|-------------------------|----------------|----------------|----------------|
+| standard threshing, sieving, aspirating | 33.8 | 791 | 0 |
+| 1 day storage in lab, humidity gain | 34.1 | 799 | 1 |
+| light sieving to remove obvious stems, spikelets | 32 | 749 | -5 |
+| standard sieving, removing empty stems | 29.3 | 686 | -13 |
+| aggressive sieving, removing most hulls including hulls with seed | 25.5 | 597 | -24.6 |
+| smaller sieve, primarily naked seed remains | 23.5 | 550 | -30.5 |
 
-: Changes in sample weight and the corresponding predicted yield of sample 9 from Tentis / white barn.
+: Changes in sample weight and the corresponding predicted yield of sample=9 from Tentis / white barn.
 
 ```{r, include = F}
-33.8/conv_unit(7.25,"in","m") * 2
+33.8/conv_unit(7.5,"in","m") * 2
 sample_weight<-c(33.8,34.1,32,29.3,25.5,23.5)
 tibble(
   sample_weight
 ) %>% 
-  mutate(gm2 = sample_weight/(conv_unit(7.25,"in","m")*2),
+  mutate(gm2 = sample_weight/(conv_unit(7.5,"in","m")*2),
          lbsA = conv_multiunit(gm2,
                                from = "g / m2",
                                to = "lbs / acre")) %>% 
@@ -153,6 +170,6 @@ tibble(
 
 ![Sample after direct combine](IMG_6999.JPEG){width="300"}
 
-![Sample after standard threshing, sieving and aspirating. Stems and empty hulls remain, resulting in overprediction of clean grain weight.](IMG_7223.JPEG){width="300"}
+![Sample after standard threshing, sieving and aspirating. Quality = "bin run". Stems and empty hulls remain, resulting in overprediction of clean grain weight.](IMG_7223.JPEG){width="300"}
 
 ![Sample after additional sieving resulting in a 30% reduction of predicted "bin run" yield.](IMG_7238.JPEG){width="300"}
