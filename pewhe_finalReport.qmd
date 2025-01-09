@@ -15,37 +15,37 @@ editor_options:
   chunk_output_type: console
 ---
 
-Jesse's tasks (30Dec2024)
+Jesse's tasks (8Jan2025)
 
 -   Need to finish processing data
 
-    -   Pewhe 1 2024 seedhead counting, threshing and marvining
+    -   Pewhe 1 2024 threshing, weighing
 
-    -   Pewhe 2 2024 threshing and marvining
+    -   Pewhe 2 2024 threshing weighing
 
-    -   Pewhe 2 2024 straw weighing (then discard)
+    -   Marvining all pewhe 1 (2022,2023,2024) and pewhe 2 (2023,2024) and uploading
 
--   Need to upload Pewhe 2 data to fieldbook
+-   Need to transfer pewhe 2 data to OPW fieldbook
 
--   Need to provide Jake with data he wants
+-   Generate report for Jake
 
 \newpage
 
 # Trial management and specifications
 
-+-----------+-------------------------+---------------+-----------------+------------------+
-| Trial     | Site                    | Planting date | Harvest dates   | Termination date |
-+===========+=========================+===============+=================+==================+
-| Pewhe 1   | St Paul - K8            | 2021-09-29    | 18Aug2022,      | 2024-10-11       |
-|           |                         |               |                 |                  |
-|           |                         |               | 13-20Jul2023,   |                  |
-|           |                         |               |                 |                  |
-|           |                         |               | 19Jul2024       |                  |
-+-----------+-------------------------+---------------+-----------------+------------------+
-| Pewhe 2   | St Paul - Horse Pasture | 2022-09-29    | 12-20Jul2023,   | 2024-10-11       |
-|           |                         |               |                 |                  |
-|           |                         |               | 19Jul2024       |                  |
-+-----------+-------------------------+---------------+-----------------+------------------+
++------------+-------------------------+---------------+---------------+------------------+
+| Trial      | Site                    | Planting date | Harvest dates | Termination date |
++============+=========================+===============+===============+==================+
+| Pewhe 1    | St Paul - K8            | 2021-09-29    | 18Aug2022,    | 2024-10-11       |
+|            |                         |               |               |                  |
+|            |                         |               | 13-20Jul2023, |                  |
+|            |                         |               |               |                  |
+|            |                         |               | 19Jul2024     |                  |
++------------+-------------------------+---------------+---------------+------------------+
+| Pewhe 2    | St Paul - Horse Pasture | 2022-09-29    | 12-20Jul2023, | 2024-10-11       |
+|            |                         |               |               |                  |
+|            |                         |               | 19Jul2024     |                  |
++------------+-------------------------+---------------+---------------+------------------+
 
 : Trial timeline
 
@@ -53,31 +53,31 @@ Weed control was primarily done by hand, especially in Pewhe 2 where the trial w
 
 Pest damage typically occurred in early July on early maturing lines. The annual winter wheat checks matured first. On 12Jul2022 and 6Jul2023 in Pewhe 1 and 2 respectively, winter wheat checks were destroyed by pests. Bird and rabbit fencing were used to deter pests during grain ripening and entries were harvested by hand as soon as they were ready, resulting in multiple harvest dates rather than waiting for all entries to fully mature before harvesting.
 
-+------------+-------------+----------------+---------------+------------------------+
-| Trial      | 2,4-D       | Pendimethalin  | S-metolachlor | Bird netting / fencing |
-|            |             |                |               |                        |
-|            | (0.5-1pt A) | (2-2.5 pt A)   | (1 pt A)      |                        |
-+============+=============+================+===============+========================+
-| Pewhe 1    | 3Oct2022,   | 3May2024,      | 24Apr2024     | 27Jul2022              |
-|            |             |                |               |                        |
-|            | 24Apr2024   | 13Apr2023      |               |                        |
-+------------+-------------+----------------+---------------+------------------------+
-| Pewhe 2    |             | 13Apr2023      |               |                        |
-+------------+-------------+----------------+---------------+------------------------+
++------------+-------------+---------------+---------------+------------------------+
+| Trial      | 2,4-D       | Pendimethalin | S-metolachlor | Bird netting / fencing |
+|            |             |               |               |                        |
+|            | (0.5-1pt A) | (2-2.5 pt A)  | (1 pt A)      |                        |
++============+=============+===============+===============+========================+
+| Pewhe 1    | 3Oct2022,   | 3May2024,     | 24Apr2024     | 27Jul2022              |
+|            |             |               |               |                        |
+|            | 24Apr2024   | 13Apr2023     |               |                        |
++------------+-------------+---------------+---------------+------------------------+
+| Pewhe 2    |             | 13Apr2023     |               |                        |
++------------+-------------+---------------+---------------+------------------------+
 
 : Crop protection timeline
 
-+---------+-------------+--------------------------+
-| Trial   | 80 kg N A   | 100 kg N                 |
-|         |             |                          |
-|         | urea        | composted poultry manure |
-+=========+=============+==========================+
-| Pewhe 1 | 10May2023,  |                          |
-|         |             |                          |
-|         | 12Apr2024   |                          |
-+---------+-------------+--------------------------+
-| Pewhe 2 |             | 19Mar2024                |
-+---------+-------------+--------------------------+
++------------+------------+--------------------------+
+| Trial      | 80 kg N A  | 100 kg N                 |
+|            |            |                          |
+|            | urea       | composted poultry manure |
++============+============+==========================+
+| Pewhe 1    | 10May2023, |                          |
+|            |            |                          |
+|            | 12Apr2024  |                          |
++------------+------------+--------------------------+
+| Pewhe 2    |            | 19Mar2024                |
++------------+------------+--------------------------+
 
 : Fertilizer timeline
 
@@ -90,7 +90,7 @@ Pest damage typically occurred in early July on early maturing lines. The annual
 
 \newpage
 
-# Pewhe 1 
+# Pewhe 1
 
 Pewhe 1 was an unfunded preliminary trial [led by TLI](https://docs.google.com/document/d/1tP9sgS1QMki0SO5UffAFloWDWAFFs2FqxhtA5LTngPw/edit?tab=t.0) with 14 entries and 10 variables.
 
@@ -143,34 +143,38 @@ In 2023, many plots lost row definition and the winter wheat checks produced gra
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 | 2023 | C                 | C                 | C              | C                  | NA                    | NA                    | NA              | C                 |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
-| 2024 | C                 | C                 | IP             | IP                 | C                     | C                     | NA              | IP                |
+| 2024 | C                 | C                 | C              | IP                 | C                     | C                     | NA              | IP                |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 
 : Pewhe 1 yield data. C = complete, IP = in progress, NA = missing or not available
 
-+-------+--------------+--------------+--------------+---------------------------+
-| year  | lodging      | staging      | height       | weed abundance (% visual) |
-+=======+==============+==============+==============+===========================+
-| 2022  | NA           | NA           | NA           | NA                        |
-+-------+--------------+--------------+--------------+---------------------------+
-| 2023  | 12Jul2023    | 6Jun2023,    | 12Jul2023    | NA                        |
-|       |              |              |              |                           |
-|       |              | 21Jun2023,   |              |                           |
-|       |              |              |              |                           |
-|       |              | 12Jul2023    |              |                           |
-+-------+--------------+--------------+--------------+---------------------------+
-| 2024  | 19Jul2024    | 10Jul2024,   | 19Jul2024    | C                         |
-|       |              |              |              |                           |
-|       |              | 19Jul2024    |              |                           |
-+-------+--------------+--------------+--------------+---------------------------+
++-----------+-----------+------------+-----------+---------------------------+
+| year      | lodging   | staging    | height    | weed abundance (% visual) |
++===========+===========+============+===========+===========================+
+| 2022      | NA        | NA         | NA        | NA                        |
++-----------+-----------+------------+-----------+---------------------------+
+| 2023      | 12Jul2023 | 6Jun2023,  | 12Jul2023 | NA                        |
+|           |           |            |           |                           |
+|           |           | 21Jun2023, |           |                           |
+|           |           |            |           |                           |
+|           |           | 12Jul2023  |           |                           |
++-----------+-----------+------------+-----------+---------------------------+
+| 2024      | 19Jul2024 | 10Jul2024, | 19Jul2024 | C                         |
+|           |           |            |           |                           |
+|           |           | 19Jul2024  |           |                           |
++-----------+-----------+------------+-----------+---------------------------+
 
 : Pewhe1 plant performance data
 
-| year | winterkill (y/n) | flowering (y/n) | soil moisture (vwc) | harvest quality (acceptable/n) |
-|----|----|----|----|----|
-| 2022 | C | 16Jun2022 | 16Jul2022 | 18Aug2022 |
-| 2023 | NA | NA | NA | NA |
-| 2024 | NA | NA | NA | NA |
++-------------+------------------+-----------------+---------------------+--------------------------------+
+| year        | winterkill (y/n) | flowering (y/n) | soil moisture (vwc) | harvest quality (acceptable/n) |
++=============+==================+=================+=====================+================================+
+| 2022        | C                | 16Jun2022       | 16Jul2022           | 18Aug2022                      |
++-------------+------------------+-----------------+---------------------+--------------------------------+
+| 2023        | NA               | NA              | NA                  | NA                             |
++-------------+------------------+-----------------+---------------------+--------------------------------+
+| 2024        | NA               | NA              | NA                  | NA                             |
++-------------+------------------+-----------------+---------------------+--------------------------------+
 
 : Pewhe 1 bonus plant performance data
 
@@ -192,62 +196,65 @@ Pewhe 2 was part of the Organic Perennial Wheat (OPW) add-on trial to the OREI g
 
 It was led by Leo, who created [this field book](https://docs.google.com/spreadsheets/d/1vlCDt76LDy9gE5Ittj6cTO1AmbZg-eax/edit?gid=520577738#gid=520577738) that outlined the collection of the following variables
 
-+-------------------------------+--------------------------------------------------------------------------+
-| Entry                         | Variable                                                                 |
-+===============================+==========================================================================+
-| 6004                          | Soil (baseline)                                                          |
-|                               |                                                                          |
-| 6005                          | Weed survey at flowering (crop vs weed vs bare ground, dominant species) |
-|                               |                                                                          |
-| 6059                          | Staging                                                                  |
-|                               |                                                                          |
-| 6061                          | Biomass, total aboveground                                               |
-|                               |                                                                          |
-| Winter wheat                  | Biomass, weed                                                            |
-|                               |                                                                          |
-|                               | Grain yield                                                              |
-|                               |                                                                          |
-|                               | Yield components (spike count, TGW)                                      |
-|                               |                                                                          |
-|                               | Plot photos                                                              |
-|                               |                                                                          |
-|                               | Total plot harvest (combine)                                             |
-|                               |                                                                          |
-|                               | Total forage harvest (forage harvester)                                  |
-+-------------------------------+--------------------------------------------------------------------------+
++--------------+--------------------------------------------------------------------------+
+| Entry        | Variable                                                                 |
++==============+==========================================================================+
+| 6004         | Soil (baseline)                                                          |
+|              |                                                                          |
+| 6005         | Weed survey at flowering (crop vs weed vs bare ground, dominant species) |
+|              |                                                                          |
+| 6059         | Staging                                                                  |
+|              |                                                                          |
+| 6061         | Biomass, total aboveground                                               |
+|              |                                                                          |
+| Winter wheat | Biomass, weed                                                            |
+|              |                                                                          |
+|              | Grain yield                                                              |
+|              |                                                                          |
+|              | Yield components (spike count, TGW)                                      |
+|              |                                                                          |
+|              | Plot photos                                                              |
+|              |                                                                          |
+|              | Total plot harvest (combine)                                             |
+|              |                                                                          |
+|              | Total forage harvest (forage harvester)                                  |
++--------------+--------------------------------------------------------------------------+
 
-+------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+------------------+-------------------+
-| year | wet seedheads (g) | dry seedheads (g) | seedhead count | threshed grain (g) | combine yield wet (g) | combine yield dry (g) | straw yield (g)  | marvin seed specs |
-+======+===================+===================+================+====================+=======================+=======================+==================+===================+
-| 2023 | C                 | C                 | C              | C                  | NA                    | NA                    | C                | C                 |
-+------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+------------------+-------------------+
-| 2024 | C                 | C                 | C              | IP                 | NA                    | NA                    | IP               | IP                |
-+------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+------------------+-------------------+
++------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
+| year | wet seedheads (g) | dry seedheads (g) | seedhead count | threshed grain (g) | combine yield wet (g) | combine yield dry (g) | straw yield (g) | marvin seed specs |
++======+===================+===================+================+====================+=======================+=======================+=================+===================+
+| 2023 | C                 | C                 | C              | C                  | NA                    | NA                    | C               | C                 |
++------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
+| 2024 | C                 | C                 | C              | IP                 | NA                    | NA                    | C               | IP                |
++------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 
 : Pewhe 2 yield data. C = complete, IP = in progress, NA = missing or not available
 
-+-------+-----------+------------+-----------+---------------------------+--------------------+
-| year  | lodging   | staging    | height    | weed abundance (% visual) | weed abundance (g) |
-+=======+===========+============+===========+===========================+====================+
-| 2023  | 12Jul2023 | 6Jun2023,  | 12Jul2023 | 6Jun2023                  | NA                 |
-|       |           |            |           |                           |                    |
-|       |           | 21Jun2023, |           |                           |                    |
-|       |           |            |           |                           |                    |
-|       |           | 12Jul2023  |           |                           |                    |
-+-------+-----------+------------+-----------+---------------------------+--------------------+
-| 2024  | 19Jul2024 | 26Jun2024, | 19Jul2024 | 4Jun2024,                 | 19Jul2024          |
-|       |           |            |           |                           |                    |
-|       |           | 10Jul2024, |           | 11Jun2024                 |                    |
-|       |           |            |           |                           |                    |
-|       |           | 19Jul2024  |           |                           |                    |
-+-------+-----------+------------+-----------+---------------------------+--------------------+
++----------+-----------+------------+-----------+---------------------------+--------------------+
+| year     | lodging   | staging    | height    | weed abundance (% visual) | weed abundance (g) |
++==========+===========+============+===========+===========================+====================+
+| 2023     | 12Jul2023 | 6Jun2023,  | 12Jul2023 | 6Jun2023                  | NA                 |
+|          |           |            |           |                           |                    |
+|          |           | 21Jun2023, |           |                           |                    |
+|          |           |            |           |                           |                    |
+|          |           | 12Jul2023  |           |                           |                    |
++----------+-----------+------------+-----------+---------------------------+--------------------+
+| 2024     | 19Jul2024 | 26Jun2024, | 19Jul2024 | 4Jun2024,                 | 19Jul2024          |
+|          |           |            |           |                           |                    |
+|          |           | 10Jul2024, |           | 11Jun2024                 |                    |
+|          |           |            |           |                           |                    |
+|          |           | 19Jul2024  |           |                           |                    |
++----------+-----------+------------+-----------+---------------------------+--------------------+
 
 : Pewhe 2 plant performance data
 
-| year | plant counts | emergence scores (%) | canopy scores (weed vs. crop vs. bareground) |
-|----|----|----|----|
-| 2023 | C | C | C |
-| 2024 | NA | NA | C |
++----------------+----------------+----------------------+----------------------------------------------+
+| year           | plant counts   | emergence scores (%) | canopy scores (weed vs. crop vs. bareground) |
++================+================+======================+==============================================+
+| 2023           | C              | C                    | C                                            |
++----------------+----------------+----------------------+----------------------------------------------+
+| 2024           | NA             | NA                   | C                                            |
++----------------+----------------+----------------------+----------------------------------------------+
 
 : Pewhe 2 bonus plant performance data
 
@@ -258,3 +265,40 @@ Pewhe 1 and 2 have emergence data 4 weeks after planting
 12Jul2023 = some plots had high shatterind and/or herbivory
 
 20Jul2023 = some plots were reharvested because they were not sufficiently mature
+
+10Aug2023 = Katherine harvested some lengths of seedheads to give to Prabin/George. The threshed weights were entered into the Master, but this wasn't part of of the data collection for this project.
+
+19Jul2024 = Winter wheat plots were dropped in second production year since they were an annual crop that was not replanted. These plots were tilled up in spring, planted to a cover, and managed for weeds. They remain in the data structure for year 2, but the cells are empty
+
+# Data processing
+
+## Notes
+
+2022 pewhe grain harvest. If okyield=yes, then it was harvested at quadrat dimension specifications. If okyield=no, quadrat dimensions=na. If harvested 27Jul, quadrat dimensions=na. If harvested both 27Jul and 18Aug, harvest date=18Aug. If date/dimensions cannot be inferred from notes, cell is either left empty or na
+
+Some 2022 pewhe harvest data has not been processed yet. Data is missing.
+
+For staging, heights and lodging, I took 1 date from each production year, closest to harvest, for lodging, height and stage. For height and stage, I just reported the average whereas raw data n=5 or n=10.
+
+For pewhe 2, production year 1. If a given plot was harvested twice (i.e. 12Jul and again on 20Jul), the later harvest date and data were used.
+
+converting quadrat dimensions to square meter basis
+
+```{r}
+library(measurements)
+
+conv_multiunit(24*12*3, 
+               from = "inch2",
+               to = "m2")
+
+
+conv_multiunit(20*20, 
+               from = "inch2",
+               to = "m2")
+
+
+conv_multiunit(40*12,
+               from = "inch2",
+               to = "m2")
+
+```
