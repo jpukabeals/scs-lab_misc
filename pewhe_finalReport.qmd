@@ -19,11 +19,7 @@ Jesse's tasks (8Jan2025)
 
 -   Need to finish processing data
 
-    -   Pewhe 1 2024 threshing, weighing
-
-    -   Pewhe 2 2024 threshing weighing
-
-    -   Marvining all pewhe 1 (2022,2023,2024) and pewhe 2 (2023,2024) and uploading
+    -   Marvining all pewhe 1 (2022,2023,2024) and pewhe 2 (2023,2024), upload
 
 -   Need to transfer pewhe 2 data to OPW fieldbook
 
@@ -143,7 +139,7 @@ In 2023, many plots lost row definition and the winter wheat checks produced gra
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 | 2023 | C                 | C                 | C              | C                  | NA                    | NA                    | NA              | C                 |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
-| 2024 | C                 | C                 | C              | IP                 | C                     | C                     | NA              | IP                |
+| 2024 | C                 | C                 | C              | C                  | C                     | C                     | NA              | IP                |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 
 : Pewhe 1 yield data. C = complete, IP = in progress, NA = missing or not available
@@ -225,7 +221,7 @@ It was led by Leo, who created [this field book](https://docs.google.com/spreads
 +======+===================+===================+================+====================+=======================+=======================+=================+===================+
 | 2023 | C                 | C                 | C              | C                  | NA                    | NA                    | C               | C                 |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
-| 2024 | C                 | C                 | C              | IP                 | NA                    | NA                    | C               | IP                |
+| 2024 | C                 | C                 | C              | C                  | NA                    | NA                    | C               | IP                |
 +------+-------------------+-------------------+----------------+--------------------+-----------------------+-----------------------+-----------------+-------------------+
 
 : Pewhe 2 yield data. C = complete, IP = in progress, NA = missing or not available
@@ -302,3 +298,5 @@ conv_multiunit(40*12,
                to = "m2")
 
 ```
+
+For threshing weights, we have 2 measurements for 32-1 and their sum is too large, but there is no missing data. There is one plot where there was no seed after threshing, but this plot also had no seedheads so it's unlikely the weight from the handwritten corresponds to it.
