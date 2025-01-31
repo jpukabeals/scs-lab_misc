@@ -1,0 +1,75 @@
+---
+title: "Mob grazing data pull"
+author: "Jesse Bealsburg"
+date: today
+format: pdf
+editor: visual
+execute:
+  # echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+Data summary
+
+| year | spring pregraze | summer                | fall pregraze     |
+|------|-----------------|-----------------------|-------------------|
+| 2017 | 18              | native grass equation | 17                |
+| 2018 | 18              | 36                    | 18                |
+| 2019 | 36              | 36                    | no data collected |
+
+# Notes
+
+-   For 2019 summer, the bottle codes were incorrectly labelled as 80000s instead of 90000s. We corrected this just in the sheet, inferring that 80000s were impossible due to no bottle codes being made for those and other factors.
+
+-   For 2019 summer, we inferred crop and timing based on treatment info, NIRS values and plot ordering. the crop and timing was not originally included in bottle code
+
+-   For 2019 spring pregraze, we inferred crop and timing info based on treatment info and plot ordering. Bottle codes where phosphorous column = P were not included as these are microplots
+
+-   For summer 2017, native grass equation was used which does not predict ADF or protein preventing forage quality determination. See 30Jan2025 datapull for native grass data for summer harvest 2017 and compare with bottle codes in 2017 fieldwork log. [2017 data for summer and fall pregraze](https://docs.google.com/spreadsheets/d/1y4VIUBTpQhcPoh5RgECmzQuUQg5xA1Ft/edit?gid=271759234#gid=271759234)
+
+-   Final data file = [Mob.jpb.v1](https://docs.google.com/spreadsheets/d/1yHdjxQA2oDPqfsdkx_LmLcnZt8gx-iWh/edit?gid=1799026456#gid=1799026456), sheet = final
+
+# Calculating forage quality parameters
+
+```{r}
+library(tidyverse)
+
+source("functions_nir.R")
+
+read.csv("mob.jpb.v1.xlsx - final (1).csv") -> dat
+
+# tidy.nir.report function does not work because I messed with dataframe slightly. Copying the function below and will modify
+
+
+dat %>% 
+    rename_all(.,tolower) %>% 
+    select(1:35) %>% # take out the unnecessary columns
+    mutate(
+           code=`bottle.code`,
+           drymatter=dry.matter,
+           protein=`protein.dry.basis`,
+           adf=`adf.dry.basis`,
+           ndf=`ndf.dry.basis`,
+           ndf48h = ndfd48.as.is) %>% 
+    select(code, drymatter,protein,adf,ndf,ndf48h) %>%
+    mutate(
+      # protein=protein*drymatter/100, already dry basis
+           # adf=adf*drymatter/100,
+           # ndf=ndf*drymatter/100,
+           ndf48h=ndf48h*drymatter/100) -> dat1
+
+calc.rfq.rfv(dat1) -> dat2
+
+dat %>% 
+  select(1:8) %>% # take out the unnecessary columns
+  mutate(code = bottle.code) %>%
+  filter(code != "NA") %>% # the NA values were kicking out left_join issue
+  left_join(dat2) %>% 
+  select(1:6,protein,adf, ndf,ndf48h,rfq.grass,rfq.legume,rfv) %>% 
+  write.csv("mobGrazing_forageQuality_30Jan2025.csv",
+            row.names = F)
+
+```
