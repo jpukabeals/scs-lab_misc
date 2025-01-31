@@ -18,7 +18,7 @@ Data summary
 |------|-----------------|-----------------------|-------------------|
 | 2017 | 18              | native grass equation | 17                |
 | 2018 | 18              | 36                    | 18                |
-| 2019 | 36              | 36                    | no data collected |
+| 2019 | 35              | 36                    | no data collected |
 
 # Notes
 
