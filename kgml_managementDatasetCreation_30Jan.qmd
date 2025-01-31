@@ -1,6 +1,6 @@
 ---
 title: "Management dataset creation"
-subtitle: "adding `ORG` trial to Kernza Grain Machine Learning (KGML) dataset"
+subtitle: "orei_manure trial for Kernza Grain Machine Learning (KGML) dataset"
 author: "Jesse Bealsburg"
 date: today
 format: pdf
@@ -60,3 +60,33 @@ This is possible, all that is needed is for...
 -   experiment names and site names be consistent i.e. st paul SP Saint Paul = st paul
 
 -   all management activities are in the fieldwork log (sometimes management activities were done by stations or were done by lab members but not entered into the log)
+
+# Pivot longer
+
+```{r}
+library(tidyverse)
+
+read.csv("jesse_KGML_Dataset.xlsx - Sheet6 (1).csv") -> dat
+
+dat %>% 
+  glimpse()
+
+dat %>% 
+  pivot_longer(cols = 3:8,
+               names_to = "treatment name") %>% 
+  mutate(experiment = "orei_manure",
+         site = "rosemount",.before=year
+         ) %>% 
+  relocate(`treatment name`, .before = managementInformation) -> dat2 
+
+dat2 %>% 
+  glimpse()
+
+dat2 %>% 
+  write.csv("oreiManure_managementData.csv")
+# this data goes to "Management data tab in jesse_KGML_Dataset
+
+
+```
+
+Then I go to treatment patch to add in plot numbers

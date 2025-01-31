@@ -1,6 +1,6 @@
 ---
 title: "KGML Patch Demo"
-subtitle: "adding `ORG` trial to Kernza Grain Machine Learning (KGML) dataset"
+subtitle: "adding `ORG` and `orei_manure` trial to Kernza Grain Machine Learning (KGML) dataset"
 author: "Jesse Bealsburg"
 date: "`r Sys.Date()`"
 format: pdf
@@ -15,7 +15,7 @@ editor_options:
 
 # Retrofitting datasets for new analyses using a patch
 
-Ideally, all of our data or at least core data (yield) is all in a database in the same format and can be pulled across trials. Reality is that each experiement exists as a silo.
+Ideally, all of our data or at least core data (yield) is all in a database in the same format and can be pulled across trials. Reality is that each experiment exists as a silo.
 
 ## Master data
 
@@ -33,11 +33,13 @@ Patches are files that allow for joining Master datasets with Management dataset
 
 A patch is like a key. It solves the problem of having to copy and paste identical data across reps/blocks which is both labor intensive and prone to error.
 
-![Using patches, we can combine management data with master datasets into a dataset better structured to for analysis across experiments. ](kgml_patch_infographic.png)
+![Using patches, we can combine management data with master datasets into a dataset better structured to for analysis across experiments. KGML dataset could be swapped with orei_manure dataset or any other master dataset. ](kgml_patch_infographic.png)
 
 \newpage
 
 # Code
+
+## ORG
 
 ```{r import data}
 
@@ -84,7 +86,7 @@ managementDat %>%
 # changing column names for simplicity and clarity. 
 
 masterDat2 %>% 
-  select(experiment,site,year,plot) -> masterDat3
+  select(experiment,site,year,plot,seedyld) -> masterDat3
 
 masterDat3 %>% 
   glimpse() 
@@ -101,6 +103,73 @@ trtPatch2 %>%
 masterDat3 %>% 
   left_join(trtPatch2) %>% 
   left_join(managementDat2) %>% 
-  arrange(site,year)
+  arrange(plot,site,year) %>% 
+  relocate(seedyld,.after=crop) %>% 
+  slice(1:37)
+```
+
+\newpage
+
+## Orei manure
+
+Here I created management data for orei and a treatment patch, I am now connecting just the seed yield data from the master into an improved dataset which I am printing below.
+
+```{r}
+
+read.csv("thesis_prepared_data - data_main.csv") -> masterDat_orei
+
+
+read.csv("jesse_kgml_dataset.xlsx - treatment patch (3).csv") -> trtPatch_orei
+
+
+read.csv("jesse_KGML_dataset.xlsx - Management data.csv") -> managementDat_orei
+
+masterDat_orei %>% 
+  filter(location=="MN") %>% 
+  mutate(site = fct_recode(location,
+                           rosemount = "MN")) %>% 
+  mutate(
+    experiment = "orei_manure",
+    plot = reassigned_plot,
+    seedyld = grain_yield_kg_ha_avg) %>% 
+  relocate(c(experiment, site, year, plot, seedyld)) %>% 
+  select(1:5)-> masterDat_orei2
+
+
+managementDat_orei %>% 
+  filter(information == "Crop type") %>% 
+  rename(crop = value) %>% 
+  select(experiment, site, year, crop, treatment)  -> managementDat_orei2
+
+
+masterDat_orei2 %>% 
+  left_join(trtPatch_orei) %>%
+  left_join(managementDat_orei2) %>% 
+  arrange(plot,site,year) %>% 
+  relocate(seedyld,.after=crop) %>%
+  select(-treatment) %>% 
+  # filter(treatment.name != "NA") %>% 
+  slice(1:25)
+
+```
+
+Now with bringing in more than just crop information
+
+```{r}
+managementDat_orei %>% 
+  filter(information == "Crop type" |
+           information == "N fertilizer rate") %>% 
+  pivot_wider(names_from = information,
+              values_from = value) %>% 
+  select(experiment, site, year, `Crop type`, 
+         `N fertilizer rate`, treatment)  -> managementDat_orei3
+
+masterDat_orei2 %>% 
+  left_join(trtPatch_orei) %>%
+  left_join(managementDat_orei3) %>% 
+  arrange(plot,site,year) %>% 
+  relocate(seedyld,.after=`N fertilizer rate`) %>%
+  select(-treatment) %>% 
+  slice(1:25)
 
 ```
